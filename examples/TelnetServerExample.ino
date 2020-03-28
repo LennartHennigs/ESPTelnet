@@ -113,7 +113,7 @@ int counter = 0;
 
 void loop() {
   telnet.loop();
-  telnet.print(".");
+  telnet << ".";            // same as: telnet.print(".");
   if(counter++ % 10 == 0) telnet.println();
   delay(1000);
 }
