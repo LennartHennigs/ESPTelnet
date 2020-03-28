@@ -1,0 +1,17 @@
+{
+	"name": "ESPTelnet",
+	"keywords": "telnet, esp8266",
+	"description": "ESP8266 library that allows you to setup a telnet server.",
+	"homepage": "https://github.com/LennartHennigs/ESPTelnet",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/LennartHennigs/ESPTelnet"
+	},
+	"version": "1.1.0",
+	"authors": {
+		"name": "Lennart Hennigs",
+		"url": "https://lennarthennigs.de"
+	},
+	"frameworks": "arduino",
+	"platforms": "esp8266"
+}
