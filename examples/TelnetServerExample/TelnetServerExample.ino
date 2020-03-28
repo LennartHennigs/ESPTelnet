@@ -47,7 +47,6 @@ void connectToWifi() {
   }  else {
     ip_addr = WiFi.localIP();
     String mac_addr = WiFi.macAddress();
-    String chip_id = ESP.getFlashChipId();
     String wifi = WiFi.SSID();
 
     Serial.println("- WiFi: " + wifi);
