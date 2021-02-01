@@ -26,8 +26,10 @@ class ESPTelnet {
 
 
     void print(String str);
-    void println(String str)                      { client.print(str + "\n"); }
-    void println()                                { client.print("\n"); }
+    void print(char c);
+    void println(String str);
+    void println(char c);
+    void println();
 
     String getIP()                                { return ip; }
     String getLastAttemptIP()                     { return attemptIp; }

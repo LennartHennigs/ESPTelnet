@@ -50,9 +50,37 @@ void ESPTelnet::loop() {
     yield();
   } 
 /* ------------------------------------------------- */
+
+void ESPTelnet::println(String str) { 
+  client.print(str + "\n"); 
+}
+
+/* ------------------------------------------------- */
+    
+void ESPTelnet::print(char c) {
+  if (client && client.status() == ESTABLISHED) {
+    client.print(c); 
+  }
+}
+
+/* ------------------------------------------------- */
+
 void ESPTelnet::print(String str) {
   if (client && client.status() == ESTABLISHED) {
     client.print(str); 
   }
 }
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::println(char c) { 
+  client.print(c + "\n"); 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::println() { 
+  client.print("\n"); 
+}
+
 /* ------------------------------------------------- */
