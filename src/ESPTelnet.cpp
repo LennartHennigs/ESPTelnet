@@ -4,6 +4,12 @@
 
 /* ------------------------------------------------- */
 
+ESPTelnet::ESPTelnet() { 
+  isConnected = false; 
+}
+
+/* ------------------------------------------------- */
+
   bool ESPTelnet::begin() {
   if (WiFi.status() == WL_CONNECTED) {
     server.begin();
@@ -13,7 +19,9 @@
     return false;
   }
 }
+
 /* ------------------------------------------------- */
+
 void ESPTelnet::loop() {
   //check if there are any new clients
   if (server.hasClient()) {
@@ -49,6 +57,7 @@ void ESPTelnet::loop() {
     }
     yield();
   } 
+  
 /* ------------------------------------------------- */
 
 void ESPTelnet::println(String str) { 
@@ -81,6 +90,48 @@ void ESPTelnet::println(char c) {
 
 void ESPTelnet::println() { 
   client.print("\n"); 
+}
+
+/* ------------------------------------------------- */
+
+String ESPTelnet::getIP() const { 
+  return ip; 
+}
+
+/* ------------------------------------------------- */
+
+String ESPTelnet::getLastAttemptIP() const { 
+  return attemptIp; 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::onConnect(CallbackFunction f) { 
+  on_connect = f; 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::onConnectionAttempt(CallbackFunction f)  { 
+  on_connection_attempt = f; 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::onReconnect(CallbackFunction f) { 
+  on_reconnect = f; 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::onDisconnect(CallbackFunction f) { 
+  on_disconnect = f; 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::stop() { 
+  server.stop(); 
 }
 
 /* ------------------------------------------------- */

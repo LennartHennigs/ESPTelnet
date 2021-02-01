@@ -18,12 +18,11 @@ class ESPTelnet {
   typedef void (*CallbackFunction) ();
 
   public:
-    ESPTelnet()                                   { isConnected = false; }
+    ESPTelnet();
 
     bool begin();
     void loop();
-    void stop()                                   { server.stop(); }
-
+    void stop();
 
     void print(String str);
     void print(char c);
@@ -31,13 +30,13 @@ class ESPTelnet {
     void println(char c);
     void println();
 
-    String getIP()                                { return ip; }
-    String getLastAttemptIP()                     { return attemptIp; }
+    String getIP() const;
+    String getLastAttemptIP() const;
     
-    void onConnect(CallbackFunction f)            { on_connect = f; }
-    void onConnectionAttempt(CallbackFunction f)  { on_connection_attempt = f; }
-    void onReconnect(CallbackFunction f)          { on_reconnect = f; }
-    void onDisconnect(CallbackFunction f)         { on_disconnect = f; }
+    void onConnect(CallbackFunction f);
+    void onConnectionAttempt(CallbackFunction f);
+    void onReconnect(CallbackFunction f);
+    void onDisconnect(CallbackFunction f);
     
   protected:
     WiFiServer server = WiFiServer(23);
