@@ -11,6 +11,7 @@ ESPTelnet::ESPTelnet() {
 /* ------------------------------------------------- */
 
   bool ESPTelnet::begin() {
+  ip = "";
   if (WiFi.status() == WL_CONNECTED) {
     server.begin();
     server.setNoDelay(true);
@@ -22,6 +23,13 @@ ESPTelnet::ESPTelnet() {
 
 /* ------------------------------------------------- */
 
+void ESPTelnet::stop() { 
+  server.stop(); 
+}
+
+/* ------------------------------------------------- */
+
+
 void ESPTelnet::loop() {
   //check if there are any new clients
   if (server.hasClient()) {
@@ -32,38 +40,45 @@ void ESPTelnet::loop() {
       attemptIp  = newClient.remoteIP().toString();
       // reconnected?
       if (attemptIp == ip) {
-        if (on_reconnect != NULL) on_reconnect();
+        if (on_reconnect != NULL) on_reconnect(ip);
         client.stop();
         client = newClient;
       // disconnect the second connection
       } else {
-        if (on_connection_attempt != NULL) on_connection_attempt();
+        if (on_connection_attempt != NULL) on_connection_attempt(ip);
         return;
       }
     // first connection
     } else {
       client = server.available();
       ip = client.remoteIP().toString();
-      if (on_connect != NULL) on_connect();
+      if (on_connect != NULL) on_connect(ip);
       client.setNoDelay(true);
       client.flush();
     }
   }
   // check whether to disconnect
   if (client && isConnected && client.status() == CLOSED) {
-      if (on_disconnect != NULL) on_disconnect();
+      if (on_disconnect != NULL) on_disconnect(ip);
       isConnected = false;
       ip = "";
     }
+  // gather input
+  if (client.available()) {    
+    char c = client.read();
+    if (c != '\n') {
+      if (c >= 32) {
+        input += c; 
+      }
+    // EOL -> send input
+    } else {
+      if (on_input != NULL) on_input(input);
+      input = "";
+      }
+  }
     yield();
   } 
   
-/* ------------------------------------------------- */
-
-void ESPTelnet::println(String str) { 
-  client.print(str + "\n"); 
-}
-
 /* ------------------------------------------------- */
     
 void ESPTelnet::print(char c) {
@@ -78,6 +93,12 @@ void ESPTelnet::print(String str) {
   if (client && client.status() == ESTABLISHED) {
     client.print(str); 
   }
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::println(String str) { 
+  client.print(str + "\n"); 
 }
 
 /* ------------------------------------------------- */
@@ -130,8 +151,8 @@ void ESPTelnet::onDisconnect(CallbackFunction f) {
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::stop() { 
-  server.stop(); 
+void ESPTelnet::onInputReceived(CallbackFunction f) { 
+  on_input = f; 
 }
 
 /* ------------------------------------------------- */
