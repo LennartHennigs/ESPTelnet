@@ -2,7 +2,7 @@ ESPTelnet
 =========
 
 * Author: Lennart Hennigs (https://www.lennarthennigs.de)
-* Copyright (C) 2018-2020 Lennart Hennigs.
+* Copyright (C) 2018-2021 Lennart Hennigs.
 * Released under the MIT license.
 
 ESP8266 library that allows you to setup a telnet server.
