@@ -7,6 +7,7 @@ none
 - cleaned up .h file
 - added ip as return parameter to callback functions
 - added onInputReceived() function to listen for telnet input
+- added ESP32 support
 
 ## [1.0.0] - 2020-03-28
 - initial release

@@ -29,13 +29,22 @@ void ESPTelnet::stop() {
 
 /* ------------------------------------------------- */
 
+bool ESPTelnet::isClientConnected(WiFiClient client) {
+#if defined(ARDUINO_ARCH_ESP8266)
+  return client.status() == ESTABLISHED;
+#else if defined(ARDUINO_ARCH_ESP32)
+  return client.connected();
+#endif
+}
+
+/* ------------------------------------------------- */
 
 void ESPTelnet::loop() {
   //check if there are any new clients
   if (server.hasClient()) {
     isConnected = true;
     // already a connection?
-    if (client && client.connected() && client.status() == ESTABLISHED) {
+    if (client && client.connected() && isClientConnected(client)) {
       WiFiClient newClient = server.available();
       attemptIp  = newClient.remoteIP().toString();
       // reconnected?
@@ -58,7 +67,7 @@ void ESPTelnet::loop() {
     }
   }
   // check whether to disconnect
-  if (client && isConnected && client.status() == CLOSED) {
+  if (client && isConnected && !isClientConnected(client)) {
       if (on_disconnect != NULL) on_disconnect(ip);
       isConnected = false;
       ip = "";
@@ -82,7 +91,7 @@ void ESPTelnet::loop() {
 /* ------------------------------------------------- */
     
 void ESPTelnet::print(char c) {
-  if (client && client.status() == ESTABLISHED) {
+  if (client && isClientConnected(client)) {
     client.print(c); 
   }
 }
@@ -90,7 +99,7 @@ void ESPTelnet::print(char c) {
 /* ------------------------------------------------- */
 
 void ESPTelnet::print(String str) {
-  if (client && client.status() == ESTABLISHED) {
+  if (client && isClientConnected(client)) {
     client.print(str); 
   }
 }

@@ -39,9 +39,6 @@ class ESPTelnet {
     void println(char c);
     void println();
 
-//    void attachToSerial();
-//    void removeFromSerial(bool dumpRemain /* = true */);
-
     String getIP() const;
     String getLastAttemptIP() const;
     
@@ -54,11 +51,12 @@ class ESPTelnet {
   protected:
     WiFiServer server = WiFiServer(23);
     WiFiClient client;
+    boolean isConnected = false;
     String ip;
     String attemptIp;
-    boolean isConnected = false;
     String input = "";
-//    bool serial_attached = false;
+
+    bool isClientConnected(WiFiClient client);
 
     CallbackFunction on_connect = NULL;
     CallbackFunction on_reconnect  = NULL;
