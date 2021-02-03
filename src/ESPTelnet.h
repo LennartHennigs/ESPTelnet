@@ -24,7 +24,7 @@
 /* ------------------------------------------------- */
 
 class ESPTelnet {
-  typedef void (*CallbackFunction) (String ip);
+  typedef void (*CallbackFunction) (String str);
 
   public:
     ESPTelnet();
