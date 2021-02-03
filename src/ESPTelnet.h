@@ -1,11 +1,5 @@
 /* ------------------------------------------------- */
 
-// TODO: add timestamp
-// TODO: add pipe operator >
-// TODO: ip & mac addr. an die event handler übergeben
-
-/* ------------------------------------------------- */
-
 #pragma once
 
 #ifndef ESPTelnet_h
