@@ -73,7 +73,7 @@ void ESPTelnet::loop() {
       ip = "";
     }
   // gather input
-  if (client.available()) {    
+  if (client && isConnected && client.available()) {    
     char c = client.read();
     if (c != '\n') {
       if (c >= 32) {
