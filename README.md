@@ -5,13 +5,54 @@ ESPTelnet
 * Copyright (C) 2018-2021 Lennart Hennigs.
 * Released under the MIT license.
 
-ESP8266 library that allows you to setup a telnet server.
+ESP8266/ESP32 library that allows you to setup a telnet server.
 
 
 Description
 -----------
 
-Use this library to set up a the telnet server to communicate status messages or debug / error log output. This is especially useful if you don't have a serial connection to the ESP.
+Use this library to set up a the telnet server to communicate status messages or debug / error log output. This is especially useful when you don't have a serial connection to the ESP.
+
+How To Use
+----------
+
+- You can use `print()` and `println()` to output text on the telnet server.
+
+- The library uses callback handlers to notify you of the different telnet events such as connecting, reconnecting, ...
+
+- You can use the `onInputReceived()` handler to receive text from the telnet server, as shown in the example
+
+- A callback function needs a String parameter, where the IP from the connected client is sent (or the input text in case of `onInputReceived()`)
+
+
+**Note:** For the class to work, you need to call the `loop()` member function in your sketch's `loop()` function. See the example for more details.
+
+These are the constructors and the member functions the library provides:
+
+```
+    ESPTelnet();
+
+    bool begin();
+    void loop();
+    void stop();
+
+    void print(String str);
+    void print(char c);
+    void println(String str);
+    void println(char c);
+    void println();
+
+    String getIP() const;
+    String getLastAttemptIP() const;
+    
+    void onConnect(CallbackFunction f);
+    void onConnectionAttempt(CallbackFunction f);
+    void onReconnect(CallbackFunction f);
+    void onDisconnect(CallbackFunction f);
+
+    void onInputReceived(CallbackFunction f);
+```
+
 
 
 Installation
