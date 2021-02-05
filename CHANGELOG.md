@@ -1,7 +1,7 @@
 # Changelog
 
 ## Unreleased
-none
+- added example using WiFiManager - for ESP8266 only
 
 ## [1.1.0] - 2021-02-03
 - cleaned up .h file
