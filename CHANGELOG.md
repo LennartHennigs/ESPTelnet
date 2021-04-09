@@ -1,7 +1,10 @@
 # Changelog
 
 ## Unreleased
+
+## [1.1.1] - 2021-04-09
 - added example using WiFiManager - for ESP8266 only
+- changed pre processor directive as suggested by [Aaron](https://github.com/AFontaine79) in [#4](https://github.com/LennartHennigs/ESPTelnet/issues/4)
 
 ## [1.1.0] - 2021-02-03
 - cleaned up .h file

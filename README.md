@@ -1,32 +1,55 @@
 ESPTelnet
 =========
 
+ESP8266/ESP32 library that allows you to setup a telnet server.
+
 * Author: Lennart Hennigs (https://www.lennarthennigs.de)
 * Copyright (C) 2018-2021 Lennart Hennigs.
 * Released under the MIT license.
 
-ESP8266/ESP32 library that allows you to setup a telnet server.
-
-
 Description
 -----------
-
 Use this library to set up a the telnet server to communicate status messages or debug / error log output. This is especially useful when you don't have a serial connection to the ESP.
+
+It has been tested with ESP8266 and ESP32 devices.
 
 How To Use
 ----------
 
-- You can use `print()` and `println()` to output text on the telnet server.
+__Definition__
+- Use the `begin();` and `stop();` to start or stop the telnet server
 
-- The library uses callback handlers to notify you of the different telnet events such as connecting, reconnecting, ...
+- The telnet server only allows you to connect a single client to it. You can use `getIP()` to get the connected client's IP address.
 
-- You can use the `onInputReceived()` handler to receive text from the telnet server, as shown in the example
+__Callback Handlers__
+- The library uses callback handlers to notify you of different telnet events
+  - ```void onConnect(CallbackFunction f);```
+  - ```void onConnectionAttempt(CallbackFunction f);```
+  - ```void onReconnect(CallbackFunction f);```
+  - ```void onDisconnect(CallbackFunction f);```
+  - ```void onInputReceived(CallbackFunction f);```
 
-- A callback function needs a String parameter, where the IP from the connected client is sent (or the input text in case of `onInputReceived()`)
+- All callback functions need a String parameter. There the IP from the connected client is sen, or the input text in case of `onInputReceived()`.
+
+__Output and Input__
+- Via `print()` and `println()` you can output text on the telnet server.
+
+- To receive and parse input from the telnet client you can add a handler via `onInputReceived()`.
+
+__The Loop__    
+- For the class to work, you need to call the `loop()` member function in your sketch's `loop()` function. 
+- See the example for more details.
+
+Notes
+-----
+
+- To see the latest changes to the library please take a look at the [Changelog](https://github.com/LennartHennigs/ESPTelnet/blob/master/CHANGELOG.md).
+ 
+- And if you find this library helpful, please consider giving it a star at [GitHub](https://github.com/LennartHennigs/ESPTelnet). Thanks!
 
 
-**Note:** For the class to work, you need to call the `loop()` member function in your sketch's `loop()` function. See the example for more details.
-
+Class Definition
+----------------
 These are the constructors and the member functions the library provides:
 
 ```
