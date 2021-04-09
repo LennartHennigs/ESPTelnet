@@ -17,7 +17,7 @@
 
 /* ------------------------------------------------- */
 
-class ESPTelnet {
+class ESPTelnet : public Stream {
   typedef void (*CallbackFunction) (String str);
 
   public:
@@ -27,11 +27,12 @@ class ESPTelnet {
     void loop();
     void stop();
 
-    void print(String str);
-    void print(char c);
-    void println(String str);
-    void println(char c);
-    void println();
+    int available();
+    int read();
+    int peek();
+    void flush();
+
+    size_t write(uint8_t);
 
     String getIP() const;
     String getLastAttemptIP() const;

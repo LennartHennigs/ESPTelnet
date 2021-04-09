@@ -89,37 +89,51 @@ void ESPTelnet::loop() {
   } 
   
 /* ------------------------------------------------- */
-    
-void ESPTelnet::print(char c) {
+
+int ESPTelnet::available() {
   if (client && isClientConnected(client)) {
-    client.print(c); 
+    return client.available(); 
+  } else {
+    return 0;
   }
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::print(String str) {
+int ESPTelnet::read() {
   if (client && isClientConnected(client)) {
-    client.print(str); 
+    return client.read(); 
+  } else {
+    return 0;
   }
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::println(String str) { 
-  client.print(str + "\n"); 
+int ESPTelnet::peek() {
+  if (client && isClientConnected(client)) {
+    return client.peek(); 
+  } else {
+    return 0;
+  }
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::println(char c) { 
-  client.print(c + "\n"); 
+void ESPTelnet::flush() {
+  if (client && isClientConnected(client)) {
+    client.flush(); 
+  }
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::println() { 
-  client.print("\n"); 
+size_t ESPTelnet::write(uint8_t data) {
+  if (client && isClientConnected(client)) {
+    return client.write(data); 
+  } else {
+    return 0;
+  }
 }
 
 /* ------------------------------------------------- */
