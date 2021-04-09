@@ -17,7 +17,7 @@
 
 /* ------------------------------------------------- */
 
-class ESPTelnet {
+class ESPTelnet : public Stream {
   typedef void (*CallbackFunction) (String str);
 
   public:
@@ -27,11 +27,12 @@ class ESPTelnet {
     void loop();
     void stop();
 
-    void print(String str);
-    void print(char c);
-    void println(String str);
-    void println(char c);
-    void println();
+    int available();
+    int read();
+    int peek();
+    void flush();
+
+    size_t write(uint8_t);
 
     String getIP() const;
     String getLastAttemptIP() const;
@@ -40,7 +41,6 @@ class ESPTelnet {
     void onConnectionAttempt(CallbackFunction f);
     void onReconnect(CallbackFunction f);
     void onDisconnect(CallbackFunction f);
-    void onInputReceived(CallbackFunction f);
     
   protected:
     WiFiServer server = WiFiServer(23);
@@ -48,7 +48,6 @@ class ESPTelnet {
     boolean isConnected = false;
     String ip = "";
     String attemptIp;
-    String input = "";
 
     bool isClientConnected(WiFiClient client);
 
@@ -56,7 +55,6 @@ class ESPTelnet {
     CallbackFunction on_reconnect  = NULL;
     CallbackFunction on_disconnect = NULL;
     CallbackFunction on_connection_attempt = NULL;
-    CallbackFunction on_input  = NULL;
 };
 
 /* ------------------------------------------------- */
