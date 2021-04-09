@@ -72,19 +72,6 @@ void ESPTelnet::loop() {
       isConnected = false;
       ip = "";
     }
-  // gather input
-  if (client && isConnected && client.available()) {    
-    char c = client.read();
-    if (c != '\n') {
-      if (c >= 32) {
-        input += c; 
-      }
-    // EOL -> send input
-    } else {
-      if (on_input != NULL) on_input(input);
-      input = "";
-      }
-  }
     yield();
   } 
   
@@ -170,12 +157,6 @@ void ESPTelnet::onReconnect(CallbackFunction f) {
 
 void ESPTelnet::onDisconnect(CallbackFunction f) { 
   on_disconnect = f; 
-}
-
-/* ------------------------------------------------- */
-
-void ESPTelnet::onInputReceived(CallbackFunction f) { 
-  on_input = f; 
 }
 
 /* ------------------------------------------------- */
