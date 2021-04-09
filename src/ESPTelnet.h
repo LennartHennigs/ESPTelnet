@@ -46,7 +46,7 @@ class ESPTelnet {
     WiFiServer server = WiFiServer(23);
     WiFiClient client;
     boolean isConnected = false;
-    String ip;
+    String ip = "";
     String attemptIp;
     String input = "";
 
