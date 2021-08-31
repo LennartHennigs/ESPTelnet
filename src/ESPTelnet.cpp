@@ -107,19 +107,19 @@ void ESPTelnet::print(String str) {
 /* ------------------------------------------------- */
 
 void ESPTelnet::println(String str) { 
-  client.print(str + "\n"); 
+  client.println(str); 
 }
 
 /* ------------------------------------------------- */
 
 void ESPTelnet::println(char c) { 
-  client.print(c + "\n"); 
+  client.println(c); 
 }
 
 /* ------------------------------------------------- */
 
 void ESPTelnet::println() { 
-  client.print("\n"); 
+  client.println(); 
 }
 
 /* ------------------------------------------------- */
