@@ -17,7 +17,8 @@ How To Use
 ----------
 
 __Definition__
-- Use the `begin();` and `stop();` to start or stop the telnet server
+- Use the `begin()` and `stop()` to start or stop the telnet server. 
+- It needs an active WiFi connection or the ESP needs to be in softAP mode
 
 - The telnet server only allows you to connect a single client to it. You can use `getIP()` to get the connected client's IP address.
 
@@ -36,10 +37,35 @@ __Output and Input__
 
 - To receive and parse input from the telnet client you can add a handler via `onInputReceived()`.
 
+__Using it to Debug Code__    
+- A common use case is to use it for debuging remote devices, where you might not have access to Serial. Thus I added a few macros to make debugging easier:
+
+- To enable debugging you need to set `DEBUG_ON`
+  ```#define DEBUG_ON 1```
+- You can then define the output channels (serial and/or telnet)
+  ```
+  #define DEBUG_USE_SERIAL 1
+  #define DEBUG_USE_TELNET 1
+  ```
+
+- After this you can use the following macros
+  - `DEBUG_INFO` to see compilation the date & time of your sketch
+  - `DEBUG_WHERE` to print where this message is located (file & line number)
+  - `DEBUG_MSG(x)` to print a message
+  - `DEBUG_VAR(...)` to print a variable value
+
+- See the [DebugMacroExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/DebugMacroExample/DebugMacroExample.ino) for more details.
+
 __The Loop__    
 - For the class to work, you need to call the `loop()` member function in your sketch's `loop()` function. 
-- See the example for more details.
 
+
+Examples
+--------
+- [TelnetServerExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetServerExample/TelnetServerExample.ino) – basic example
+- [TelnetServerExampleWithWiFiManager](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetServerWithWiFiManager/TelnetServerWithWiFiManager.ino) – basic example using [WiFiManager](https://github.com/tzapu/WiFiManager)
+- [DebugMacroExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/DebugMacroExample/TelnetServerExample.ino) – to see the debug macros in action
+ 
 Notes
 -----
 
@@ -89,7 +115,7 @@ License
 
 MIT License
 
-Copyright (c) 2018-2020 Lennart Hennigs
+Copyright (c) 2018-2021 Lennart Hennigs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

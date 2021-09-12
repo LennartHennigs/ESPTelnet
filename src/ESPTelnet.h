@@ -14,6 +14,8 @@
   #include <ESP8266WebServer.h>
 #endif
 
+#include "DebugMacros.h"
+
 /* ------------------------------------------------- */
 
 class ESPTelnet {
