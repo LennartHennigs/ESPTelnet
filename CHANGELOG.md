@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- now able to work in AP mode, not only when connected to a WiFi
 - used `println()` for `println()`, as suggested by [JMWilton](https://github.com/JMWilton) in [#10](https://github.com/LennartHennigs/ESPTelnet/issues/10)
 
 ## [1.1.1] - 2021-04-09

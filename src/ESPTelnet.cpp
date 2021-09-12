@@ -12,7 +12,8 @@ ESPTelnet::ESPTelnet() {
 
   bool ESPTelnet::begin() {
   ip = "";
-  if (WiFi.status() == WL_CONNECTED) {
+  // connected to WiFi or is ESP in AP mode?
+  if (WiFi.status() == WL_CONNECTED || WiFi.softAPIP().isSet()) {
     server.begin();
     server.setNoDelay(true);
     return true;
@@ -32,7 +33,7 @@ void ESPTelnet::stop() {
 bool ESPTelnet::isClientConnected(WiFiClient client) {
 #if defined(ARDUINO_ARCH_ESP8266)
   return client.status() == ESTABLISHED;
-#else if defined(ARDUINO_ARCH_ESP32)
+#elif defined(ARDUINO_ARCH_ESP32)
   return client.connected();
 #endif
 }
