@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased
+-
+
+## [1.2.0] - 2021-09-12
+- Added debug macro library file and example
 - now able to work in AP mode, not only when connected to a WiFi
 - used `println()` for `println()`, as suggested by [JMWilton](https://github.com/JMWilton) in [#10](https://github.com/LennartHennigs/ESPTelnet/issues/10)
 
