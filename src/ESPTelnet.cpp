@@ -68,8 +68,8 @@ void ESPTelnet::loop() {
     }
   }
   // check whether to disconnect
-  if (client && isConnected && !isClientConnected(client)) {
-      if (on_disconnect != NULL) on_disconnect(ip);
+  if (isConnected && !(client || isClientConnected (client))) {
+    if (on_disconnect != NULL) on_disconnect(ip);
       isConnected = false;
       ip = "";
     }

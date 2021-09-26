@@ -3,6 +3,9 @@
 ## Unreleased
 -
 
+## [1.2.1] - 2021-09-26
+- Fixed error that `onTelnetDisconnect()` was not called, as suggested by [zenbooster](https://github.com/zenbooster) in [#11](https://github.com/LennartHennigs/ESPTelnet/issues/11)
+
 ## [1.2.0] - 2021-09-12
 - Added debug macro library file and example
 - now able to work in AP mode, not only when connected to a WiFi
