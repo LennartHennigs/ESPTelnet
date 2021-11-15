@@ -52,6 +52,15 @@ bool ESPTelnet::isClientConnected(WiFiClient client) {
 
 /* ------------------------------------------------- */
 
+void ESPTelnet::emptyClientStream() {
+  client.flush();
+  delay(50);
+  while (client.available()) {
+    client.read();
+  }        
+}
+/* ------------------------------------------------- */
+
 void ESPTelnet::loop() {
   //check if there are any new clients
   if (server.hasClient()) {
@@ -65,6 +74,8 @@ void ESPTelnet::loop() {
         if (on_reconnect != NULL) on_reconnect(ip);
         client.stop();
         client = newClient;
+        client.flush();
+        emptyClientStream();
       // disconnect the second connection
       } else {
         if (on_connection_attempt != NULL) on_connection_attempt(ip);
@@ -76,7 +87,7 @@ void ESPTelnet::loop() {
       ip = client.remoteIP().toString();
       if (on_connect != NULL) on_connect(ip);
       client.setNoDelay(true);
-      client.flush();
+      emptyClientStream();
     }
   }
   // check whether to disconnect
@@ -89,7 +100,7 @@ void ESPTelnet::loop() {
   if (client && isConnected && client.available()) {    
     char c = client.read();
     if (c != '\n') {
-      if (c >= 32) {
+      if (c >= 32 && c < 127) {
         input += c; 
       }
     // EOL -> send input

@@ -52,6 +52,7 @@ class ESPTelnet {
     String input = "";
 
     bool isClientConnected(WiFiClient client);
+    void emptyClientStream();
 
     CallbackFunction on_connect = NULL;
     CallbackFunction on_reconnect  = NULL;
