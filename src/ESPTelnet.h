@@ -58,6 +58,10 @@ class ESPTelnet {
     CallbackFunction on_disconnect = NULL;
     CallbackFunction on_connection_attempt = NULL;
     CallbackFunction on_input  = NULL;
+
+  private:
+    bool _isIPSet(IPAddress ip);
+
 };
 
 /* ------------------------------------------------- */

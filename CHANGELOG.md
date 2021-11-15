@@ -1,7 +1,7 @@
 # Changelog
 
 ## Unreleased
--
+- Added private helper method `_isIPSet()`, as ESP32's IPAddress class has no `isSet()` method - this fixes [#12](https://github.com/LennartHennigs/ESPTelnet/issues/12)
 
 ## [1.2.1] - 2021-09-26
 - Fixed error that `onTelnetDisconnect()` was not called, as suggested by [zenbooster](https://github.com/zenbooster) in [#11](https://github.com/LennartHennigs/ESPTelnet/issues/11)
@@ -13,7 +13,7 @@
 
 ## [1.1.1] - 2021-04-09
 - added example using WiFiManager - for ESP8266 only
-- changed pre processor directive, as suggested by [Aaron](https://github.com/AFontaine79) in [#4](https://github.com/LennartHennigs/ESPTelnet/issues/4)
+- changed pre-processor directive, as suggested by [Aaron](https://github.com/AFontaine79) in [#4](https://github.com/LennartHennigs/ESPTelnet/issues/4)
 
 ## [1.1.0] - 2021-02-03
 - cleaned up .h file
