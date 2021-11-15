@@ -9,11 +9,23 @@ ESPTelnet::ESPTelnet() {
 }
 
 /* ------------------------------------------------- */
+// helper method, as ESP32's IPAddress has no isSet() method
+
+bool ESPTelnet::_isIPSet(IPAddress ip) {
+#if defined(ARDUINO_ARCH_ESP8266)
+  return ip.isSet();
+#else
+  // this works for ESP32, hopefully for others as well
+  return ip.toString() == "0.0.0.0";
+#endif
+}
+
+/* ------------------------------------------------- */
 
   bool ESPTelnet::begin() {
   ip = "";
   // connected to WiFi or is ESP in AP mode?
-  if (WiFi.status() == WL_CONNECTED || WiFi.softAPIP().isSet()) {
+  if (WiFi.status() == WL_CONNECTED || _isIPSet(WiFi.softAPIP())) {
     server.begin();
     server.setNoDelay(true);
     return true;
