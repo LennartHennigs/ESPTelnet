@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## Unreleased (but available on Github)
+-
+
+## [1.2.2] - 2021-12-06
 - Added code to manually flush the client upon (re-)connection. This fixes [#9](https://github.com/LennartHennigs/ESPTelnet/issues/9), reported by [Alex](https://github.com/alex-fu27)
 - Added private helper method `_isIPSet()`, as ESP32's IPAddress class has no `isSet()` method - this fixes [#12](https://github.com/LennartHennigs/ESPTelnet/issues/12)
 

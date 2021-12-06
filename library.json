@@ -1,13 +1,13 @@
 {
 	"name": "ESP Telnet",
-	"keywords": "telnet, esp8266",
+	"keywords": "telnet, esp8266, esp32",
 	"description": "ESP8266/ESP32 library that allows you to setup a telnet server. You can use this library to set up a the telnet server to communicate status messages or debug / error log output. This is especially useful when you dont have a serial connection to the ESP.",
 	"homepage": "https://github.com/LennartHennigs/ESPTelnet",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/LennartHennigs/ESPTelnet"
 	},
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"authors": {
 		"name": "Lennart Hennigs",
 		"url": "https://lennarthennigs.de"
