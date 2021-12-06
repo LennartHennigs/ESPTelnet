@@ -62,7 +62,6 @@ class ESPTelnet {
 
   private:
     bool _isIPSet(IPAddress ip);
-
 };
 
 /* ------------------------------------------------- */
