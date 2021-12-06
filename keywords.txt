@@ -11,3 +11,5 @@ onConnectionAttempt	KEYWORD2
 onReconnect	KEYWORD2
 onDisconnect	KEYWORD2
 onInputReceived	KEYWORD2
+emptyClientStream	KEYWORD2
+isClientConnected	KEYWORD2
