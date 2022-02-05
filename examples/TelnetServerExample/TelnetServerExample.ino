@@ -1,12 +1,12 @@
 /* ------------------------------------------------- */
 
-#include "ESPTelnet.h"          
+#include "ESPTelnet.h"
 
 /* ------------------------------------------------- */
 
-#define SERIAL_SPEED    9600
-#define WIFI_SSID       "MY SSID"
-#define WIFI_PASSWORD   "MY PASS"
+#define SERIAL_SPEED 9600
+#define WIFI_SSID "MY SSID"
+#define WIFI_PASSWORD "MY PASS"
 
 /* ------------------------------------------------- */
 
@@ -19,27 +19,27 @@ void setupSerial(long speed, String msg = "") {
   Serial.begin(speed);
   while (!Serial) {
   }
-  delay(200);  
+  delay(200);
   Serial.println();
   Serial.println();
-  if (msg != "") Serial.println(msg);
+  if (msg != "")
+    Serial.println(msg);
 }
 
 /* ------------------------------------------------- */
 
-bool isConnected() {
-  return (WiFi.status() == WL_CONNECTED);
-}
+bool isConnected() { return (WiFi.status() == WL_CONNECTED); }
 
 /* ------------------------------------------------- */
 
-bool connectToWiFi(const char* ssid, const char* password, int max_tries = 20, int pause = 500) {
+bool connectToWiFi(const char *ssid, const char *password, int max_tries = 20,
+                   int pause = 500) {
   int i = 0;
   WiFi.mode(WIFI_STA);
-  #if defined(ARDUINO_ARCH_ESP8266)
-    WiFi.forceSleepWake();
-    delay(200);
-  #endif
+#if defined(ARDUINO_ARCH_ESP8266)
+  WiFi.forceSleepWake();
+  delay(200);
+#endif
   WiFi.begin(ssid, password);
   do {
     delay(pause);
@@ -64,15 +64,15 @@ void errorMsg(String error, bool restart = true) {
 
 /* ------------------------------------------------- */
 
-void setupTelnet() {  
+void setupTelnet() {
   // passing on functions for various telnet events
   telnet.onConnect(onTelnetConnect);
   telnet.onConnectionAttempt(onTelnetConnectionAttempt);
   telnet.onReconnect(onTelnetReconnect);
   telnet.onDisconnect(onTelnetDisconnect);
-  
+
   // passing a lambda function
-  telnet.onInputReceived([](String str) {
+  telnet.onInputReceived([](const String &str) {
     // checks for a certain command
     if (str == "ping") {
       telnet.println("> pong");
@@ -92,7 +92,7 @@ void setupTelnet() {
 /* ------------------------------------------------- */
 
 // (optional) callback functions for telnet events
-void onTelnetConnect(String ip) {
+void onTelnetConnect(const String &ip) {
   Serial.print("- Telnet: ");
   Serial.print(ip);
   Serial.println(" connected");
@@ -100,19 +100,19 @@ void onTelnetConnect(String ip) {
   telnet.println("(Use ^] + q  to disconnect.)");
 }
 
-void onTelnetDisconnect(String ip) {
+void onTelnetDisconnect(const String &ip) {
   Serial.print("- Telnet: ");
   Serial.print(ip);
   Serial.println(" disconnected");
 }
 
-void onTelnetReconnect(String ip) {
+void onTelnetReconnect(const String &ip) {
   Serial.print("- Telnet: ");
   Serial.print(ip);
   Serial.println(" reconnected");
 }
 
-void onTelnetConnectionAttempt(String ip) {
+void onTelnetConnectionAttempt(const String &ip) {
   Serial.print("- Telnet: ");
   Serial.print(ip);
   Serial.println(" tried to connected");
@@ -122,17 +122,17 @@ void onTelnetConnectionAttempt(String ip) {
 
 void setup() {
   setupSerial(SERIAL_SPEED, "Telnet Test");
-  
+
   Serial.print("- Wifi: ");
   connectToWiFi(WIFI_SSID, WIFI_PASSWORD);
-  
+
   if (isConnected()) {
     ip = WiFi.localIP();
     Serial.print(" ");
     Serial.println(ip);
     setupTelnet();
   } else {
-    Serial.println();    
+    Serial.println();
     errorMsg("Error connecting to WiFi");
   }
 }
