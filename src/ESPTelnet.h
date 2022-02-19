@@ -34,6 +34,9 @@ class ESPTelnet {
     void println(char c);
     void println();
 
+    bool lineMode();
+    void lineMode(bool value);
+
     String getIP() const;
     String getLastAttemptIP() const;
     
@@ -50,6 +53,7 @@ class ESPTelnet {
     String ip = "";
     String attemptIp;
     String input = "";
+    bool _lineMode = true;
 
     bool isClientConnected(WiFiClient client);
     void emptyClientStream();
