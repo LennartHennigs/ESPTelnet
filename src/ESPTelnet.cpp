@@ -111,18 +111,31 @@ void ESPTelnet::loop() {
   // gather input
   if (client && isConnected && client.available()) {    
     char c = client.read();
-    if (c != '\n') {
-      if (c >= 32 && c < 127) {
-        input += c; 
+    // collect string
+    if (_lineMode) {
+      if (c != '\n') {
+        if (c >= 32 && c < 127) {
+          input += c; 
+        }
+      // EOL -> send input
+      } else {
+        if (on_input != NULL) on_input(input);
+        input = "";
       }
-    // EOL -> send input
+    // send indvidual characters
     } else {
-      if (on_input != NULL) on_input(input);
-      input = "";
+      if (on_input != NULL) {
+        if (input.length()) {
+          on_input(input + c);
+          input = "";
+        } else {
+          on_input(String(c));
+        }
       }
+    }
   }
-    yield();
-  } 
+  yield();
+} 
   
 /* ------------------------------------------------- */
     
@@ -162,6 +175,18 @@ void ESPTelnet::println() {
 
 String ESPTelnet::getIP() const { 
   return ip; 
+}
+
+/* ------------------------------------------------- */
+
+bool ESPTelnet::isLineModeSet() {
+  return _lineMode;
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::setLineMode(bool value) {
+  _lineMode = value;
 }
 
 /* ------------------------------------------------- */

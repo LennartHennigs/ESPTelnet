@@ -39,6 +39,7 @@ __Output and Input__
 - Via `print()` and `println()` you can output text on the telnet server.
 
 - To receive and parse input from the telnet client you can add a handler via `onInputReceived()`.
+- By default, the library waits for a newline character from the client, and sends data to the callback handler one line at a time. This behaviour can be deactivated by calling `setlineMode(false)`.
 
 __Using it to Debug Code__    
 - A common use case is to use it for debuging remote devices, where you might not have access to Serial. Thus I added a few macros to make debugging easier:
