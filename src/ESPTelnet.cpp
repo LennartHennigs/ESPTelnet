@@ -22,10 +22,14 @@ bool ESPTelnet::_isIPSet(IPAddress ip) {
 
 /* ------------------------------------------------- */
 
-  bool ESPTelnet::begin() {
+bool ESPTelnet::begin(uint16_t port /* = 23 */) {
   ip = "";
   // connected to WiFi or is ESP in AP mode?
   if (WiFi.status() == WL_CONNECTED || _isIPSet(WiFi.softAPIP())) {
+    server_port = port;
+    if (port != 23) {
+      server = WiFiServer(port);
+    }
     server.begin();
     server.setNoDelay(true);
     return true;
@@ -42,7 +46,7 @@ void ESPTelnet::stop() {
 
 /* ------------------------------------------------- */
 
-bool ESPTelnet::isClientConnected(WiFiClient client) {
+bool ESPTelnet::isClientConnected(WiFiClient &client) {
 #if defined(ARDUINO_ARCH_ESP8266)
   return client.status() == ESTABLISHED;
 #elif defined(ARDUINO_ARCH_ESP32)
@@ -59,6 +63,17 @@ void ESPTelnet::emptyClientStream() {
     client.read();
   }        
 }
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::disconnectClient() {
+    emptyClientStream();
+    client.stop();
+    if (on_disconnect != NULL) on_disconnect(ip);
+    isConnected = false;
+    ip = "";
+}
+
 /* ------------------------------------------------- */
 
 void ESPTelnet::loop() {
@@ -72,9 +87,8 @@ void ESPTelnet::loop() {
       // reconnected?
       if (attemptIp == ip) {
         if (on_reconnect != NULL) on_reconnect(ip);
-        client.stop();
+        disconnectClient();
         client = newClient;
-        client.flush();
         emptyClientStream();
       // disconnect the second connection
       } else {
@@ -92,10 +106,8 @@ void ESPTelnet::loop() {
   }
   // check whether to disconnect
   if (isConnected && !(client || isClientConnected (client))) {
-    if (on_disconnect != NULL) on_disconnect(ip);
-      isConnected = false;
-      ip = "";
-    }
+    disconnectClient();
+  }
   // gather input
   if (client && isConnected && client.available()) {    
     char c = client.read();
@@ -114,7 +126,7 @@ void ESPTelnet::loop() {
   
 /* ------------------------------------------------- */
     
-void ESPTelnet::print(char c) {
+void ESPTelnet::print(const char c) {
   if (client && isClientConnected(client)) {
     client.print(c); 
   }
@@ -122,7 +134,7 @@ void ESPTelnet::print(char c) {
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::print(String str) {
+void ESPTelnet::print(const String &str) {
   if (client && isClientConnected(client)) {
     client.print(str); 
   }
@@ -130,13 +142,13 @@ void ESPTelnet::print(String str) {
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::println(String str) { 
+void ESPTelnet::println(const String &str) { 
   client.println(str); 
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::println(char c) { 
+void ESPTelnet::println(const char c) { 
   client.println(c); 
 }
 

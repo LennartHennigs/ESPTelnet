@@ -24,14 +24,14 @@ class ESPTelnet {
   public:
     ESPTelnet();
 
-    bool begin();
+    bool begin(uint16_t port = 23);
     void loop();
     void stop();
 
-    void print(String str);
-    void print(char c);
-    void println(String str);
-    void println(char c);
+    void print(const String &str);
+    void print(const char c);
+    void println(const String &str);
+    void println(const char c);
     void println();
 
     String getIP() const;
@@ -43,6 +43,8 @@ class ESPTelnet {
     void onDisconnect(CallbackFunction f);
     void onInputReceived(CallbackFunction f);
     
+    void disconnectClient();
+
   protected:
     WiFiServer server = WiFiServer(23);
     WiFiClient client;
@@ -50,8 +52,9 @@ class ESPTelnet {
     String ip = "";
     String attemptIp;
     String input = "";
-
-    bool isClientConnected(WiFiClient client);
+    uint16_t server_port = 23;
+    
+    bool isClientConnected(WiFiClient &client);
     void emptyClientStream();
 
     CallbackFunction on_connect = NULL;
@@ -61,6 +64,7 @@ class ESPTelnet {
     CallbackFunction on_input  = NULL;
 
   private:
+    // for ESP32 compability
     bool _isIPSet(IPAddress ip);
 };
 

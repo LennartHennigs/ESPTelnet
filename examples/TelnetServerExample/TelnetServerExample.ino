@@ -10,8 +10,10 @@
 
 /* ------------------------------------------------- */
 
+
 ESPTelnet telnet;
 IPAddress ip;
+uint16_t  port = 23;
 
 /* ------------------------------------------------- */
 
@@ -77,11 +79,15 @@ void setupTelnet() {
     if (str == "ping") {
       telnet.println("> pong");
       Serial.println("- Telnet: pong");
-    }
+    // disconnect the client
+    } else if (str == "bye") {
+      telnet.println("> disconnecting you...");
+      telnet.disconnectClient();
+      }
   });
 
   Serial.print("- Telnet: ");
-  if (telnet.begin()) {
+  if (telnet.begin(port)) {
     Serial.println("running");
   } else {
     Serial.println("error.");
@@ -128,8 +134,8 @@ void setup() {
   
   if (isConnected()) {
     ip = WiFi.localIP();
-    Serial.print(" ");
-    Serial.println(ip);
+    Serial.println();
+    Serial.print("- Telnet: "); Serial.print(ip); Serial.print(" "); Serial.print(port);
     setupTelnet();
   } else {
     Serial.println();    

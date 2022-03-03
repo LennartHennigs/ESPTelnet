@@ -18,9 +18,12 @@ How To Use
 
 __Definition__
 - Use the `begin()` and `stop()` to start or stop the telnet server. 
-- It needs an active WiFi connection or the ESP needs to be in softAP mode
+- It needs an active WiFi connection, or the ESP needs to be in softAP mode
+- You can set a custom port (other than 23) via the `begin()` function
 
-- The telnet server only allows you to connect a single client to it. You can use `getIP()` to get the connected client's IP address.
+- The telnet server only allows you to connect a single client to it. 
+- You can use `getIP()` to get the connected client's IP address.
+- You manually disconnect the client via `disconnectClient()`
 
 __Callback Handlers__
 - The library uses callback handlers to notify you of different telnet events
@@ -98,8 +101,9 @@ These are the constructors and the member functions the library provides:
     void onConnectionAttempt(CallbackFunction f);
     void onReconnect(CallbackFunction f);
     void onDisconnect(CallbackFunction f);
-
     void onInputReceived(CallbackFunction f);
+
+    void disconnectClient();
 ```
 
 

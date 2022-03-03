@@ -5,6 +5,7 @@ loop	KEYWORD2
 print	KEYWORD2
 println	KEYWORD2
 getIP	KEYWORD2
+disconnectClient	KEYWORD2
 getLastAttemptIP	KEYWORD2
 onConnect	KEYWORD2
 onConnectionAttempt	KEYWORD2

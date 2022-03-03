@@ -1,7 +1,9 @@
 # Changelog
 
 ## Unreleased (but available on Github)
--
+- Changed `String` arguments to `const String &` and `WiFiClient` argument to `WiFiClient &` to avoid copies as requested in pull request [#16](https://github.com/LennartHennigs/ESPTelnet/pull/16)
+- You can now define a custom port via the `begin(uint16_t port)` function as requested in [#18](https://github.com/LennartHennigs/ESPTelnet/issues/18)
+- Added a `clientDisconnect()` function as requested in [#18](https://github.com/LennartHennigs/ESPTelnet/issues/18)
 
 ## [1.2.2] - 2021-12-06
 - Added code to manually flush the client upon (re-)connection. This fixes [#9](https://github.com/LennartHennigs/ESPTelnet/issues/9), reported by [Alex](https://github.com/alex-fu27)
