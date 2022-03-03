@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased (but available on Github)
+-
+
+## [1.3.0] - 2022-03-03
 - Added a line mode toggle as suggested in [#17](https://github.com/LennartHennigs/ESPTelnet/pull/17)
 - Changed `String` arguments to `const String &` and `WiFiClient` argument to `WiFiClient &` to avoid copies as requested in pull request [#16](https://github.com/LennartHennigs/ESPTelnet/pull/16)
 - You can now define a custom port via the `begin(uint16_t port)` function as requested in [#18](https://github.com/LennartHennigs/ESPTelnet/issues/18)
