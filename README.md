@@ -13,6 +13,9 @@ Use this library to set up a the telnet server to communicate status messages or
 
 It has been tested with ESP8266 and ESP32 devices.
 
+To see the latest changes to the library please take a look at the [Changelog](https://github.com/LennartHennigs/ESPTelnet/blob/master/CHANGELOG.md).
+
+
 How To Use
 ----------
 
