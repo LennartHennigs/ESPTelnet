@@ -16,7 +16,7 @@ bool ESPTelnet::_isIPSet(IPAddress ip) {
   return ip.isSet();
 #else
   // this works for ESP32, hopefully for others as well
-  return ip.toString() == "0.0.0.0";
+  return ip.toString() != "0.0.0.0";
 #endif
 }
 
