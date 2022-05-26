@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased (but available on Github)
+
 - *none*
 
 ## [1.3.1] - 2022-03-15
