@@ -173,6 +173,30 @@ void ESPTelnet::println() {
 
 /* ------------------------------------------------- */
 
+void ESPTelnet::print(unsigned char b, int base){
+  client.print(b,base); 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::println(unsigned char b, int base){
+  client.println(b,base); 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::print(const Printable& x){
+  client.print(x); 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::println(const Printable& x){
+  client.println(x); 
+}
+
+/* ------------------------------------------------- */
+
 String ESPTelnet::getIP() const { 
   return ip; 
 }

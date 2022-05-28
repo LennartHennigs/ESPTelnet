@@ -34,6 +34,11 @@ class ESPTelnet {
     void println(const char c);
     void println();
 
+    void print(unsigned char b, int base);
+    void println(unsigned char b, int base);
+    void print(const Printable& x);
+    void println(const Printable& x);
+
     bool isLineModeSet();
     void setLineMode(bool value);
 
