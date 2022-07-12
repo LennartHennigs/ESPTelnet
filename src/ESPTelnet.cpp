@@ -24,8 +24,12 @@ bool ESPTelnet::_isIPSet(IPAddress ip) {
 
 bool ESPTelnet::begin(uint16_t port /* = 23 */) {
   ip = "";
-  // connected to WiFi or is ESP in AP mode?
-  // if (WiFi.status() == WL_CONNECTED || _isIPSet(WiFi.softAPIP())) {
+  // connected to WiFi, Ethernet, or is ESP in AP mode?
+  bool isConnected = WiFi.status() == WL_CONNECTED || _isIPSet(WiFi.softAPIP());
+#ifdef ETH_PHY_TYPE
+  isConnected = isConnected || _isIPSet(ETH.localIP());
+#endif
+  if (isConnected) {
     server_port = port;
     if (port != 23) {
       server = WiFiServer(port);
@@ -33,9 +37,9 @@ bool ESPTelnet::begin(uint16_t port /* = 23 */) {
     server.begin();
     server.setNoDelay(true);
     return true;
-  // } else {
-  //   return false;
-  // }
+  } else {
+    return false;
+  }
 }
 
 /* ------------------------------------------------- */
