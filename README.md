@@ -15,6 +15,9 @@ It has been tested with ESP8266 and ESP32 devices.
 
 To see the latest changes to the library please take a look at the [Changelog](https://github.com/LennartHennigs/ESPTelnet/blob/master/CHANGELOG.md).
 
+If you find this library helpful please consider giving it a ⭐️ at [GitHub](https://github.com/LennartHennigs/ESPTelnet) and/or [buy me a ☕️](https://ko-fi.com/lennart0815). Thanks!
+
+
 
 How To Use
 ----------
