@@ -127,7 +127,7 @@ void ESPTelnet::loop() {
     } else {
       if (on_input != NULL) {
         if (input.length()) {
-          on_input(input + c);
+          on_input(input + String(c));
           input = "";
         } else {
           on_input(String(c));
