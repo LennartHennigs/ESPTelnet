@@ -15,6 +15,9 @@
   #include <ESP8266WebServer.h>
 #endif
 
+using TCPClient = WiFiClient;
+using TCPServer = WiFiServer;
+
 #include "DebugMacros.h"
 
 /* ------------------------------------------------- */
@@ -25,7 +28,7 @@ class ESPTelnet {
   public:
     ESPTelnet();
 
-    bool begin(uint16_t port = 23);
+    bool begin(uint16_t port = 23, bool checkConnection = true);
     void loop();
     void stop();
 
@@ -55,8 +58,8 @@ class ESPTelnet {
     void disconnectClient();
 
   protected:
-    WiFiServer server = WiFiServer(23);
-    WiFiClient client;
+    TCPServer server;
+    TCPClient client;
     boolean isConnected = false;
     String ip = "";
     String attemptIp;
@@ -64,7 +67,7 @@ class ESPTelnet {
     uint16_t server_port = 23;
     bool _lineMode = true;
 
-    bool isClientConnected(WiFiClient &client);
+    bool isClientConnected(TCPClient &client);
     void emptyClientStream();
 
     CallbackFunction on_connect = NULL;

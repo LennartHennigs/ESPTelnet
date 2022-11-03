@@ -22,14 +22,13 @@ bool ESPTelnet::_isIPSet(IPAddress ip) {
 
 /* ------------------------------------------------- */
 
-bool ESPTelnet::begin(uint16_t port /* = 23 */) {
+bool ESPTelnet::begin(uint16_t port /* = 23 */, bool checkConnection /* = true */) {
   ip = "";
   // connected to WiFi or is ESP in AP mode?
-  if (WiFi.status() == WL_CONNECTED || _isIPSet(WiFi.softAPIP())) {
+
+  if (!checkConnection || (WiFi.status() == WL_CONNECTED || _isIPSet(WiFi.softAPIP()))) {
     server_port = port;
-    if (port != 23) {
-      server = WiFiServer(port);
-    }
+    server = TCPServer(port);
     server.begin();
     server.setNoDelay(true);
     return true;
@@ -46,7 +45,7 @@ void ESPTelnet::stop() {
 
 /* ------------------------------------------------- */
 
-bool ESPTelnet::isClientConnected(WiFiClient &client) {
+bool ESPTelnet::isClientConnected(TCPClient &client) {
 #if defined(ARDUINO_ARCH_ESP8266)
   return client.status() == ESTABLISHED;
 #elif defined(ARDUINO_ARCH_ESP32)
@@ -82,7 +81,7 @@ void ESPTelnet::loop() {
     isConnected = true;
     // already a connection?
     if (client && client.connected() && isClientConnected(client)) {
-      WiFiClient newClient = server.available();
+      TCPClient newClient = server.available();
       attemptIp  = newClient.remoteIP().toString();
       // reconnected?
       if (attemptIp == ip) {

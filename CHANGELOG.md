@@ -1,7 +1,7 @@
 # Changelog
 
 ## Unreleased (but available on Github)
-
+- added `bool checkConnection` parameter to `begin()` to allow to bypass WiFi detection, as requested in [#27](https://github.com/LennartHennigs/ESPTelnet/issues/27)
 - added `print()` and `println()` for different bases and `Printable`as suggested by [francois](https://github.com/lekrom) in [#21](https://github.com/LennartHennigs/ESPTelnet/pull/21)
 
 ## [1.3.1] - 2022-03-15
