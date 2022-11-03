@@ -7,6 +7,7 @@
 
 /* ------------------------------------------------- */
 
+#include <Arduino.h>
 #if defined(ARDUINO_ARCH_ESP32)
   #include <WiFi.h>
 #elif defined(ARDUINO_ARCH_ESP8266)

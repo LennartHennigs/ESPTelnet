@@ -111,6 +111,7 @@ void ESPTelnet::loop() {
   // gather input
   if (client && isConnected && client.available()) {    
     char c = client.read();
+    
     // collect string
     if (_lineMode) {
       if (c != '\n') {
@@ -122,7 +123,8 @@ void ESPTelnet::loop() {
         if (on_input != NULL) on_input(input);
         input = "";
       }
-    // send indvidual characters
+      
+    // send individual characters
     } else {
       if (on_input != NULL) {
         if (input.length()) {
