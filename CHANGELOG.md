@@ -2,10 +2,14 @@
 
 ## Unreleased (but available on Github)
 
+**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
+
+## [1.4.0] - 2022-11-03
+
 - added `Autoconnect` example as suggested in PR [#13](https://github.com/LennartHennigs/ESPTelnet/pull/13)
 - updated `loop()` to remove compiler warning as mentioned in [#26](https://github.com/LennartHennigs/ESPTelnet/issues/26)
 - added `bool checkConnection` parameter to `begin()` to allow to bypass WiFi detection, as requested in [#27](https://github.com/LennartHennigs/ESPTelnet/issues/27)
-- added `print()` and `println()` for different bases and `Printable`as suggested by [francois](https://github.com/lekrom) in [#21](https://github.com/LennartHennigs/ESPTelnet/pull/21)
+- added `print()` and `println()` for different bases and `Printable` as suggested in [#21](https://github.com/LennartHennigs/ESPTelnet/pull/21)
 
 ## [1.3.1] - 2022-03-15
 
