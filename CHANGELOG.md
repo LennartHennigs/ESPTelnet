@@ -2,6 +2,7 @@
 
 ## Unreleased (but available on Github)
 
+- added `Autoconnect` example as suggested in PR [#13](https://github.com/LennartHennigs/ESPTelnet/pull/13)
 - updated `loop()` to remove compiler warning as mentioned in [#26](https://github.com/LennartHennigs/ESPTelnet/issues/26)
 - added `bool checkConnection` parameter to `begin()` to allow to bypass WiFi detection, as requested in [#27](https://github.com/LennartHennigs/ESPTelnet/issues/27)
 - added `print()` and `println()` for different bases and `Printable`as suggested by [francois](https://github.com/lekrom) in [#21](https://github.com/LennartHennigs/ESPTelnet/pull/21)
