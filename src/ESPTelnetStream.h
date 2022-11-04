@@ -10,7 +10,7 @@
 
 /* ------------------------------------------------- */
 
-class ESPTelnetStream : public Stream, ESPTelnetBase {
+class ESPTelnetStream : public ESPTelnetBase, Stream {
   public:
     using ESPTelnetBase::ESPTelnetBase;
 
@@ -28,7 +28,7 @@ class ESPTelnetStream : public Stream, ESPTelnetBase {
 /* ------------------------------------------------- */
 
   // << operator
-  template<class T> inline ESPTelnetStream &operator <<(ESPTelnetStream &obj, T arg) { obj.print(arg); return obj; } 
+//  template<class T> inline ESPTelnetStream &operator <<(ESPTelnetStream &obj, T arg) { obj.print(arg); return obj; } 
 
 /* ------------------------------------------------- */
 #endif

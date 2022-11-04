@@ -6,24 +6,7 @@
 
  void ESPTelnetStream::handleInput() {
   char c = client.read();
- /* if (c != '\n') {
-    if (c >= 32) {
-      input += c; 
-    }
-  // EOL -> send input
-  } else {
-    if (on_input != NULL) on_input(input);
-    input = "";
-    }
-*/
-  if (on_input != NULL) {
-    if (input.length()) {
-      on_input(input + String(c));
-      input = "";
-    } else {
-      on_input(String(c));
-    }
-  }
+  on_input(String(c));
 }
   
 /* ------------------------------------------------- */
