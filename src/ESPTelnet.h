@@ -1,84 +1,36 @@
 /* ------------------------------------------------- */
 
 #pragma once
-
 #ifndef ESPTelnet_h
 #define ESPTelnet_h
 
 /* ------------------------------------------------- */
 
-#include <Arduino.h>
-#if defined(ARDUINO_ARCH_ESP32)
-  #include <WiFi.h>
-#elif defined(ARDUINO_ARCH_ESP8266)
-  #include <ESP8266WiFi.h>
-  #include <ESP8266WebServer.h>
-#endif
-
-using TCPClient = WiFiClient;
-using TCPServer = WiFiServer;
-
-#include "DebugMacros.h"
+#include "ESPTelnetBase.h"
 
 /* ------------------------------------------------- */
 
-class ESPTelnet {
-  typedef void (*CallbackFunction) (String str);
-
+class ESPTelnet : public ESPTelnetBase {
   public:
-    ESPTelnet();
-
-    bool begin(uint16_t port = 23, bool checkConnection = true);
-    void loop();
-    void stop();
+    using ESPTelnetBase::ESPTelnetBase;
 
     void print(const String &str);
-    void print(const char c);
     void println(const String &str);
+    void print(const char c);
     void println(const char c);
-    void println();
-
     void print(unsigned char b, int base);
     void println(unsigned char b, int base);
     void print(const Printable& x);
     void println(const Printable& x);
-
-    bool isLineModeSet();
-    void setLineMode(bool value);
-
-    String getIP() const;
-    String getLastAttemptIP() const;
+    void println();
     
-    void onConnect(CallbackFunction f);
-    void onConnectionAttempt(CallbackFunction f);
-    void onReconnect(CallbackFunction f);
-    void onDisconnect(CallbackFunction f);
-    void onInputReceived(CallbackFunction f);
-
-    void disconnectClient();
-
+    bool isLineModeSet();
+    void setLineMode(bool value = true);
+    
   protected:
-    TCPServer server;
-    TCPClient client;
-    boolean isConnected = false;
-    String ip = "";
-    String attemptIp;
-    String input = "";
-    uint16_t server_port = 23;
     bool _lineMode = true;
 
-    bool isClientConnected(TCPClient &client);
-    void emptyClientStream();
-
-    CallbackFunction on_connect = NULL;
-    CallbackFunction on_reconnect  = NULL;
-    CallbackFunction on_disconnect = NULL;
-    CallbackFunction on_connection_attempt = NULL;
-    CallbackFunction on_input  = NULL;
-
-  private:
-    // for ESP32 compability
-    bool _isIPSet(IPAddress ip);
+    void handleInput();
 };
 
 /* ------------------------------------------------- */
