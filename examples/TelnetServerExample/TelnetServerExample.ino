@@ -72,19 +72,7 @@ void setupTelnet() {
   telnet.onConnectionAttempt(onTelnetConnectionAttempt);
   telnet.onReconnect(onTelnetReconnect);
   telnet.onDisconnect(onTelnetDisconnect);
-  
-  // passing a lambda function
-  telnet.onInputReceived([](String str) {
-    // checks for a certain command
-    if (str == "ping") {
-      telnet.println("> pong");
-      Serial.println("- Telnet: pong");
-    // disconnect the client
-    } else if (str == "bye") {
-      telnet.println("> disconnecting you...");
-      telnet.disconnectClient();
-      }
-  });
+  telnet.onInputReceived(onTelnetInput);
 
   Serial.print("- Telnet: ");
   if (telnet.begin(port)) {
@@ -102,6 +90,7 @@ void onTelnetConnect(String ip) {
   Serial.print("- Telnet: ");
   Serial.print(ip);
   Serial.println(" connected");
+  
   telnet.println("\nWelcome " + telnet.getIP());
   telnet.println("(Use ^] + q  to disconnect.)");
 }
@@ -124,6 +113,18 @@ void onTelnetConnectionAttempt(String ip) {
   Serial.println(" tried to connected");
 }
 
+void onTelnetInput(String str) {
+  // checks for a certain command
+  if (str == "ping") {
+    telnet.println("> pong");
+    Serial.println("- Telnet: pong");
+  // disconnect the client
+  } else if (str == "bye") {
+    telnet.println("> disconnecting you...");
+    telnet.disconnectClient();
+    }
+  }
+
 /* ------------------------------------------------- */
 
 void setup() {
@@ -135,7 +136,7 @@ void setup() {
   if (isConnected()) {
     ip = WiFi.localIP();
     Serial.println();
-    Serial.print("- Telnet: "); Serial.print(ip); Serial.print(" "); Serial.print(port);
+    Serial.print("- Telnet: "); Serial.print(ip); Serial.print(":"); Serial.println(port);
     setupTelnet();
   } else {
     Serial.println();    
@@ -153,4 +154,5 @@ void loop() {
     telnet.print(Serial.read());
   }
 }
+
 //* ------------------------------------------------- */
