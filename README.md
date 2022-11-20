@@ -48,10 +48,10 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * By default, the library waits for a newline character from the client, and sends data to the callback handler one line at a time. This behaviour can be deactivated by calling `setlineMode(false)`.
 
 ### Using stream functions
-* Alternatively, you can use a `Stream` implementation of ESPTelnet. 
+
+* Alternatively, you can use the `Stream` implementation of ESPTelnet.
 * This does not provide `print()` or `println()` functions, see [TelnetStreamExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetStreamExample/TelnetStreamExample.ino) for more details
-
-
+* You'll also find the class definition below
 
 ### Using it to Debug Code
 
@@ -84,7 +84,8 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * [TelnetServerExampleWithWiFiManager](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetServerWithWiFiManager/TelnetServerWithWiFiManager.ino) – basic example using [WiFiManager](https://github.com/tzapu/WiFiManager) (use it for ESP8266s)
 * [TelnetServerWithAutoconnect](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetServerWithAutoconnect/TelnetServerWithAutoconnect.ino) – basic example using [Autoconnect](https://github.com/Hieromon/AutoConnect) (use it for ESP266 or ESP32)
 * [DebugMacroExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/DebugMacroExample/TelnetServerExample.ino) – to see the debug macros in action
-* [TelnetStreamExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetStreamExample/TelnetStreamExample.ino) - stream example 
+* [TelnetStreamExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetStreamExample/TelnetStreamExample.ino) - stream example
+
 ## Notes
 
 * To see the latest changes to the library please take a look at the [Changelog](https://github.com/LennartHennigs/ESPTelnet/blob/master/CHANGELOG.md).
@@ -95,7 +96,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 
 These are the constructors and the member functions the library provides:
 
-### ESPTelnet
+### ESPTelnet Definition
 
 ``` c++
     ESPTelnet();
@@ -122,7 +123,7 @@ These are the constructors and the member functions the library provides:
     void disconnectClient();
 ```
 
-### ESPTelnetStream
+### ESPTelnetStream Definition
 
 ``` c++
     ESPTelnetStream();
