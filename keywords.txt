@@ -16,3 +16,9 @@ emptyClientStream	KEYWORD2
 isClientConnected	KEYWORD2
 isLineModeSet	KEYWORD2
 setLineMode	KEYWORD2
+ESPTelnetStream	KEYWORD1
+available	KEYWORD2
+read	KEYWORD2
+peek	KEYWORD2
+flush	KEYWORD2
+write	KEYWORD2
