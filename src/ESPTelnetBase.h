@@ -44,7 +44,8 @@ class ESPTelnetBase {
     void onInputReceived(CallbackFunction f);
 
     protected:
-      TCPServer server;
+      // must be initalized here
+      TCPServer server = TCPServer(23);
       TCPClient client;
       boolean isConnected = false;
       String ip = "";
