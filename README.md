@@ -83,7 +83,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * [TelnetServerExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetServerExample/TelnetServerExample.ino) – basic example
 * [TelnetServerExampleWithWiFiManager](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetServerWithWiFiManager/TelnetServerWithWiFiManager.ino) – basic example using [WiFiManager](https://github.com/tzapu/WiFiManager) (use it for ESP8266s)
 * [TelnetServerWithAutoconnect](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetServerWithAutoconnect/TelnetServerWithAutoconnect.ino) – basic example using [Autoconnect](https://github.com/Hieromon/AutoConnect) (use it for ESP266 or ESP32)
-* [DebugMacroExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/DebugMacroExample/TelnetServerExample.ino) – to see the debug macros in action
+* [DebugMacroExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/DebugMacroExample/DebugMacroExample.ino) – to see the debug macros in action
 * [TelnetStreamExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetStreamExample/TelnetStreamExample.ino) - stream example
 
 ## Notes
