@@ -31,6 +31,7 @@ class ESPTelnet : public ESPTelnetBase {
     bool _lineMode = true;
 
     void handleInput();
+    void manageRequest();
 };
 
 /* ------------------------------------------------- */
