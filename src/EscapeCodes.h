@@ -55,6 +55,7 @@ class EscapeCodes {
     static String underline(String str);
     static String blink(String str);
     static String inverse(String str);
+    
     static String showCursor(bool blink);
     static String reset();
 
