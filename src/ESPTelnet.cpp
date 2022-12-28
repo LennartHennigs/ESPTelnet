@@ -47,44 +47,71 @@ void ESPTelnet::print(const String &str) {
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::println(const String &str) { 
-  client.println(str); 
+void ESPTelnet::println(const String &str) {
+  if (client && isClientConnected(client)) {
+    client.println(str);
+  }
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::println(const char c) { 
-  client.println(c); 
+void ESPTelnet::println(const char c) {
+  if (client && isClientConnected(client)) {
+    client.println(c);
+  }
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::println() { 
-  client.println(); 
+void ESPTelnet::println() {
+  if (client && isClientConnected(client)) {
+    client.println();
+  }
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::print(unsigned char b, int base){
-  client.print(b,base); 
+void ESPTelnet::print(unsigned char b, int base) {
+  if (client && isClientConnected(client)) {
+    client.print(b,base);
+  }
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::println(unsigned char b, int base){
-  client.println(b,base); 
+void ESPTelnet::println(unsigned char b, int base) {
+  if (client && isClientConnected(client)) {
+    client.println(b,base);
+  }
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::print(const Printable& x){
-  client.print(x); 
+void ESPTelnet::print(const Printable& x) {
+  if (client && isClientConnected(client)) {
+    client.print(x);
+  }
 }
 
 /* ------------------------------------------------- */
 
-void ESPTelnet::println(const Printable& x){
-  client.println(x); 
+void ESPTelnet::println(const Printable& x) {
+  if (client && isClientConnected(client)) {
+    client.println(x);
+  }
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::printf(const char *format, ...) {
+  if (client && isClientConnected(client)) {
+    va_list argptr;
+    va_start(argptr, format);
+
+    client.printf(format, argptr); 
+
+    va_end(argptr);
+  }
 }
 
 /* ------------------------------------------------- */
