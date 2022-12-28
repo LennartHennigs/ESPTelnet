@@ -35,7 +35,6 @@
 /////////////////////////////////////////////////////////////////
 
 class EscapeCodes {
-  
   public:
     static String home();
     static String cls();
