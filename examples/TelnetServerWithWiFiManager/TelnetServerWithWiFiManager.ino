@@ -1,7 +1,10 @@
 /* ------------------------------------------------- */
 // ESP8266 only - as WiFiManager is not working (yet) on ESP32
+#ifdef (ESP8266) 
+/* ------------------------------------------------- */
 
-#include "ESPTelnet.h"          
+#include <Arduino.h>
+#include "ESPTelnet.h"
 #include "WiFiManager.h"
 
 /* ------------------------------------------------- */
@@ -10,7 +13,7 @@
 #define AP_NAME         "MY CAPTIVE PORTAL"
 #define AP_PASSWORD     ""
 
-#define SERIAL_SPEED    9600
+#define SERIAL_SPEED    115200
 #define WIFI_SSID       "MY SSID"
 #define WIFI_PASSWORD   "MY PASS"
 
@@ -159,3 +162,6 @@ void loop() {
   }
 }
 //* ------------------------------------------------- */
+#else
+#error "This example needs an ESP8266"
+#endif
