@@ -1,6 +1,6 @@
 /* ------------------------------------------------- */
 // ESP8266 only - as WiFiManager is not working (yet) on ESP32
-#ifdef (ESP8266) 
+#ifdef ESP8266
 /* ------------------------------------------------- */
 
 #include <Arduino.h>
