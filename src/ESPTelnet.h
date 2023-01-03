@@ -23,7 +23,7 @@ class ESPTelnet : public ESPTelnetBase {
     void print(const Printable& x);
     void println(const Printable& x);
     void println();
-    void printf(const char *format, ...);
+    size_t printf(const char *format, ...);
     
     bool isLineModeSet();
     void setLineMode(bool value = true);
