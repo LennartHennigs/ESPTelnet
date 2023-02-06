@@ -17,7 +17,6 @@ void ESPTelnet::handleInput() {
       on_input(input);
       input = "";
     }
-
     // send individual characters
   } else {
     if (input.length()) {
