@@ -77,6 +77,30 @@ void ESPTelnet::println(unsigned char b, int base){
 
 /* ------------------------------------------------- */
 
+void ESPTelnet::print(unsigned int n, int base){
+  client.print(n,base); 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::println(unsigned int n, int base){
+  client.println(n,base); 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::print(int n, int base){
+  client.print(n,base); 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::println(int n, int base){
+  client.println(n,base); 
+}
+
+/* ------------------------------------------------- */
+
 void ESPTelnet::print(const Printable& x){
   client.print(x); 
 }

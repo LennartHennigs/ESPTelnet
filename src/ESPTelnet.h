@@ -20,6 +20,10 @@ class ESPTelnet : public ESPTelnetBase {
     void println(const char c);
     void print(unsigned char b, int base);
     void println(unsigned char b, int base);
+    void print(int n, int base);
+    void println(int n, int base);
+    void print(unsigned int n, int base);
+    void println(unsigned int n, int base);
     void print(const Printable& x);
     void println(const Printable& x);
     void println();
