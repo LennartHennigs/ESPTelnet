@@ -24,6 +24,8 @@ class ESPTelnet : public ESPTelnetBase {
     void println(unsigned char b, int base = DEC);
     void print(int n, int base);
     void println(int n, int base);
+    void print(unsigned int n, int base = DEC);
+    void println(unsigned int n, int base = DEC);
     void print(const Printable& x);
     void println(const Printable& x);
     void println();
