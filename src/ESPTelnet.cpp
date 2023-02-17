@@ -99,12 +99,34 @@ void ESPTelnet::println(const Printable& x) {
   if (client && isClientConnected(client)) {
     client.println(x);
   }
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::print(unsigned int n, int base){
+  client.print(n,base); 
 }
 
 /* ------------------------------------------------- */
 
-size_t ESPTelnet::printf(const char *format, ...)
-{
+void ESPTelnet::println(unsigned int n, int base){
+  client.println(n,base); 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::print(int n, int base){
+  client.print(n,base); 
+}
+
+/* ------------------------------------------------- */
+
+void ESPTelnet::println(int n, int base){
+  client.println(n,base); 
+}
+
+/* ------------------------------------------------- */
+
+size_t ESPTelnet::printf(const char *format, ...) {
   int len = 0;
   if (client && isClientConnected(client)) {
     char loc_buf[64];

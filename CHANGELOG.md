@@ -4,10 +4,12 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
+- added ANSI escape code library
+
 ## [2.0.0] - 2022-11-21
 
 - added abstract base class and refactored code
-- implemented `ESPTelnet` and a seprate stream class `ESPTelnetStream`
+- implemented `ESPTelnet` and a separate stream class `ESPTelnetStream`
 - added [ESPTelnetStreamExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetStreamExample/TelnetStreamExample.ino)
 - updated `README.md` and added Stream descriptions
 - fixed bug [#30](https://github.com/LennartHennigs/ESPTelnet/issues/30)

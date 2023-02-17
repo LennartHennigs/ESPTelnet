@@ -10,17 +10,15 @@ ESPTelnetBase::ESPTelnetBase() {
 
 bool ESPTelnetBase::begin(uint16_t port /* = 23 */, bool checkConnection /* = true */) {
   ip = "";
-  // connected to WiFi or is ESP in AP mode?
-
-  if (!checkConnection || (WiFi.status() == WL_CONNECTED || _isIPSet(WiFi.softAPIP()))) {
+  if (checkConnection) {
+    // connected to WiFi or is ESP in AP mode?
+    if (WiFi.status() != WL_CONNECTED && !_isIPSet(WiFi.softAPIP())) return false;
+  }
     server_port = port;
     server = TCPServer(port);
     server.begin();
     server.setNoDelay(true);
     return true;
-  } else {
-    return false;
-  }
 }
 
 /* ------------------------------------------------- */
@@ -119,11 +117,11 @@ void ESPTelnetBase::emptyClientStream() {
 /* ------------------------------------------------- */
 
 void ESPTelnetBase::disconnectClient() {
-    emptyClientStream();
-    client.stop();
-    if (on_disconnect != NULL) on_disconnect(ip);
-    isConnected = false;
-    ip = "";
+  emptyClientStream();
+  client.stop();
+  if (on_disconnect != NULL) on_disconnect(ip);
+  isConnected = false;
+  ip = "";
 }
 
 /* ------------------------------------------------- */
