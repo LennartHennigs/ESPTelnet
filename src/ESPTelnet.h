@@ -4,8 +4,6 @@
 #ifndef ESPTelnet_h
 #define ESPTelnet_h
 
-#define DEC 10
-
 /* ------------------------------------------------- */
 
 #include "ESPTelnetBase.h"
@@ -20,12 +18,12 @@ class ESPTelnet : public ESPTelnetBase {
     void println(const String &str);
     void print(const char c);
     void println(const char c);
-    void print(unsigned char b, int base = DEC);
-    void println(unsigned char b, int base = DEC);
+    void print(unsigned char b);
+    void println(unsigned char b);
     void print(int n, int base);
     void println(int n, int base);
-    void print(unsigned int n, int base = DEC);
-    void println(unsigned int n, int base = DEC);
+    void print(unsigned int n);
+    void println(unsigned int n);
     void print(const Printable& x);
     void println(const Printable& x);
     void println();
