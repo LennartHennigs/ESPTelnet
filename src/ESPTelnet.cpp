@@ -1,8 +1,8 @@
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 #include "ESPTelnet.h"
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::handleInput() {
   char c = client.read();
@@ -10,15 +10,14 @@ void ESPTelnet::handleInput() {
   if (_lineMode) {
     if (c != '\n') {
       if (c >= 32 && c < 127) {
-        input += c; 
+        input += c;
       }
-    // EOL -> send input
+      // EOL -> send input
     } else {
       on_input(input);
       input = "";
     }
-    
-  // send individual characters
+    // send individual characters
   } else {
     if (input.length()) {
       on_input(input + String(c));
@@ -26,26 +25,26 @@ void ESPTelnet::handleInput() {
     } else {
       on_input(String(c));
     }
-  }  
+  }
 }
 
-/* ------------------------------------------------- */
-    
+/////////////////////////////////////////////////////////////////
+
 void ESPTelnet::print(const char c) {
   if (client && isClientConnected(client)) {
-    client.print(c); 
+    client.print(c);
   }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-void ESPTelnet::print(const String &str) {
+void ESPTelnet::print(const String& str) {
   if (client && isClientConnected(client)) {
-    client.print(str); 
+    client.print(str);
   }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(const String &str) {
   if (client && isClientConnected(client)) {
@@ -53,7 +52,7 @@ void ESPTelnet::println(const String &str) {
   }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(const char c) {
   if (client && isClientConnected(client)) {
@@ -61,7 +60,7 @@ void ESPTelnet::println(const char c) {
   }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println() {
   if (client && isClientConnected(client)) {
@@ -69,7 +68,7 @@ void ESPTelnet::println() {
   }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::print(unsigned char b, int base) {
   if (client && isClientConnected(client)) {
@@ -77,7 +76,7 @@ void ESPTelnet::print(unsigned char b, int base) {
   }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(unsigned char b, int base) {
   if (client && isClientConnected(client)) {
@@ -85,7 +84,7 @@ void ESPTelnet::println(unsigned char b, int base) {
   }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::print(const Printable& x) {
   if (client && isClientConnected(client)) {
@@ -93,38 +92,47 @@ void ESPTelnet::print(const Printable& x) {
   }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(const Printable& x) {
   if (client && isClientConnected(client)) {
     client.println(x);
   }
-
-/* ------------------------------------------------- */
-
-void ESPTelnet::print(unsigned int n, int base){
-  client.print(n,base); 
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-void ESPTelnet::println(unsigned int n, int base){
-  client.println(n,base); 
+void ESPTelnet::print(unsigned int n, int base) {
+  if (client && isClientConnected(client)) {
+    client.print(n,base); 
+  }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnet::println(unsigned int n, int base) {
+  if (client && isClientConnected(client)) {
+    client.println(n,base); 
+  }
+}
+
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::print(int n, int base){
-  client.print(n,base); 
+  if (client && isClientConnected(client)) {
+    client.print(n,base); 
+  }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(int n, int base){
-  client.println(n,base); 
+  if (client && isClientConnected(client)) {
+    client.println(n,base); 
+  }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 size_t ESPTelnet::printf(const char *format, ...) {
   int len = 0;
@@ -158,16 +166,16 @@ size_t ESPTelnet::printf(const char *format, ...) {
   return len;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 bool ESPTelnet::isLineModeSet() {
   return _lineMode;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnet::setLineMode(bool value /* = true */) {
   _lineMode = value;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
