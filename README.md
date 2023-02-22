@@ -159,7 +159,7 @@ Or download the [ZIP archive](https://github.com/lennarthennigs/ESPTelnet/zipbal
 
 MIT License
 
-Copyright (c) 2018-2021 Lennart Hennigs
+Copyright (c) 2018-2023 Lennart Hennigs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
