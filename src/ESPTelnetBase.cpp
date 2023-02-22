@@ -51,13 +51,12 @@ void ESPTelnetBase::loop() {
         return;
       }
     }
-
-    // handle input
-    if (on_input != NULL && client && client.available()) {
-      handleInput();
-    }
-    yield();
   }
+  // handle input
+  if (on_input != NULL && client && client.available()) {
+    handleInput();
+  }
+  yield();
 }
 
 /////////////////////////////////////////////////////////////////
