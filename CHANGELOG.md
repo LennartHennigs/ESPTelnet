@@ -11,7 +11,6 @@
 - added printf() altazorr as suggested in [#35](https://github.com/LennartHennigs/ESPTelnet/pull/35) by Bogdan Symchych
 - refactored and beautified code
 
-**To DO:** The `AutoConnect`example is currenty broken.
 
 ## [2.0.0] - 2022-11-21
 
