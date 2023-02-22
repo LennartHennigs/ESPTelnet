@@ -4,6 +4,8 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
+- fixed bug in the main `loop()` that stopped processing text input
+- removed compiler warnings
 - added ANSI escape code library
 - added print functions as suggested in [#37](https://github.com/LennartHennigs/ESPTelnet/pull/37) by Jan Heuer
 - added printf() altazorr as suggested in [#35](https://github.com/LennartHennigs/ESPTelnet/pull/35) by Bogdan Symchych
