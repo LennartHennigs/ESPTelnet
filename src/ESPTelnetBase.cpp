@@ -38,7 +38,7 @@ void ESPTelnetBase::loop() {
         return;
       }
 
-      TCPClient newClient = server.available();
+      TCPClient newClient = server.accept();
       attemptIp = newClient.remoteIP().toString();
       // yes, reconnected
       if (attemptIp == ip) {
@@ -63,7 +63,7 @@ void ESPTelnetBase::loop() {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::connectClient(bool triggerEvent) {
-  client = server.available();
+  client = server.accept();
   ip = client.remoteIP().toString();
   isConnected = true;
   client.setNoDelay(true);
