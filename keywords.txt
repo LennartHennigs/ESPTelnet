@@ -22,3 +22,4 @@ read	KEYWORD2
 peek	KEYWORD2
 flush	KEYWORD2
 write	KEYWORD2
+printf	KEYWORD2
