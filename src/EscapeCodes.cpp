@@ -5,43 +5,43 @@
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::cls() {
-  return preamble() + "1J";
+  return prefix() + "1J";
 }
 
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::home() {
-  return preamble() + "H";
+  return prefix() + "H";
 }
 
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::cursorXY(int x, int y) {
-  return preamble() + String(y) + ";" + String(x) + "H";
+  return prefix() + String(y) + ";" + String(x) + "H";
 }
 
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::cursorUp(int x) {
-  return preambleAndNumberAndValue(x, 'A');
+  return prefixAndNumberAndValue(x, 'A');
 }
 
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::cursorDown(int x) {
-  return preambleAndNumberAndValue(x, 'B');
+  return prefixAndNumberAndValue(x, 'B');
 }
 
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::cursorRight(int x) {
-  return preambleAndNumberAndValue(x,'C');
+  return prefixAndNumberAndValue(x, 'C');
 }
 
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::cursorLeft(int x) {
-  return preambleAndNumberAndValue(x,'D');
+  return prefixAndNumberAndValue(x, 'D');
 }
 
 /////////////////////////////////////////////////////////////////
@@ -59,13 +59,13 @@ String EscapeCodes::setFG(int color) {
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::clearLine() {
-  return preamble() + "2K";
+  return prefix() + "2K";
 }
 
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::clearEoLine() {
-  return preamble() + "K";
+  return prefix() + "K";
 }
 
 /////////////////////////////////////////////////////////////////
@@ -98,11 +98,10 @@ String EscapeCodes::inverse(String str) {
   return setAttribute(7) + str + setAttribute(27);
 }
 
-
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::showCursor(bool blink) {
-  return preamble() + "?25" + (blink ? 'h' : 'l');
+  return prefix() + "?25" + (blink ? 'h' : 'l');
 }
 
 /////////////////////////////////////////////////////////////////
@@ -113,20 +112,20 @@ String EscapeCodes::reset() {
 
 /////////////////////////////////////////////////////////////////
 
-String EscapeCodes::preamble() {
+String EscapeCodes::prefix() {
   return String("\033[");
 }
 
 /////////////////////////////////////////////////////////////////
 
-String EscapeCodes::preambleAndNumberAndValue(int x, char v) {
-  return preamble() + String(x) + String(v);
+String EscapeCodes::prefixAndNumberAndValue(int x, char v) {
+  return prefix() + String(x) + String(v);
 }
 
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::setAttribute(int a) {
-  return preambleAndNumberAndValue(a, 'm');
+  return prefixAndNumberAndValue(a, 'm');
 }
 
 /////////////////////////////////////////////////////////////////
