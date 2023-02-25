@@ -15,6 +15,7 @@
 #define TELNET_WILL 0xfb  // 251
 
 #define TELNET_OPT_ECHO 1    // https://www.rfc-editor.org/rfc/rfc857
+#define TELNET_SUPPRESS_GO_AHEAD 3  // http://pcmicro.com/netfoss/RFC858.html
 #define TELNET_OPT_TIMING 6  // https://www.rfc-editor.org/rfc/rfc860
 /* ------------------------------------------------- */
 
@@ -32,6 +33,9 @@ void ESPTelnet::manageRequest() {
       break;
 
     case TELNET_DONT:
+      this->print(TELNET_IAC);
+      this->print(TELNET_WONT);
+      this->print(opt);
       break;
   }
 }
