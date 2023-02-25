@@ -6,9 +6,9 @@
 /* ------------------------------------------------- */
 
 #define SERIAL_SPEED 9600
+// AP-PASSWORD 12345678
 
 /* ------------------------------------------------- */
-
 ESPTelnet   telnet;
 IPAddress   ip;
 WebServer   server;

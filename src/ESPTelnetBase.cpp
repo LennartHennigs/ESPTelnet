@@ -1,12 +1,14 @@
+/////////////////////////////////////////////////////////////////
+
 #include "ESPTelnetBase.h"
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-ESPTelnetBase::ESPTelnetBase() { 
-  isConnected = false; 
+ESPTelnetBase::ESPTelnetBase() {
+  isConnected = false;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 bool ESPTelnetBase::begin(uint16_t port /* = 23 */, bool checkConnection /* = true */) {
   ip = "";
@@ -14,57 +16,71 @@ bool ESPTelnetBase::begin(uint16_t port /* = 23 */, bool checkConnection /* = tr
     // connected to WiFi or is ESP in AP mode?
     if (WiFi.status() != WL_CONNECTED && !_isIPSet(WiFi.softAPIP())) return false;
   }
-    server_port = port;
-    server = TCPServer(port);
-    server.begin();
-    server.setNoDelay(true);
-    return true;
+  server_port = port;
+  server = TCPServer(port);
+  server.begin();
+  server.setNoDelay(true);
+  return true;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::loop() {
-  //check if there are any new clients
+  // is there a new client wating?
   if (server.hasClient()) {
-    isConnected = true;
-    // already a connection?
-    if (client && client.connected() && isClientConnected(client)) {
-      TCPClient newClient = server.available();
-      attemptIp  = newClient.remoteIP().toString();
-      // reconnected?
-      if (attemptIp == ip) {
-        if (on_reconnect != NULL) on_reconnect(ip);
+    // no exisintg connection?
+    if (!isConnected) {
+      connectClient();
+      // check if this a reconnection attempt
+    } else {
+      if (!isClientConnected(client)) {
         disconnectClient();
-        client = newClient;
-        emptyClientStream();
-      // disconnect the second connection
-      } else {
-        if (on_connection_attempt != NULL) on_connection_attempt(ip);
         return;
       }
-    // first connection
-    } else {
-      client = server.available();
-      ip = client.remoteIP().toString();
-      if (on_connect != NULL) on_connect(ip);
-      client.setNoDelay(true);
-      emptyClientStream();
+
+      TCPClient newClient = server.accept();
+      attemptIp = newClient.remoteIP().toString();
+      // yes, reconnected
+      if (attemptIp == ip) {
+        disconnectClient(false);
+        connectClient(false);
+        if (on_reconnect != NULL) on_reconnect(attemptIp);
+        // no, throw error
+      } else {
+        if (on_connection_attempt != NULL) on_connection_attempt(attemptIp);
+        return;
+      }
     }
   }
-  // check whether to disconnect
-  if (isConnected) {
-    if(!(client || isClientConnected(client))) {
-        disconnectClient();
-    } 
-    // gather input
-    if (on_input != NULL && client && client.available()) {
-        handleInput();
-    }
+  // handle input
+  if (on_input != NULL && client && client.available()) {
+    handleInput();
   }
   yield();
-} 
+}
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::connectClient(bool triggerEvent) {
+  client = server.accept();
+  ip = client.remoteIP().toString();
+  isConnected = true;
+  client.setNoDelay(true);
+  if (triggerEvent && on_connect != NULL) on_connect(ip);
+  emptyClientStream();
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::disconnectClient(bool triggerEvent) {
+  emptyClientStream();
+  client.stop();
+  if (triggerEvent && on_disconnect != NULL) on_disconnect(ip);
+  ip = "";
+  isConnected = false;
+}
+
+/////////////////////////////////////////////////////////////////
 // helper method, as ESP32's IPAddress has no isSet() method
 
 bool ESPTelnetBase::_isIPSet(IPAddress ip) {
@@ -76,13 +92,13 @@ bool ESPTelnetBase::_isIPSet(IPAddress ip) {
 #endif
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::stop() { 
-  server.stop(); 
+void ESPTelnetBase::stop() {
+  server.stop();
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 bool ESPTelnetBase::isClientConnected(TCPClient &client) {
 #if defined(ARDUINO_ARCH_ESP8266)
@@ -92,66 +108,56 @@ bool ESPTelnetBase::isClientConnected(TCPClient &client) {
 #endif
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-String ESPTelnetBase::getIP() const { 
-  return ip; 
+String ESPTelnetBase::getIP() const {
+  return ip;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-String ESPTelnetBase::getLastAttemptIP() const { 
-  return attemptIp; 
+String ESPTelnetBase::getLastAttemptIP() const {
+  return attemptIp;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::emptyClientStream() {
   client.flush();
   delay(50);
   while (client.available()) {
     client.read();
-  }        
+  }
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::disconnectClient() {
-  emptyClientStream();
-  client.stop();
-  if (on_disconnect != NULL) on_disconnect(ip);
-  isConnected = false;
-  ip = "";
+void ESPTelnetBase::onConnect(CallbackFunction f) {
+  on_connect = f;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::onConnect(CallbackFunction f) { 
-  on_connect = f; 
+void ESPTelnetBase::onConnectionAttempt(CallbackFunction f) {
+  on_connection_attempt = f;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::onConnectionAttempt(CallbackFunction f)  { 
-  on_connection_attempt = f; 
+void ESPTelnetBase::onReconnect(CallbackFunction f) {
+  on_reconnect = f;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::onReconnect(CallbackFunction f) { 
-  on_reconnect = f; 
+void ESPTelnetBase::onDisconnect(CallbackFunction f) {
+  on_disconnect = f;
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::onDisconnect(CallbackFunction f) { 
-  on_disconnect = f; 
+void ESPTelnetBase::onInputReceived(CallbackFunction f) {
+  on_input = f;
 }
 
-/* ------------------------------------------------- */
-
-void ESPTelnetBase::onInputReceived(CallbackFunction f) { 
-  on_input = f; 
-}
-
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
