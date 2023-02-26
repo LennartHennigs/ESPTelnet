@@ -6,19 +6,20 @@
 
 /////////////////////////////////////////////////////////////////
 
-#define ASCII_BELL      7
+#define ASCII_BELL 7
 #define ASCII_BACKSPACE 8
-#define ASCII_LF        10
-#define ASCII_CR        13
+#define ASCII_LF 10
+#define ASCII_CR 13
+#define TIMEOUT_INTERVAL_MS 1000
 
 /////////////////////////////////////////////////////////////////
 
 #include <Arduino.h>
 #if defined(ARDUINO_ARCH_ESP32)
-  #include <WiFi.h>
+#include <WiFi.h>
 #elif defined(ARDUINO_ARCH_ESP8266)
-  #include <ESP8266WiFi.h>
-  #include <ESP8266WebServer.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266WiFi.h>
 #endif
 
 /////////////////////////////////////////////////////////////////
@@ -32,49 +33,54 @@ using TCPServer = WiFiServer;
 
 /////////////////////////////////////////////////////////////////
 class ESPTelnetBase {
-  typedef void (*CallbackFunction) (String str);
+  typedef void (*CallbackFunction)(String str);
 
-  public:
-    ESPTelnetBase();
+ public:
+  ESPTelnetBase();
 
-    bool begin(uint16_t port = 23, bool checkConnection = true);
-    void stop();
-    void loop();
+  bool begin(uint16_t port = 23, bool checkConnection = true);
+  void stop();
+  void loop();
 
-    bool isClientConnected(TCPClient &client);
-    void disconnectClient(bool triggerEvent = true);
+  bool isClientConnected(TCPClient &client);
+  void disconnectClient(bool triggerEvent = true);
 
-    String getIP() const;
-    String getLastAttemptIP() const;
+  void setTimeoutInterval(int interval);
+  int getTimeoutInterval();
+  String getIP() const;
+  String getLastAttemptIP() const;
 
-    void onConnect(CallbackFunction f);
-    void onConnectionAttempt(CallbackFunction f);
-    void onReconnect(CallbackFunction f);
-    void onDisconnect(CallbackFunction f);
-    void onInputReceived(CallbackFunction f);
+  void onConnect(CallbackFunction f);
+  void onConnectionAttempt(CallbackFunction f);
+  void onReconnect(CallbackFunction f);
+  void onDisconnect(CallbackFunction f);
+  void onInputReceived(CallbackFunction f);
 
-  protected:
-    // must be initalized here
-    TCPServer server = TCPServer(23);
-    TCPClient client;
-    boolean isConnected = false;    // needed because I cannot do "client = NULL"
-    String ip = "";
-    String attemptIp;
-    String input = "";
-    uint16_t server_port = 23;
+ protected:
+  // must be initalized here
+  TCPServer server = TCPServer(23);
+  TCPClient client;
+  boolean isConnected = false;  // needed because I cannot do "client = NULL"
+  String ip = "";
+  String attemptIp;
+  String input = "";
 
-    CallbackFunction on_connect = NULL;
-    CallbackFunction on_reconnect  = NULL;
-    CallbackFunction on_disconnect = NULL;
-    CallbackFunction on_connection_attempt = NULL;
-    CallbackFunction on_input  = NULL;
+  uint16_t server_port = 23;
+  int timeout_interval = TIMEOUT_INTERVAL_MS;
+  long last_status_check;
 
-    void emptyClientStream();
-    bool _isIPSet(IPAddress ip);
-    virtual void handleInput() = 0;   
-  
-  private:
-    void connectClient(bool triggerEvent = true);
+  CallbackFunction on_connect = NULL;
+  CallbackFunction on_reconnect = NULL;
+  CallbackFunction on_disconnect = NULL;
+  CallbackFunction on_connection_attempt = NULL;
+  CallbackFunction on_input = NULL;
+
+  void emptyClientStream();
+  bool _isIPSet(IPAddress ip);
+  virtual void handleInput() = 0;
+
+ private:
+  void connectClient(bool triggerEvent = true);
 };
 
 /////////////////////////////////////////////////////////////////

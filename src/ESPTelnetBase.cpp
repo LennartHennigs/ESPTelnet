@@ -52,11 +52,31 @@ void ESPTelnetBase::loop() {
       }
     }
   }
-  // handle input
+  // frequently check if client is still alive
+  if (isConnected) {
+    long now = millis();
+    if (now - last_status_check >= timeout_interval) {
+      last_status_check = now;
+      if (client.status() == 0) disconnectClient();
+    }
+  }
+  // check for input
   if (on_input != NULL && client && client.available()) {
     handleInput();
   }
   yield();
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::setTimeoutInterval(int interval) {
+  timeout_interval = interval;
+}
+
+/////////////////////////////////////////////////////////////////
+
+int ESPTelnetBase::getTimeoutInterval() {
+  return timeout_interval;
 }
 
 /////////////////////////////////////////////////////////////////
