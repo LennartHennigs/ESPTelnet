@@ -23,3 +23,5 @@ peek	KEYWORD2
 flush	KEYWORD2
 write	KEYWORD2
 printf	KEYWORD2
+getTimeoutInterval	KEYWORD2
+setTimeoutInterval	KEYWORD2
