@@ -8,46 +8,63 @@
 #define SHOW_ASCII true
 
 // http://pcmicro.com/netfoss/telnet.html
-#define TELNET_IAC 0xff   // 255
-#define TELNET_DONT 0xfe  // 254
-#define TELNET_DO 0xfd    // 253
-#define TELNET_WONT 0xfc  // 252
-#define TELNET_WILL 0xfb  // 251
+#define TELNET_IAC 255
+#define TELNET_DONT 254
+#define TELNET_DO 253
+#define TELNET_WONT 252
+#define TELNET_WILL 251
+#define TELNET_AYT 246 
+#define TELNET_AYT_ANSWER "YES!"
 
 #define TELNET_OPT_ECHO 1    // https://www.rfc-editor.org/rfc/rfc857
-#define TELNET_SUPPRESS_GO_AHEAD 3  // http://pcmicro.com/netfoss/RFC858.html
-#define TELNET_OPT_TIMING 6  // https://www.rfc-editor.org/rfc/rfc860
-/* ------------------------------------------------- */
+#define TELNET_OPT_BINARY 2    // https://www.rfc-editor.org/rfc/rfc857
+#define TELNET_OPT_SUPPRESS_GO_AHEAD 3  // http://pcmicro.com/netfoss/RFC858.html
+#define TELNET_OPT_STATUS 5  // http://pcmicro.com/netfoss/RFC858.html
+#define TELNET_OPT_TIMING_MARK 6  // https://www.rfc-editor.org/rfc/rfc860
+#define TELNET_OPT_TIMING_MARK 6  // https://www.rfc-editor.org/rfc/rfc860
 
-void ESPTelnet::manageRequest() {
-  char cmd = client.read();
-  char opt = client.read();
-  Serial.print(int(cmd));
-  Serial.print(" - ");
-  Serial.println(int(opt));
-  switch (cmd) {
-    case TELNET_DO:
-      this->print(TELNET_IAC);
-      this->print(TELNET_WONT);
-      this->print(opt);
-      break;
+/////////////////////////////////////////////////////////////////
 
-    case TELNET_DONT:
-      this->print(TELNET_IAC);
-      this->print(TELNET_WONT);
-      this->print(opt);
-      break;
-  }
+bool isValidCommand(char c) {
+  return (c == TELNET_DONT || c == TELNET_DO || c == TELNET_WILL || c == TELNET_WONT || c == TELNET_AYT);
 }
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
+
+String cmd2str(int c) {
+  if (c == TELNET_DONT) return "DONT";
+  if (c == TELNET_WONT) return "WONT";
+  if (c == TELNET_DO) return "DO";
+  if (c == TELNET_WILL) return "WILL";
+  if (c == TELNET_AYT) return "AYT";
+
+  return "?";
+}
+/////////////////////////////////////////////////////////////////
+
 
 void ESPTelnet::handleInput() {
   char c = client.read();
-  // !!!
+
   if (c == TELNET_IAC) {
-    manageRequest();
-    return;
+    // read command
+    char cmd = client.read();
+    if (isValidCommand(cmd)) {
+      Serial.print(cmd2str(cmd));
+      if (cmd == 246) {
+        Serial.println();
+        client.println(TELNET_AYT_ANSWER);
+        return;
+      }
+      // read the option
+      char option = client.read();
+      Serial.print(" ");
+      Serial.println(option, DEC);
+//      on_telnet_option(cmd, option);
+    } else {
+      Serial.print("invalid command: ");
+      Serial.println(cmd, DEC);
+    } 
   }
   // collect string
   if (_lineMode) {
