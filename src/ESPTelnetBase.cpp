@@ -57,7 +57,7 @@ void ESPTelnetBase::loop() {
     long now = millis();
     if (now - last_status_check >= timeout_interval) {
       last_status_check = now;
-      if (client.status() == 0) disconnectClient();
+      if (!isClientConnected(client)) disconnectClient();
     }
   }
   // check for input
