@@ -53,12 +53,8 @@ void ESPTelnetBase::loop() {
     }
   }
   // frequently check if client is still alive
-  if (isConnected) {
-    long now = millis();
-    if (now - last_status_check >= timeout_interval) {
-      last_status_check = now;
-      if (!isClientConnected(client)) disconnectClient();
-    }
+  if (isConnected && doKeepAliveCheckNow() && !isClientConnected(client)) {
+    disconnectClient();
   }
   // check for input
   if (on_input != NULL && client && client.available()) {
@@ -69,14 +65,25 @@ void ESPTelnetBase::loop() {
 
 /////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::setTimeoutInterval(int interval) {
-  timeout_interval = interval;
+bool ESPTelnetBase::doKeepAliveCheckNow() {
+  long now = millis();
+  if (now - last_status_check >= keep_alive_interval) {
+    last_status_check = now;
+    return true;
+  }
+  return false;
 }
 
 /////////////////////////////////////////////////////////////////
 
-int ESPTelnetBase::getTimeoutInterval() {
-  return timeout_interval;
+void ESPTelnetBase::setKeepAliveInterval(int interval) {
+  keep_alive_interval = interval;
+}
+
+/////////////////////////////////////////////////////////////////
+
+int ESPTelnetBase::getKeepAliveInterval() {
+  return keep_alive_interval;
 }
 
 /////////////////////////////////////////////////////////////////

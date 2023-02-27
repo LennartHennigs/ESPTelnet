@@ -10,7 +10,7 @@
 #define ASCII_BACKSPACE 8
 #define ASCII_LF 10
 #define ASCII_CR 13
-#define TIMEOUT_INTERVAL_MS 1000
+#define KEEP_ALIVE_INTERVAL_MS 1000
 
 /////////////////////////////////////////////////////////////////
 
@@ -45,8 +45,10 @@ class ESPTelnetBase {
   bool isClientConnected(TCPClient &client);
   void disconnectClient(bool triggerEvent = true);
 
-  void setTimeoutInterval(int interval);
-  int getTimeoutInterval();
+  void setKeepAliveInterval(int interval);
+  int getKeepAliveInterval();
+  bool doKeepAliveCheckNow();
+  
   String getIP() const;
   String getLastAttemptIP() const;
 
@@ -66,7 +68,7 @@ class ESPTelnetBase {
   String input = "";
 
   uint16_t server_port = 23;
-  int timeout_interval = TIMEOUT_INTERVAL_MS;
+  int keep_alive_interval = KEEP_ALIVE_INTERVAL_MS;
   long last_status_check;
 
   CallbackFunction on_connect = NULL;
