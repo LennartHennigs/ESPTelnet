@@ -48,7 +48,7 @@ class ESPTelnetBase {
   void setKeepAliveInterval(int interval);
   int getKeepAliveInterval();
   bool doKeepAliveCheckNow();
-  
+
   String getIP() const;
   String getLastAttemptIP() const;
 
@@ -59,8 +59,7 @@ class ESPTelnetBase {
   void onInputReceived(CallbackFunction f);
 
  protected:
-  // must be initalized here
-  TCPServer server = TCPServer(23);
+  TCPServer server = TCPServer(23);  // must be initalized here
   TCPClient client;
   boolean isConnected = false;  // needed because I cannot do "client = NULL"
   String ip = "";
