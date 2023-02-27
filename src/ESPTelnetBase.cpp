@@ -5,7 +5,7 @@
 /////////////////////////////////////////////////////////////////
 
 ESPTelnetBase::ESPTelnetBase() {
-  isConnected = false;
+  connected = false;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -29,15 +29,13 @@ void ESPTelnetBase::loop() {
   // is there a new client wating?
   if (server.hasClient()) {
     // no exisintg connection?
-    if (!isConnected) {
+    if (!isConnected()) {
       connectClient();
-      // check if this a reconnection attempt
     } else {
-      if (!isClientConnected(client)) {
+      if (!isConnected()) {
         disconnectClient();
         return;
       }
-
       TCPClient newClient = server.accept();
       attemptIp = newClient.remoteIP().toString();
       // yes, reconnected
@@ -53,7 +51,7 @@ void ESPTelnetBase::loop() {
     }
   }
   // frequently check if client is still alive
-  if (isConnected && doKeepAliveCheckNow() && !isClientConnected(client)) {
+  if (doKeepAliveCheckNow() && !isConnected()) {
     disconnectClient();
   }
   // check for input
@@ -91,20 +89,22 @@ int ESPTelnetBase::getKeepAliveInterval() {
 void ESPTelnetBase::connectClient(bool triggerEvent) {
   client = server.accept();
   ip = client.remoteIP().toString();
-  isConnected = true;
   client.setNoDelay(true);
   if (triggerEvent && on_connect != NULL) on_connect(ip);
   emptyClientStream();
+  connected = true;
 }
 
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::disconnectClient(bool triggerEvent) {
-  emptyClientStream();
-  client.stop();
-  if (triggerEvent && on_disconnect != NULL) on_disconnect(ip);
-  ip = "";
-  isConnected = false;
+  if (connected) {
+    emptyClientStream();
+    client.stop();
+    if (triggerEvent && on_disconnect != NULL) on_disconnect(ip);
+    ip = "";
+    connected = false;
+  }
 }
 
 /////////////////////////////////////////////////////////////////
@@ -127,12 +127,14 @@ void ESPTelnetBase::stop() {
 
 /////////////////////////////////////////////////////////////////
 
-bool ESPTelnetBase::isClientConnected(TCPClient &client) {
+bool ESPTelnetBase::isConnected() {
+  bool res;
 #if defined(ARDUINO_ARCH_ESP8266)
-  return client.status() == ESTABLISHED;
+  res = client.status() == ESTABLISHED;
 #elif defined(ARDUINO_ARCH_ESP32)
-  return client.connected();
+  res = client.connected();
 #endif
+  return res;
 }
 
 /////////////////////////////////////////////////////////////////

@@ -12,7 +12,7 @@ void ESPTelnetStream::handleInput() {
 /////////////////////////////////////////////////////////////////
 
 int ESPTelnetStream::available() {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     return client.available();
   } else {
     return 0;
@@ -22,7 +22,7 @@ int ESPTelnetStream::available() {
 /////////////////////////////////////////////////////////////////
 
 int ESPTelnetStream::read() {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     return client.read();
   } else {
     return 0;
@@ -32,7 +32,7 @@ int ESPTelnetStream::read() {
 /////////////////////////////////////////////////////////////////
 
 int ESPTelnetStream::peek() {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     return client.peek();
   } else {
     return 0;
@@ -42,7 +42,7 @@ int ESPTelnetStream::peek() {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetStream::flush() {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.flush();
   }
 }
@@ -50,7 +50,7 @@ void ESPTelnetStream::flush() {
 /////////////////////////////////////////////////////////////////
 
 size_t ESPTelnetStream::write(uint8_t data) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     return client.write(data);
   } else {
     return 0;

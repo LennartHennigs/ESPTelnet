@@ -42,7 +42,7 @@ class ESPTelnetBase {
   void stop();
   void loop();
 
-  bool isClientConnected(TCPClient &client);
+  bool isConnected();
   void disconnectClient(bool triggerEvent = true);
 
   void setKeepAliveInterval(int interval);
@@ -61,7 +61,7 @@ class ESPTelnetBase {
  protected:
   TCPServer server = TCPServer(23);  // must be initalized here
   TCPClient client;
-  boolean isConnected = false;  // needed because I cannot do "client = NULL"
+  bool connected = false;  // needed because I cannot do "client = NULL"
   String ip = "";
   String attemptIp;
   String input = "";

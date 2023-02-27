@@ -4,6 +4,7 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
+- simplified and removed parameter from `isClientConnected(TCPClient &client)` to `isConnected()` (BREAKING CHANGE)
 - the `loop()`now checks periodically (every second) whether the client "sliently" disconnected, interval for this can be custonmized
 - fixed bug in the main `loop()` that stopped processing text input
 - removed compiler warnings
