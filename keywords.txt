@@ -13,7 +13,7 @@ onReconnect	KEYWORD2
 onDisconnect	KEYWORD2
 onInputReceived	KEYWORD2
 emptyClientStream	KEYWORD2
-isClientConnected	KEYWORD2
+isConnected	KEYWORD2
 isLineModeSet	KEYWORD2
 setLineMode	KEYWORD2
 ESPTelnetStream	KEYWORD1
