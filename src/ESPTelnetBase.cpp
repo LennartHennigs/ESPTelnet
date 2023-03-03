@@ -41,7 +41,6 @@ void ESPTelnetBase::loop() {
       // yes, reconnected
       if (attemptIp == ip) {
         disconnectClient(false);
-        client = newClient;
         connectClient(newClient, false);
         if (on_reconnect != NULL) on_reconnect(attemptIp);
         // no, throw error
