@@ -29,7 +29,8 @@ void ESPTelnetBase::loop() {
   // is there a new client wating?
   if (server.hasClient()) {
     // no exisintg connection?
-    if (!isConnected()) {
+    if (!connected) {
+      client = server.accept();
       connectClient();
     } else {
       if (!isConnected()) {
@@ -41,22 +42,23 @@ void ESPTelnetBase::loop() {
       // yes, reconnected
       if (attemptIp == ip) {
         disconnectClient(false);
+        client = newClient;
         connectClient(false);
         if (on_reconnect != NULL) on_reconnect(attemptIp);
         // no, throw error
       } else {
         if (on_connection_attempt != NULL) on_connection_attempt(attemptIp);
-        return;
       }
     }
-  }
-  // frequently check if client is still alive
-  if (doKeepAliveCheckNow() && !isConnected()) {
-    disconnectClient();
-  }
-  // check for input
-  if (on_input != NULL && client && client.available()) {
-    handleInput();
+  } else {
+    // frequently check if client is still alive
+    if (doKeepAliveCheckNow() && connected && !isConnected()) {
+      disconnectClient();
+    }
+    // check for input
+    if (on_input != NULL && client && client.available()) {
+      handleInput();
+    }
   }
   yield();
 }
@@ -87,7 +89,6 @@ int ESPTelnetBase::getKeepAliveInterval() {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::connectClient(bool triggerEvent) {
-  client = server.accept();
   ip = client.remoteIP().toString();
   client.setNoDelay(true);
   if (triggerEvent && on_connect != NULL) on_connect(ip);
@@ -98,13 +99,11 @@ void ESPTelnetBase::connectClient(bool triggerEvent) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::disconnectClient(bool triggerEvent) {
-  if (connected) {
-    emptyClientStream();
-    client.stop();
-    if (triggerEvent && on_disconnect != NULL) on_disconnect(ip);
-    ip = "";
-    connected = false;
-  }
+  emptyClientStream();
+  client.stop();
+  if (triggerEvent && on_disconnect != NULL) on_disconnect(ip);
+  ip = "";
+  connected = false;
 }
 
 /////////////////////////////////////////////////////////////////
