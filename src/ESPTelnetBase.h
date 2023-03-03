@@ -81,7 +81,7 @@ class ESPTelnetBase {
   virtual void handleInput() = 0;
 
  private:
-  void connectClient(bool triggerEvent = true);
+  void connectClient(TCPClient c, bool triggerEvent = true);
 };
 
 /////////////////////////////////////////////////////////////////

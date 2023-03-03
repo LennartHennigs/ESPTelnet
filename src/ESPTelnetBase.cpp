@@ -30,8 +30,7 @@ void ESPTelnetBase::loop() {
   if (server.hasClient()) {
     // no exisintg connection?
     if (!connected) {
-      client = server.accept();
-      connectClient();
+      connectClient(server.accept());
     } else {
       if (!isConnected()) {
         disconnectClient();
@@ -43,7 +42,7 @@ void ESPTelnetBase::loop() {
       if (attemptIp == ip) {
         disconnectClient(false);
         client = newClient;
-        connectClient(false);
+        connectClient(newClient, false);
         if (on_reconnect != NULL) on_reconnect(attemptIp);
         // no, throw error
       } else {
@@ -88,7 +87,8 @@ int ESPTelnetBase::getKeepAliveInterval() {
 
 /////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::connectClient(bool triggerEvent) {
+void ESPTelnetBase::connectClient(WiFiClient c, bool triggerEvent) {
+  client = c;
   ip = client.remoteIP().toString();
   client.setNoDelay(true);
   if (triggerEvent && on_connect != NULL) on_connect(ip);
