@@ -21,18 +21,18 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 ### Starting / Stopping
 
 * Use the `begin()` and `stop()` to start or stop the telnet server.
-* It needs an active WiFi connection, or the ESP needs to be in softAP mode
-* You can set a custom port (other than 23) via the `begin()` function
+* It needs an active WiFi connection, or the ESP needs to be in softAP mode.
+* You can set a custom port (other than 23) via the `begin()` function.
 * If you don't want the client to check for a WiFi connection (i.e. you use an Ethernet adapter) you can bypass the wifi connection check with the second parameter `begin(23, false)`.
-* The telnet server only allows you to connect a single client to it
-* You can use `getIP()` to get the connected client's IP address
-* You can manually disconnect the client via `disconnectClient()`
+* The telnet server only allows you to connect a single client to it.
+* You can use `getIP()` to get the connected client's IP address.
+* You can manually disconnect the client via `disconnectClient()`.
 * The server detects whether a client has disconnected. It checks periodically (default: every 1000ms). 🆕
 * You can define the interval to check via `setKeepAliveInterval(int ms)`. 🆕
 
 ### Callback Handlers
 
-* The library uses callback handlers to notify you of different telnet events
+* The library uses callback handlers to notify you of different telnet events:
   * `void onConnect(CallbackFunction f);`
   * `void onConnectionAttempt(CallbackFunction f);`
   * `void onReconnect(CallbackFunction f);`
@@ -73,16 +73,20 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 
 * A common use case is to use it for debuging remote devices, where you might not have access to Serial. Thus I added a few macros to make debugging easier:
 
-* To enable debugging you need to set `DEBUG_ON`
-  ```#define DEBUG_ON 1```
-* You can then define the output channels (serial and/or telnet)
+* To enable debugging you need to set `DEBUG_ON`:
+
+  ``` c++ 
+  #define DEBUG_ON 1
+  ```
+
+* You can then define the output channels (serial and/or telnet):
   
   ``` c++
   #define DEBUG_USE_SERIAL 1
   #define DEBUG_USE_TELNET 1
   ```
 
-* After this you can use the following macros
+* After this you can use the following macros:
   * `DEBUG_INFO` to see compilation the date & time of your sketch
   * `DEBUG_WHERE` to print where this message is located (file & line number)
   * `DEBUG_MSG(x)` to print a message
@@ -122,11 +126,20 @@ These are the constructors and the member functions the library provides:
     void loop();
     void stop();
 
-    void print(String str);
-    void print(char c);
-    void println(String str);
-    void println(char c);
+    void print(const String &str);
+    void println(const String &str);
+    void print(const char c);
+    void println(const char c);
+    void print(unsigned char b, int base);
+    void println(unsigned char b, int base);
+    void print(int n, int base);
+    void println(int n, int base);
+    void print(unsigned int n, int base);
+    void println(unsigned int n, int base);
+    void print(const Printable& x);
+    void println(const Printable& x);
     void println();
+    size_t printf(const char *format, ...);
 
     String getIP() const;
     String getLastAttemptIP() const;
