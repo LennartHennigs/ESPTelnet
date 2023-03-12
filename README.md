@@ -27,6 +27,8 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * The telnet server only allows you to connect a single client to it
 * You can use `getIP()` to get the connected client's IP address
 * You can manually disconnect the client via `disconnectClient()`
+* The server detects whether a client has disconnected. It checks periodically (default: every 1000ms). 🆕
+* You can define the interval to check via `setKeepAliveInterval(int ms)`
 
 ### Callback Handlers
 
@@ -38,8 +40,8 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
   * `void onInputReceived(CallbackFunction f);`
 
 * All callback functions need a String parameter, it contains...
-  * the input text for `onInputReceived()`
-  * the IP from the connected client is send, otherwise
+  * ...the input text for `onInputReceived()`
+  * ...the IP from the connected client is send, otherwise.
 
 ### Output and Input
 
@@ -50,9 +52,23 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 ### Using stream functions
 
 * Alternatively, you can use the `Stream` implementation of ESPTelnet.
-* This does not provide `print()` or `println()` functions, see [TelnetStreamExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetStreamExample/TelnetStreamExample.ino) for more details
-* You'll also find the class definition below
+* This does not provide `print()` or `println()` functions, see [TelnetStreamExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetStreamExample/TelnetStreamExample.ino) for more details.
+* You'll also find the class definition below.
 
+### Using ANSI Escape Sequeces 🆕
+
+* Please see [EscapeCodes.h](https://github.com/LennartHennigs/ESPTelnet/blob/master/src/EscapeCodes.h) for a list of constants and functions and take a look at the [AnsiExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/AnsiExample/AnsiExample.ino).
+* The functions of this class return Strings with ANSI escape sequences. Send these to the telnet client:
+
+  ```c++
+  telnet.print(ansi.cls());
+  telnet.print(ansi.home());
+  telnet.print(ansi.setFG(ANSI_BRIGHT_WHITE));
+  telnet.println("\nWelcome " + telnet.getIP());
+  telnet.println("(Use ^] + q  to disconnect.)");
+  telnet.print(ansi.reset());
+  ```
+  
 ### Using it to Debug Code
 
 * A common use case is to use it for debuging remote devices, where you might not have access to Serial. Thus I added a few macros to make debugging easier:
@@ -85,6 +101,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * [TelnetServerWithAutoconnect](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetServerWithAutoconnect/TelnetServerWithAutoconnect.ino) – basic example using [Autoconnect](https://github.com/Hieromon/AutoConnect) (use it for ESP266 or ESP32)
 * [DebugMacroExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/DebugMacroExample/DebugMacroExample.ino) – to see the debug macros in action
 * [TelnetStreamExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetStreamExample/TelnetStreamExample.ino) - stream example
+* [AnsiExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/AnsiExample/AnsiExample.ino) - sending ANSI escape codes
 
 ## Notes
 
@@ -101,7 +118,7 @@ These are the constructors and the member functions the library provides:
 ``` c++
     ESPTelnet();
 
-    bool begin();
+    bool begin(uint16_t port = 23, bool checkConnection = true);
     void loop();
     void stop();
 
@@ -113,14 +130,18 @@ These are the constructors and the member functions the library provides:
 
     String getIP() const;
     String getLastAttemptIP() const;
-    
+
+    bool isConnected();
+    void setKeepAliveInterval(int ms);
+    int getKeepAliveInterval();
+
     void onConnect(CallbackFunction f);
     void onConnectionAttempt(CallbackFunction f);
     void onReconnect(CallbackFunction f);
     void onDisconnect(CallbackFunction f);
     void onInputReceived(CallbackFunction f);
 
-    void disconnectClient();
+    void disconnectClient(bool triggerEvent = true);
 ```
 
 ### ESPTelnetStream Definition
@@ -128,7 +149,7 @@ These are the constructors and the member functions the library provides:
 ``` c++
     ESPTelnetStream();
 
-    bool begin();
+    bool begin(uint16_t port = 23, bool checkConnection = true);
     void loop();
     void stop();
 
@@ -141,13 +162,17 @@ These are the constructors and the member functions the library provides:
     String getIP() const;
     String getLastAttemptIP() const;
     
+    bool isConnected();
+    void setKeepAliveInterval(int ms);
+    int getKeepAliveInterval();
+
     void onConnect(CallbackFunction f);
     void onConnectionAttempt(CallbackFunction f);
     void onReconnect(CallbackFunction f);
     void onDisconnect(CallbackFunction f);
     void onInputReceived(CallbackFunction f);
 
-    void disconnectClient();
+    void disconnectClient(bool triggerEvent = true);
 ```
 
 ## Installation
