@@ -55,7 +55,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * This does not provide `print()` or `println()` functions, see [TelnetStreamExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetStreamExample/TelnetStreamExample.ino) for more details.
 * You'll also find the class definition below.
 
-### Using ANSI Escape Sequeces 🆕
+### Using ANSI Escape Sequences 🆕
 
 * Please see [EscapeCodes.h](https://github.com/LennartHennigs/ESPTelnet/blob/master/src/EscapeCodes.h) for a list of constants and functions and take a look at the [AnsiExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/AnsiExample/AnsiExample.ino).
 * The functions of this class return Strings with ANSI escape sequences. Send these to the telnet client:
