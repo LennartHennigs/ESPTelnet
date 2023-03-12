@@ -28,7 +28,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * You can use `getIP()` to get the connected client's IP address
 * You can manually disconnect the client via `disconnectClient()`
 * The server detects whether a client has disconnected. It checks periodically (default: every 1000ms). 🆕
-* You can define the interval to check via `setKeepAliveInterval(int ms)`
+* You can define the interval to check via `setKeepAliveInterval(int ms)`. 🆕
 
 ### Callback Handlers
 
@@ -68,7 +68,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
   telnet.println("(Use ^] + q  to disconnect.)");
   telnet.print(ansi.reset());
   ```
-  
+
 ### Using it to Debug Code
 
 * A common use case is to use it for debuging remote devices, where you might not have access to Serial. Thus I added a few macros to make debugging easier:
