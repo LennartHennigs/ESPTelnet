@@ -31,7 +31,7 @@ void ESPTelnet::handleInput() {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::print(const char c) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.print(c);
   }
 }
@@ -39,7 +39,7 @@ void ESPTelnet::print(const char c) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::print(const String& str) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.print(str);
   }
 }
@@ -47,7 +47,7 @@ void ESPTelnet::print(const String& str) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(const String& str) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.println(str);
   }
 }
@@ -55,7 +55,7 @@ void ESPTelnet::println(const String& str) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(const char c) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.println(c);
   }
 }
@@ -63,7 +63,7 @@ void ESPTelnet::println(const char c) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println() {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.println();
   }
 }
@@ -71,7 +71,7 @@ void ESPTelnet::println() {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::print(unsigned char b, int base) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.print(b, base);
   }
 }
@@ -79,7 +79,7 @@ void ESPTelnet::print(unsigned char b, int base) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(unsigned char b, int base) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.println(b, base);
   }
 }
@@ -87,7 +87,7 @@ void ESPTelnet::println(unsigned char b, int base) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::print(const Printable& x) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.print(x);
   }
 }
@@ -95,7 +95,7 @@ void ESPTelnet::print(const Printable& x) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(const Printable& x) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.println(x);
   }
 }
@@ -103,7 +103,7 @@ void ESPTelnet::println(const Printable& x) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::print(unsigned int n, int base) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.print(n, base);
   }
 }
@@ -111,7 +111,7 @@ void ESPTelnet::print(unsigned int n, int base) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(unsigned int n, int base) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.println(n, base);
   }
 }
@@ -119,7 +119,7 @@ void ESPTelnet::println(unsigned int n, int base) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::print(int n, int base) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.print(n, base);
   }
 }
@@ -127,7 +127,7 @@ void ESPTelnet::print(int n, int base) {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::println(int n, int base) {
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     client.println(n, base);
   }
 }
@@ -136,7 +136,7 @@ void ESPTelnet::println(int n, int base) {
 
 size_t ESPTelnet::printf(const char* format, ...) {
   int len = 0;
-  if (client && isClientConnected(client)) {
+  if (client && isConnected()) {
     char loc_buf[64];
     char* temp = loc_buf;
     va_list arg;

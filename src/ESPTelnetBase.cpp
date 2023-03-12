@@ -5,7 +5,7 @@
 /////////////////////////////////////////////////////////////////
 
 ESPTelnetBase::ESPTelnetBase() {
-  isConnected = false;
+  connected = false;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -29,45 +29,70 @@ void ESPTelnetBase::loop() {
   // is there a new client wating?
   if (server.hasClient()) {
     // no exisintg connection?
-    if (!isConnected) {
-      connectClient();
-      // check if this a reconnection attempt
+    if (!connected) {
+      connectClient(server.accept());
     } else {
-      if (!isClientConnected(client)) {
+      if (!isConnected()) {
         disconnectClient();
         return;
       }
-
       TCPClient newClient = server.accept();
       attemptIp = newClient.remoteIP().toString();
       // yes, reconnected
       if (attemptIp == ip) {
         disconnectClient(false);
-        connectClient(false);
+        connectClient(newClient, false);
         if (on_reconnect != NULL) on_reconnect(attemptIp);
         // no, throw error
       } else {
         if (on_connection_attempt != NULL) on_connection_attempt(attemptIp);
-        return;
       }
     }
-  }
-  // handle input
-  if (on_input != NULL && client && client.available()) {
-    handleInput();
+  } else {
+    // frequently check if client is still alive
+    if (doKeepAliveCheckNow() && connected && !isConnected()) {
+      disconnectClient();
+    }
+    // check for input
+    if (on_input != NULL && client && client.available()) {
+      handleInput();
+    }
   }
   yield();
 }
 
 /////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::connectClient(bool triggerEvent) {
-  client = server.accept();
+bool ESPTelnetBase::doKeepAliveCheckNow() {
+  long now = millis();
+  if (now - last_status_check >= keep_alive_interval) {
+    last_status_check = now;
+    return true;
+  }
+  return false;
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::setKeepAliveInterval(int interval) {
+  keep_alive_interval = interval;
+}
+
+/////////////////////////////////////////////////////////////////
+
+int ESPTelnetBase::getKeepAliveInterval() {
+  return keep_alive_interval;
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::connectClient(WiFiClient c, bool triggerEvent) {
+  client = c;
   ip = client.remoteIP().toString();
-  isConnected = true;
   client.setNoDelay(true);
   if (triggerEvent && on_connect != NULL) on_connect(ip);
   emptyClientStream();
+  connected = true;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -77,7 +102,7 @@ void ESPTelnetBase::disconnectClient(bool triggerEvent) {
   client.stop();
   if (triggerEvent && on_disconnect != NULL) on_disconnect(ip);
   ip = "";
-  isConnected = false;
+  connected = false;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -100,12 +125,14 @@ void ESPTelnetBase::stop() {
 
 /////////////////////////////////////////////////////////////////
 
-bool ESPTelnetBase::isClientConnected(TCPClient &client) {
+bool ESPTelnetBase::isConnected() {
+  bool res;
 #if defined(ARDUINO_ARCH_ESP8266)
-  return client.status() == ESTABLISHED;
+  res = client.status() == ESTABLISHED;
 #elif defined(ARDUINO_ARCH_ESP32)
-  return client.connected();
+  res = client.connected();
 #endif
+  return res;
 }
 
 /////////////////////////////////////////////////////////////////
