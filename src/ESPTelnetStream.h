@@ -10,7 +10,7 @@
 
 /////////////////////////////////////////////////////////////////
 
-class ESPTelnetStream : public ESPTelnetBase, Stream {
+class ESPTelnetStream : public ESPTelnetBase, public Stream {
  public:
   using ESPTelnetBase::ESPTelnetBase;
 
