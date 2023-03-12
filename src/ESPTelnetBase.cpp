@@ -74,8 +74,8 @@ bool ESPTelnetBase::doKeepAliveCheckNow() {
 
 /////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::setKeepAliveInterval(int interval) {
-  keep_alive_interval = interval;
+void ESPTelnetBase::setKeepAliveInterval(int ms) {
+  keep_alive_interval = ms;
 }
 
 /////////////////////////////////////////////////////////////////

@@ -45,7 +45,7 @@ class ESPTelnetBase {
   bool isConnected();
   void disconnectClient(bool triggerEvent = true);
 
-  void setKeepAliveInterval(int interval);
+  void setKeepAliveInterval(int ms);
   int getKeepAliveInterval();
 
   String getIP() const;
