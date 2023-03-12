@@ -60,7 +60,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * Please see [EscapeCodes.h](https://github.com/LennartHennigs/ESPTelnet/blob/master/src/EscapeCodes.h) for a list of constants and functions and take a look at the [AnsiExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/AnsiExample/AnsiExample.ino).
 * The functions of this class return Strings with ANSI escape sequences. Send these to the telnet client:
 
-  ```c++
+  ``` c++
   telnet.print(ansi.cls());
   telnet.print(ansi.home());
   telnet.print(ansi.setFG(ANSI_BRIGHT_WHITE));
