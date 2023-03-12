@@ -30,7 +30,14 @@
 #define ANSI_MAGENTA 5
 #define ANSI_CYAN 6
 #define ANSI_WHITE 7
-#define ANSI_DEFAULT 9
+#define ANSI_GREY 60
+#define ANSI_BRIGHT_RED 61
+#define ANSI_BRIGHT_GREEN 62
+#define ANSI_BRIGHT_YELLOW 63
+#define ANSI_BRIGHT_BLUE 64
+#define ANSI_BRIGHT_MAGENTA 65
+#define ANSI_BRIGHT_CYAN 66
+#define ANSI_BRIGHT_WHITE 67
 
 /////////////////////////////////////////////////////////////////
 
