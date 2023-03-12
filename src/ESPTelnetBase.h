@@ -47,7 +47,6 @@ class ESPTelnetBase {
 
   void setKeepAliveInterval(int interval);
   int getKeepAliveInterval();
-  bool doKeepAliveCheckNow();
 
   String getIP() const;
   String getLastAttemptIP() const;
@@ -82,6 +81,8 @@ class ESPTelnetBase {
 
  private:
   void connectClient(TCPClient c, bool triggerEvent = true);
+  bool doKeepAliveCheckNow();
+
 };
 
 /////////////////////////////////////////////////////////////////
