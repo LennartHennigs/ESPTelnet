@@ -4,6 +4,10 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
+## [2.1.1] - 2022-03-12
+
+- made `ESPStream`'s inheritance of `Stream` public as requested in [#45](https://github.com/LennartHennigs/ESPTelnet/issues/45)
+
 ## [2.1.0] - 2022-03-12
 
 - simplified and removed parameter from `isClientConnected(TCPClient &client)` to `isConnected()` (BREAKING CHANGE)
