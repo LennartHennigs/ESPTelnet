@@ -14,18 +14,35 @@ class ESPTelnet : public ESPTelnetBase {
  public:
   using ESPTelnetBase::ESPTelnetBase;
 
-  void print(const String &str);
-  void println(const String &str);
-  void print(const char c);
-  void println(const char c);
-  void print(unsigned char b, int base);
-  void println(unsigned char b, int base);
-  void print(int n, int base);
-  void println(int n, int base);
-  void print(unsigned int n, int base);
-  void println(unsigned int n, int base);
-  void print(const Printable& x);
-  void println(const Printable& x);
+  
+  template<typename T>
+  void print(const T& data) {
+    if (client && isConnected()) {
+      client.print(data);
+    }
+  }
+
+  template<typename T>
+  void println(const T& data) {
+    if (client && isConnected()) {
+      client.println(data);
+    }
+  }
+
+  template<typename T>
+  void print(const T& data, int base) {
+    if (client && isConnected()) {
+      client.print(data, base);
+    }
+  }
+
+  template<typename T>
+  void println(const T& data, int base) {
+    if (client && isConnected()) {
+      client.println(data, base);
+    }
+  }
+
   void println();
   size_t printf(const char *format, ...);
 
