@@ -96,12 +96,15 @@ void ESPTelnetBase::handleClientInput() {
 
 bool ESPTelnetBase::doKeepAliveCheckNow() {
   unsigned long currentTime = millis();
-  if (currentTime - last_status_check >= keep_alive_interval) {
+  unsigned long timeElapsed = currentTime - last_status_check;
+
+  if (timeElapsed >= static_cast<unsigned long>(keep_alive_interval)) {
     last_status_check = currentTime;
     return true;
   }
   return false;
 }
+
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::setKeepAliveInterval(int ms) {
