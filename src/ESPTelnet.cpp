@@ -39,37 +39,32 @@ void ESPTelnet::println() {
 /////////////////////////////////////////////////////////////////
 
 size_t ESPTelnet::printf(const char* format, ...) {
-  int len = 0;
-  if (client && isConnected()) {
-    char loc_buf[64];
-    char* temp = loc_buf;
-    va_list arg;
-    va_list copy;
-    va_start(arg, format);
-    va_copy(copy, arg);
-    len = vsnprintf(temp, sizeof(loc_buf), format, copy);
-    va_end(copy);
-    if (len < 0) {
-      va_end(arg);
+  if (!client || !isConnected()) return 0;
+  
+  va_list arg;
+  va_start(arg, format);
+  char loc_buf[64];
+  int len = vsnprintf(loc_buf, sizeof(loc_buf), format, arg);
+  va_end(arg);
+
+  if (len < 0) return 0;
+
+  if (len >= (int)sizeof(loc_buf)) {
+    char* temp = (char*)malloc(len + 1);
+    if (temp == nullptr) {
       return 0;
-    };
-    if (len >= (int)sizeof(loc_buf)) {
-      temp = (char*)malloc(len + 1);
-      if (temp == NULL) {
-        va_end(arg);
-        return 0;
-      }
-      len = vsnprintf(temp, len + 1, format, arg);
     }
+    va_start(arg, format);
+    vsnprintf(temp, len + 1, format, arg);
     va_end(arg);
     len = client.write((uint8_t*)temp, len);
-    if (temp != loc_buf) {
-      free(temp);
-    }
+    free(temp);
+  } else {
+    len = client.write((uint8_t*)loc_buf, len);
   }
+
   return len;
 }
-
 /////////////////////////////////////////////////////////////////
 
 bool ESPTelnet::isLineModeSet() {
