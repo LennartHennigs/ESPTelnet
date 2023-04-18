@@ -26,40 +26,71 @@ bool ESPTelnetBase::begin(uint16_t port /* = 23 */, bool checkConnection /* = tr
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::loop() {
-  // is there a new client wating?
-  if (server.hasClient()) {
-    // no exisintg connection?
-    if (!connected) {
-      connectClient(server.accept());
-    } else {
-      if (!isConnected()) {
-        disconnectClient();
-        return;
-      }
-      TCPClient newClient = server.accept();
-      attemptIp = newClient.remoteIP().toString();
-      // yes, reconnected
-      if (attemptIp == ip) {
-        disconnectClient(false);
-        connectClient(newClient, false);
-        if (on_reconnect != NULL) on_reconnect(attemptIp);
-        // no, throw error
-      } else {
-        if (on_connection_attempt != NULL) on_connection_attempt(attemptIp);
-      }
-    }
-  } else {
-    // frequently check if client is still alive
-    if (doKeepAliveCheckNow() && connected && !isConnected()) {
-      disconnectClient();
-    }
-    // check for input
-    if (on_input != NULL && client && client.available()) {
-      handleInput();
-    }
-  }
+  processClientConnection();
+  performKeepAliveCheck();
+  handleClientInput();
   yield();
 }
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::processClientConnection() {
+  if (!server.hasClient()) return;
+  TCPClient newClient = server.accept();
+  if (!connected) {
+    connectClient(newClient);
+  } else {
+    handleExistingConnection(newClient);
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::handleExistingConnection(TCPClient &newClient) {
+  String attemptedIp = newClient.remoteIP().toString();
+
+  if (!isConnected()) {
+    disconnectClient();
+    return;
+  }
+
+  if (attemptedIp == ip) {
+    handleReconnection(newClient, attemptedIp);
+  } else {
+    notifyConnectionAttempt(attemptedIp);
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::handleReconnection(TCPClient &newClient, const String &attemptedIp) {
+  disconnectClient(false);
+  connectClient(newClient, false);
+  if (on_reconnect) on_reconnect(attemptedIp);
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::notifyConnectionAttempt(const String &attemptedIp) {
+  if (on_connection_attempt) on_connection_attempt(attemptedIp);
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::performKeepAliveCheck() {
+  if (doKeepAliveCheckNow() && connected && !isConnected()) {
+    disconnectClient();
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::handleClientInput() {
+  if (on_input && client && client.available()) {
+    handleInput();
+  }
+}
+
 
 /////////////////////////////////////////////////////////////////
 

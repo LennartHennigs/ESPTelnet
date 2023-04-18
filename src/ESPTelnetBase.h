@@ -81,6 +81,13 @@ class ESPTelnetBase {
 
  private:
   void connectClient(TCPClient c, bool triggerEvent = true);
+  void processClientConnection();
+  void performKeepAliveCheck();
+  void handleClientInput();
+  void notifyConnectionAttempt(const String &attemptedIp);
+  void handleReconnection(TCPClient &newClient, const String &attemptedIp); 
+  void handleExistingConnection(TCPClient &newClient);
+  
   bool doKeepAliveCheckNow();
 
 };
