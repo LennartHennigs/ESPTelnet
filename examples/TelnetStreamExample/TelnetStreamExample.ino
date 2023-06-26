@@ -51,6 +51,11 @@ void setup() {
   } else {
     Serial.println("Failed");
   }
+
+  IPAddress ip = WiFi.localIP();
+  Serial.println();
+  Serial.print("Telnet Server IP: "); Serial.print(ip);
+
 }
 
 /* ------------------------------------------------- */
