@@ -2,22 +2,24 @@
 
 #include "ESPTelnetBase.h"
 
+
 /////////////////////////////////////////////////////////////////
 
-ESPTelnetBase::ESPTelnetBase() {
+ESPTelnetBase::ESPTelnetBase() : server(TCPServer(23, false)) {
   connected = false;
 }
 
 /////////////////////////////////////////////////////////////////
 
-bool ESPTelnetBase::begin(uint16_t port /* = 23 */, bool checkConnection /* = true */) {
+bool ESPTelnetBase::begin(uint16_t port /* = 23 */, bool checkWiFiConnection /* = true */, bool useEthernet /* = false */)
+{
   ip = "";
-  if (checkConnection) {
+  if (checkWiFiConnection) {
     // connected to WiFi or is ESP in AP mode?
     if (WiFi.status() != WL_CONNECTED && !_isIPSet(WiFi.softAPIP())) return false;
   }
   server_port = port;
-  server = TCPServer(port);
+  server = TCPServer(port, useEthernet);
   server.begin();
   server.setNoDelay(true);
   return true;
@@ -35,8 +37,13 @@ void ESPTelnetBase::loop() {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::processClientConnection() {
-  if (!server.hasClient()) return;
+
+  if (!server.hasClient()) return;        // This code operates on WiFiClients
+
   TCPClient newClient = server.accept();
+
+  if (!newClient) return;                 // This code operates on EthernetClients
+
   if (!connected) {
     connectClient(newClient);
   } else {
@@ -119,7 +126,7 @@ int ESPTelnetBase::getKeepAliveInterval() {
 
 /////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::connectClient(WiFiClient c, bool triggerEvent) {
+void ESPTelnetBase::connectClient(TCPClient c, bool triggerEvent) {
   client = c;
   ip = client.remoteIP().toString();
   client.setNoDelay(true);
