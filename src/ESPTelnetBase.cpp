@@ -37,12 +37,13 @@ void ESPTelnetBase::loop() {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::processClientConnection() {
+  // Ethernet Server uses a different client check protocol, it's checked AFTER the accept() call
 
-  if (!server.hasClient()) return;        // This code operates on WiFiClients
+  if(!server.useEthernet() && !server.hasClient()) return;  // This code operates on WiFiClients
 
   TCPClient newClient = server.accept();
 
-  if (!newClient) return;                 // This code operates on EthernetClients
+  if(server.useEthernet() && !newClient) return;            // This code operates on EthernetClients
 
   if (!connected) {
     connectClient(newClient);
