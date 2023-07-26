@@ -167,13 +167,7 @@ void ESPTelnetBase::stop() {
 /////////////////////////////////////////////////////////////////
 
 bool ESPTelnetBase::isConnected() {
-  bool res;
-#if defined(ARDUINO_ARCH_ESP8266)
-  res = client.status() == ESTABLISHED;
-#elif defined(ARDUINO_ARCH_ESP32)
-  res = client.connected();
-#endif
-  return res;
+  return client.connected();
 }
 
 /////////////////////////////////////////////////////////////////
