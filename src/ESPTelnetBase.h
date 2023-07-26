@@ -1,4 +1,12 @@
 /////////////////////////////////////////////////////////////////
+/*
+  
+  Abstract BaseClass for the Stream and the non-Stream Variant
+
+  implements the common functions shared across
+
+*/
+/////////////////////////////////////////////////////////////////
 
 #pragma once
 #ifndef ESPTelnetBase_h
@@ -10,6 +18,7 @@
 #define ASCII_BACKSPACE 8
 #define ASCII_LF 10
 #define ASCII_CR 13
+
 #define KEEP_ALIVE_INTERVAL_MS 1000
 
 /////////////////////////////////////////////////////////////////
@@ -27,21 +36,19 @@
 #include <ESP8266WiFi.h>
 #endif
 
+#include "TCPClient.h"
+#include "TCPServer.h"
+
 /////////////////////////////////////////////////////////////////
 
 #include "DebugMacros.h"
 
 /////////////////////////////////////////////////////////////////
 
-#include "TCPClient.h"
-#include "TCPServer.h"
-
-/////////////////////////////////////////////////////////////////
-
 class ESPTelnetBase {
   typedef void (*CallbackFunction)(String str);
 
- public:
+public:
   ESPTelnetBase();
 
   bool begin(uint16_t port = 23, bool checkWiFiConnection = true, bool useEthernet = false);
@@ -63,7 +70,7 @@ class ESPTelnetBase {
   void onDisconnect(CallbackFunction f);
   void onInputReceived(CallbackFunction f);
 
- protected:
+protected:
   TCPServer server; // = TCPServer(23);  // must be initalized here  ==> WHY ?
   TCPClient client;
   bool connected = false;  // needed because I cannot do "client = NULL"
@@ -85,7 +92,7 @@ class ESPTelnetBase {
   bool _isIPSet(IPAddress ip);
   virtual void handleInput() = 0;
 
- private:
+private:
   void connectClient(TCPClient c, bool triggerEvent = true);
   void processClientConnection();
   void performKeepAliveCheck();

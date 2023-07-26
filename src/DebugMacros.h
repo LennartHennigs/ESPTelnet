@@ -1,18 +1,22 @@
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 /*
- * heavily inspired by 
- *  https://github.com/jerabaul29/ArduinoDebugMacros/
- *  https://forum.arduino.cc/index.php?topic=46900.0
- *  https://forum.arduino.cc/index.php?topic=215334.0
+
+  Library that provides a set of debug macros
+  Can be used with or without the Telnet library
+
+  heavily inspired by 
+  - https://github.com/jerabaul29/ArduinoDebugMacros/
+  - https://forum.arduino.cc/index.php?topic=46900.0
+  - https://forum.arduino.cc/index.php?topic=215334.0
 */
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 #pragma once
 
 #ifndef DebugMacros_h
 #define DebugMacros_h
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 #ifndef DEBUG_SERIAL
   #define DEBUG_SERIAL            Serial
@@ -24,7 +28,7 @@
   #define DEBUG_PREFIX            "[DEBUG]\t"
 #endif
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 
 #if DEBUG_ON
   #if DEBUG_USE_SERIAL
@@ -62,6 +66,6 @@
   #define DEBUG_WHERE
 #endif
 
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
 #endif
-/* ------------------------------------------------- */
+/////////////////////////////////////////////////////////////////
