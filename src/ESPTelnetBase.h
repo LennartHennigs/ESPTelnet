@@ -15,13 +15,17 @@
 /////////////////////////////////////////////////////////////////
 
 #include <Arduino.h>
+
+#include <Ethernet.h>
+// Ethernet defines it to be 8 and Wifi redefines it to be 4, let's use the lower
+#undef MAX_SOCK_NUM 
+
 #if defined(ARDUINO_ARCH_ESP32)
 #include <WiFi.h>
 #elif defined(ARDUINO_ARCH_ESP8266)
 #include <ESP8266WebServer.h>
 #include <ESP8266WiFi.h>
 #endif
-#include <Ethernet.h>
 
 /////////////////////////////////////////////////////////////////
 
@@ -46,10 +50,24 @@ class TCPClient : public WiFiClient, EthernetClient {
     int peek() { return _useEthernet ? EthernetClient::peek() : WiFiClient::peek(); }
     uint8_t connected() { return _useEthernet ? EthernetClient::connected() : WiFiClient::connected(); }
     IPAddress remoteIP() override { return _useEthernet ? EthernetClient::remoteIP() : WiFiClient::remoteIP(); }
-    IPAddress remoteIP(int fd) { return _useEthernet ? EthernetClient::remoteIP() : WiFiClient::remoteIP(fd); }
+    IPAddress remoteIP(int fd) { 
+      return _useEthernet ? EthernetClient::remoteIP() : 
+        #if defined(ARDUINO_ARCH_ESP8266)
+        WiFiClient::remoteIP(); 
+        #elif defined(ARDUINO_ARCH_ESP32)
+        WiFiClient::remoteIP(fd); 
+        #endif
+    }
     void flush() { if(_useEthernet) EthernetClient::flush(); else WiFiClient::flush(); }
     void stop() { if(_useEthernet) EthernetClient::stop(); else WiFiClient::stop(); }
     void setNoDelay(bool nodelay) { if(!_useEthernet) WiFiClient::setNoDelay(nodelay); }
+    uint8_t status() {
+      if (_useEthernet) {
+        return EthernetClient::status();
+      } else {
+        return WiFiClient::connected() ? WL_CONNECTED : WL_DISCONNECTED;
+      }
+    }
 
 // Copy constructors and assignment operators
     TCPClient(EthernetClient ec) : EthernetClient(ec), _useEthernet(true) {}
@@ -74,8 +92,11 @@ class TCPClient : public WiFiClient, EthernetClient {
     size_t print(unsigned long long l, int b = DEC) { return _useEthernet ? EthernetClient::print(l, b)  :  WiFiClient::print(l, b); }
     size_t print(double d, int i = 2)             { return _useEthernet ? EthernetClient::print(d, i)  :  WiFiClient::print(d, i); }
     size_t print(const Printable& p)              { return _useEthernet ? EthernetClient::print(p)  :  WiFiClient::print(p); }
-    size_t print(struct tm * timeinfo, const char * format = NULL) { return _useEthernet ? EthernetClient::print(timeinfo, format)  :  WiFiClient::print(timeinfo, format); }
-
+    size_t print(struct tm * timeinfo, const char * format = NULL) { 
+      char buffer[50];
+      strftime(buffer, sizeof(buffer), format, timeinfo);
+      return _useEthernet ? EthernetClient::print(buffer) : WiFiClient::print(buffer);      
+    }
     size_t println(const __FlashStringHelper *ifsh)  { return _useEthernet ? EthernetClient::println(ifsh)  :  WiFiClient::println(ifsh); }
     size_t println(const String &s)               { return _useEthernet ? EthernetClient::println(s)  :  WiFiClient::println(s); }
     size_t println(const char s[])                { return _useEthernet ? EthernetClient::println(s)  :  WiFiClient::println(s); }
@@ -89,7 +110,11 @@ class TCPClient : public WiFiClient, EthernetClient {
     size_t println(unsigned long long l, int b = DEC) { return _useEthernet ? EthernetClient::println(l, b)  :  WiFiClient::println(l, b); }
     size_t println(double d, int b = 2)           { return _useEthernet ? EthernetClient::println(d, b)  :  WiFiClient::println(d, b); }
     size_t println(const Printable&p)             { return _useEthernet ? EthernetClient::println(p)  :  WiFiClient::println(p); }
-    size_t println(struct tm * timeinfo, const char * format = NULL) { return _useEthernet ? EthernetClient::println(timeinfo, format)  :  WiFiClient::println(timeinfo, format); }
+    size_t println(struct tm * timeinfo, const char * format = NULL) { 
+      char buffer[50];
+      strftime(buffer, sizeof(buffer), format, timeinfo);
+      return _useEthernet ? EthernetClient::println(buffer) : WiFiClient::println(buffer);
+    }
     size_t println(void)                         { return _useEthernet ? EthernetClient::println()  :  WiFiClient::println(); }
 
   protected:
@@ -177,7 +202,6 @@ class ESPTelnetBase {
   void handleExistingConnection(TCPClient &newClient);
   
   bool doKeepAliveCheckNow();
-
 };
 
 
