@@ -2,7 +2,6 @@
 
 #include "ESPTelnetBase.h"
 
-
 /////////////////////////////////////////////////////////////////
 
 ESPTelnetBase::ESPTelnetBase() : server(TCPServer(23, false)) {
@@ -17,9 +16,9 @@ bool ESPTelnetBase::begin(uint16_t port /* = 23 */, bool checkWiFiConnection /* 
   if (checkWiFiConnection) {
     // connected to WiFi or is ESP in AP mode?
     if (WiFi.status() != WL_CONNECTED && !_isIPSet(WiFi.softAPIP())) return false;
-  }
-  server_port = port;
+  } 
   server = TCPServer(port, useEthernet);
+  server_port = port;
   server.begin();
   server.setNoDelay(true);
   return true;
@@ -37,20 +36,16 @@ void ESPTelnetBase::loop() {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetBase::processClientConnection() {
-  // Ethernet Server uses a different client check protocol, it's checked AFTER the accept() call
-
-  if(!server.useEthernet() && !server.hasClient()) return;  // This code operates on WiFiClients
+  if (!server.hasClient()) return;
 
   TCPClient newClient = server.accept();
-
-  if(server.useEthernet() && !newClient) return;            // This code operates on EthernetClients
-
   if (!connected) {
     connectClient(newClient);
   } else {
     handleExistingConnection(newClient);
   }
 }
+
 
 /////////////////////////////////////////////////////////////////
 
