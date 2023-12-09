@@ -58,3 +58,13 @@ size_t ESPTelnetStream::write(uint8_t data) {
 }
 
 /////////////////////////////////////////////////////////////////
+
+size_t ESPTelnetStream::write(const uint8_t* data, size_t size) {
+  if (client && isConnected()) {
+    return client.write(data, size);
+  } else {
+    return 0;
+  }
+}
+
+/////////////////////////////////////////////////////////////////
