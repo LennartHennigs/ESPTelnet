@@ -11,6 +11,7 @@
 #define ASCII_LF 10
 #define ASCII_CR 13
 #define KEEP_ALIVE_INTERVAL_MS 1000
+#define MAX_ERRORS_ON_WRITE 3
 
 /////////////////////////////////////////////////////////////////
 
@@ -48,6 +49,10 @@ class ESPTelnetBase {
   void setKeepAliveInterval(int ms);
   int getKeepAliveInterval();
 
+  virtual void flush();
+  virtual size_t write(uint8_t);
+  virtual size_t write(const uint8_t* data, size_t size);
+
   String getIP() const;
   String getLastAttemptIP() const;
 
@@ -56,6 +61,8 @@ class ESPTelnetBase {
   void onReconnect(CallbackFunction f);
   void onDisconnect(CallbackFunction f);
   void onInputReceived(CallbackFunction f);
+
+
 
  protected:
   TCPServer server = TCPServer(23);  // must be initalized here
@@ -68,12 +75,16 @@ class ESPTelnetBase {
   uint16_t server_port = 23;
   int keep_alive_interval = KEEP_ALIVE_INTERVAL_MS;
   long last_status_check;
+  unsigned int failedWrites = 0;
 
   CallbackFunction on_connect = NULL;
   CallbackFunction on_reconnect = NULL;
   CallbackFunction on_disconnect = NULL;
   CallbackFunction on_connection_attempt = NULL;
   CallbackFunction on_input = NULL;
+
+  virtual void onFailedWrite();
+  virtual void onSuccessfullyWrite();
 
   void emptyClientStream();
   bool _isIPSet(IPAddress ip);

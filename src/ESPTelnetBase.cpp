@@ -119,10 +119,63 @@ int ESPTelnetBase::getKeepAliveInterval() {
 
 /////////////////////////////////////////////////////////////////
 
+void ESPTelnetBase::flush() {
+  if (!client || !isConnected()) {
+    return;
+  }
+
+#ifdef ARDUINO_ARCH_ESP8266
+  if (!client.flush(this->getKeepAliveInterval())) {
+    onFailedWrite();
+  } else {
+    onSuccessfullyWrite();
+  }
+#else
+  client.flush();
+#endif
+}
+
+/////////////////////////////////////////////////////////////////
+
+size_t ESPTelnetBase::write(uint8_t data) {
+  if (!client || !isConnected()) {
+    return 0;
+  }
+
+  size_t written = client.write(data);
+  if (!written) {
+    onFailedWrite();
+  } else {
+    onSuccessfullyWrite();
+  }
+
+  return written;
+}
+
+/////////////////////////////////////////////////////////////////
+
+size_t ESPTelnetBase::write(const uint8_t* data, size_t size) {
+  if (!client || !isConnected()) {
+    return 0;
+  }
+
+  size_t written = client.write(data, size);
+  if (written != size) {
+    onFailedWrite();
+  } else {
+    onSuccessfullyWrite();
+  }
+
+  return written;
+}
+
+/////////////////////////////////////////////////////////////////
+
 void ESPTelnetBase::connectClient(WiFiClient c, bool triggerEvent) {
   client = c;
   ip = client.remoteIP().toString();
   client.setNoDelay(true);
+  client.setTimeout(this->getKeepAliveInterval());
   if (triggerEvent && on_connect != NULL) on_connect(ip);
   emptyClientStream();
   connected = true;
@@ -182,8 +235,27 @@ String ESPTelnetBase::getLastAttemptIP() const {
 
 /////////////////////////////////////////////////////////////////
 
+void ESPTelnetBase::onFailedWrite() {
+  failedWrites++;
+
+  if (failedWrites >= MAX_ERRORS_ON_WRITE) {
+    failedWrites = 0;
+    disconnectClient();
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnetBase::onSuccessfullyWrite() {
+  if (failedWrites > 0) {
+    failedWrites = 0;
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+
 void ESPTelnetBase::emptyClientStream() {
-  client.flush();
+  flush();
   delay(50);
   while (client.available()) {
     client.read();
