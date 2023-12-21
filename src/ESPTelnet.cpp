@@ -32,7 +32,9 @@ void ESPTelnet::handleInput() {
 
 void ESPTelnet::println() {
   if (client && isConnected()) {
-    client.println();
+    if (!client.println()) {
+      this->disconnectClient();
+    }
   }
 }
 
@@ -61,6 +63,10 @@ size_t ESPTelnet::printf(const char* format, ...) {
     free(temp);
   } else {
     len = client.write((uint8_t*)loc_buf, len);
+  }
+
+  if (!len) {
+    this->disconnectClient();
   }
 
   return len;

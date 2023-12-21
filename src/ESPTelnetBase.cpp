@@ -123,6 +123,7 @@ void ESPTelnetBase::connectClient(WiFiClient c, bool triggerEvent) {
   client = c;
   ip = client.remoteIP().toString();
   client.setNoDelay(true);
+  client.setTimeout(this->getKeepAliveInterval());
   if (triggerEvent && on_connect != NULL) on_connect(ip);
   emptyClientStream();
   connected = true;
