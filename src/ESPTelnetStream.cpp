@@ -43,7 +43,11 @@ int ESPTelnetStream::peek() {
 
 void ESPTelnetStream::flush() {
   if (client && isConnected()) {
+#ifdef ARDUINO_ARCH_ESP8266
     if (!client.flush(this->getKeepAliveInterval())) {
+#else
+    if (!client.flush()) {
+#endif
       this->disconnectClient();
     }
   }
