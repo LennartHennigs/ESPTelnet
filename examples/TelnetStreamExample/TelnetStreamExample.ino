@@ -31,31 +31,44 @@ void telnetReconnect(String ip) {
 
 /* ------------------------------------------------- */
 
+bool connectToWiFi(const char* ssid, const char* password, int max_tries = 20, int pause = 500) {
+  int i = 0;
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+  delay(100);
+  
+  #if defined(ARDUINO_ARCH_ESP8266)
+    WiFi.forceSleepWake();
+    delay(200);
+  #endif
+  WiFi.begin(ssid, password);
+  do {
+    delay(pause);
+    Serial.print(".");
+    i++;
+  } while (!isConnected() && i < max_tries);
+  WiFi.setAutoReconnect(true);
+  WiFi.persistent(true);
+  return isConnected();
+}
+
+/* ------------------------------------------------- */
+
 void setup() {
   Serial.begin(SERIAL_SPEED);
   Serial.println("ESP Telnet Test");
 
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(INFRA_SSID, INFRA_PSWD);
-  while(WiFi.status() != WL_CONNECTED) {
-    delay(100);
-  }
-
-  telnet.onConnect(telnetConnected);
-  telnet.onDisconnect(telnetDisconnected);
-  telnet.onReconnect(telnetReconnect);
-
-  Serial.print("Telnet.begin: ");
-  if(telnet.begin()) {
-    Serial.println("Successful");
+  connectToWiFi(WIFI_SSID, WIFI_PASSWORD);
+  
+  if (isConnected()) {
+    ip = WiFi.localIP();
+    Serial.println();
+    Serial.print("- Telnet: "); Serial.print(ip); Serial.print(":"); Serial.println(port);
+    setupTelnet();
   } else {
-    Serial.println("Failed");
+    Serial.println();    
+    errorMsg("Error connecting to WiFi");
   }
-
-  IPAddress ip = WiFi.localIP();
-  Serial.println();
-  Serial.print("Telnet Server IP: "); Serial.print(ip);
-
 }
 
 /* ------------------------------------------------- */
