@@ -124,6 +124,9 @@ void ESPTelnetBase::flush() {
     return;
   }
 
+// only the ESP8266 has a "bool flush()" method
+// https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/src/WiFiClient.cpp#L306
+
 #ifdef ARDUINO_ARCH_ESP8266
   if (!client.flush(this->getKeepAliveInterval())) {
     onFailedWrite();
