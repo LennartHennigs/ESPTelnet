@@ -4,6 +4,14 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
+## [2.2] – 2023-12-28
+
+- merged pull request [#56](https://github.com/LennartHennigs/ESPTelnet/pull/56)  that fixes issues #54 and #52 submitted by [Laxilef](https://github.com/Laxilef)
+  - added buffered `write()` function to `ESPTelnetBase`as suggested by [Laxilef](https://github.com/Laxilef)
+  - Losing client connection will no longer freeze the server
+- fixed bug in `connectToWiFi()` helper function
+
+
 ## [2.1.2] - 2022-06-26
 
 - refactored `ESPTelnetBase`, simplified the main `loop()`
