@@ -17,9 +17,10 @@ class ESPTelnetStream : public ESPTelnetBase, public Stream {
   int available();
   int read();
   int peek();
-  void flush();
+  void flush() override;
 
-  size_t write(uint8_t);
+  size_t write(uint8_t) override;
+  size_t write(const uint8_t* data, size_t size) override;
 
  protected:
   void handleInput();

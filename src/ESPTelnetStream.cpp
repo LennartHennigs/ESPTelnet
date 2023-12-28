@@ -42,19 +42,19 @@ int ESPTelnetStream::peek() {
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnetStream::flush() {
-  if (client && isConnected()) {
-    client.flush();
-  }
+  return ESPTelnetBase::flush();
 }
 
 /////////////////////////////////////////////////////////////////
 
 size_t ESPTelnetStream::write(uint8_t data) {
-  if (client && isConnected()) {
-    return client.write(data);
-  } else {
-    return 0;
-  }
+  return ESPTelnetBase::write(data);
+}
+
+/////////////////////////////////////////////////////////////////
+
+size_t ESPTelnetStream::write(const uint8_t* data, size_t size) {
+  return ESPTelnetBase::write(data, size);
 }
 
 /////////////////////////////////////////////////////////////////

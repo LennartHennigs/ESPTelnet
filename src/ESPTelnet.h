@@ -18,28 +18,44 @@ class ESPTelnet : public ESPTelnetBase {
   template<typename T>
   void print(const T& data) {
     if (client && isConnected()) {
-      client.print(data);
+      if (!client.print(data)) {
+        onFailedWrite();
+      } else {
+        onSuccessfullyWrite();
+      }
     }
   }
 
   template<typename T>
   void println(const T& data) {
     if (client && isConnected()) {
-      client.println(data);
+      if (!client.println(data)) {
+        onFailedWrite();
+      } else {
+        onSuccessfullyWrite();
+      }
     }
   }
 
   template<typename T>
   void print(const T& data, int base) {
     if (client && isConnected()) {
-      client.print(data, base);
+      if (!client.print(data, base)) {
+        onFailedWrite();
+      } else {
+        onSuccessfullyWrite();
+      }
     }
   }
 
   template<typename T>
   void println(const T& data, int base) {
     if (client && isConnected()) {
-      client.println(data, base);
+      if (!client.println(data, base)) {
+        onFailedWrite();
+      } else {
+        onSuccessfullyWrite();
+      }
     }
   }
 
