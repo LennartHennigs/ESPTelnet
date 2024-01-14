@@ -56,13 +56,13 @@ class ESPTelnetBase {
   String getIP() const;
   String getLastAttemptIP() const;
 
+  TCPClient& getClient();
+
   void onConnect(CallbackFunction f);
   void onConnectionAttempt(CallbackFunction f);
   void onReconnect(CallbackFunction f);
   void onDisconnect(CallbackFunction f);
   void onInputReceived(CallbackFunction f);
-
-
 
  protected:
   TCPServer server = TCPServer(23);  // must be initalized here

@@ -296,3 +296,7 @@ void ESPTelnetBase::onInputReceived(CallbackFunction f) {
 }
 
 /////////////////////////////////////////////////////////////////
+
+  TCPClient& ESPTelnetBase::getClient() {
+    return client;
+  }
