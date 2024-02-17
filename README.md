@@ -3,7 +3,7 @@
 ESP8266/ESP32 library that allows you to setup a telnet server.
 
 * Author: Lennart Hennigs [https://www.lennarthennigs.de](https://www.lennarthennigs.de)
-* Copyright (C) 2018-2023 Lennart Hennigs.
+* Copyright (C) 2018-2024 Lennart Hennigs.
 * Released under the MIT license.
 
 ## Description
@@ -197,7 +197,7 @@ Or download the [ZIP archive](https://github.com/lennarthennigs/ESPTelnet/zipbal
 
 MIT License
 
-Copyright (c) 2018-2023 Lennart Hennigs
+Copyright (c) 2018-2024 Lennart Hennigs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
