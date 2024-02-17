@@ -26,7 +26,12 @@
 
 /* ------------------------------------------------- */
 
-#if DEBUG_ON
+#ifndef DEBUG_ON
+  #define DEBUG_INFO
+  #define DEBUG_MSG(x)
+  #define DEBUG_VAR(...)
+  #define DEBUG_WHERE
+#else 
   #if DEBUG_USE_SERIAL
     #define DEBUG_SER_INFO      DEBUG_SERIAL.print(DEBUG_PREFIX); DEBUG_SERIAL.println("Compiled " __DATE__ ", " __TIME__)
     #define DEBUG_SER_MSG(x)    DEBUG_SERIAL.print(DEBUG_PREFIX); DEBUG_SERIAL.println(x)
@@ -55,11 +60,6 @@
   #define DEBUG_MSG(x)          DEBUG_SER_MSG(x); DEBUG_TEL_MSG(x)
   #define DEBUG_VAR(...)        DEBUG_SER_VAR(__VA_ARGS__); DEBUG_TEL_VAR(__VA_ARGS__)
   #define DEBUG_WHERE           DEBUG_SER_WHERE; DEBUG_TEL_WHERE
-#else
-  #define DEBUG_INFO
-  #define DEBUG_MSG(x)
-  #define DEBUG_VAR(...)
-  #define DEBUG_WHERE
 #endif
 
 /* ------------------------------------------------- */
