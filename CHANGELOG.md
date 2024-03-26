@@ -2,6 +2,8 @@
 
 ## Unreleased (but available on Github)
 
+- removed `ESP8266WiFi.h` include in `ESPTelnetBase.h`
+
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
 ## [2.2.1] – 2024-02-17
