@@ -65,8 +65,12 @@ class ESPTelnet : public ESPTelnetBase {
   bool isLineModeSet();
   void setLineMode(bool value = true);
 
- protected:
+  bool getNewLineCharacter();
+  void setNewLineCharacter(char value = '\n');
+
+  protected:
   bool _lineMode = true;
+  char _newLineCharacter = '\n';
 
   void handleInput();
 };
