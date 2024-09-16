@@ -48,7 +48,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * Via `print()`, `printf()` and `println()` you can output text on the telnet server.
 * To receive and parse input from the telnet client you can add a handler via `onInputReceived()`.
 * By default, the library waits for a newline character from the client, and sends data to the callback handler one line at a time. This behaviour can be deactivated by calling `setlineMode(false)`.
-* A default newline character `'\n'` is used to determine the end of a line. This can be overridden by by calling `setNewLineCharacter('\r')` where `'\r'` can be swapped with any character.
+* A default newline character `'\n'` is used to determine the end of a line. This can be overridden by by calling `setNewlineCharacter('\r')` where `'\r'` can be swapped with any character.
 
 ### Using stream functions
 
