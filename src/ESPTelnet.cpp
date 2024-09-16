@@ -8,7 +8,7 @@ void ESPTelnet::handleInput() {
   char c = client.read();
   // collect string
   if (_lineMode) {
-    if (c != _newLineCharacter) {
+    if (c != _newlineCharacter) {
       if (c >= 32 && c < 127) {
         input += c;
       }
@@ -84,13 +84,13 @@ void ESPTelnet::setLineMode(bool value /* = true */) {
 /////////////////////////////////////////////////////////////////
 
 char ESPTelnet::getNewlineCharacter() {
-  return _newLineCharacter;
+  return _newlineCharacter;
 }
 
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::setNewlineCharacter(char value /* = '\n' */) {
-  _newLineCharacter = value;
+  _newlineCharacter = value;
 }
 
 /////////////////////////////////////////////////////////////////
