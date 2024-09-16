@@ -83,13 +83,13 @@ void ESPTelnet::setLineMode(bool value /* = true */) {
 
 /////////////////////////////////////////////////////////////////
 
-bool ESPTelnet::getNewLineCharacter() {
+char ESPTelnet::getNewlineCharacter() {
   return _newLineCharacter;
 }
 
 /////////////////////////////////////////////////////////////////
 
-void ESPTelnet::setNewLineCharacter(char value /* = '\n' */) {
+void ESPTelnet::setNewlineCharacter(char value /* = '\n' */) {
   _newLineCharacter = value;
 }
 
