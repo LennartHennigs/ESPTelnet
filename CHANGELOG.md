@@ -2,6 +2,8 @@
 
 ## Unreleased (but available on Github)
 
+- Added option to change the newLine character via `getNewlineCharacter()`	and `setNewlineCharacter()` as suggest by [Roy](https://github.com/FunDeckHermit) in [#69](https://github.com/LennartHennigs/ESPTelnet/pull/69)
+
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
 ## [2.2.1] – 2024-02-17
