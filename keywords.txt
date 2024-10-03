@@ -26,3 +26,5 @@ write	KEYWORD2
 printf	KEYWORD2
 getTimeoutInterval	KEYWORD2
 setTimeoutInterval	KEYWORD2
+getNewlineCharacter	KEYWORD2
+setNewlineCharacter KEYWORD2

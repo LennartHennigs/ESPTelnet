@@ -45,9 +45,10 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 
 ### Output and Input
 
-* Via `print()` and `println()` you can output text on the telnet server.
+* Via `print()`, `printf()` and `println()` you can output text on the telnet server.
 * To receive and parse input from the telnet client you can add a handler via `onInputReceived()`.
 * By default, the library waits for a newline character from the client, and sends data to the callback handler one line at a time. This behaviour can be deactivated by calling `setlineMode(false)`.
+* A default newline character `'\n'` is used to determine the end of a line. This can be overridden by by calling `setNewlineCharacter('\r')` where `'\r'` can be swapped with any character.
 
 ### Using stream functions
 
@@ -148,6 +149,12 @@ These are the constructors and the member functions the library provides:
     void setKeepAliveInterval(int ms);
     int getKeepAliveInterval();
 
+    bool isLineModeSet();
+    void setLineMode(bool value = true);
+
+    char getNewlineCharacter();
+    void setNewlineCharacter(char value = '\n');
+
     void onConnect(CallbackFunction f);
     void onConnectionAttempt(CallbackFunction f);
     void onReconnect(CallbackFunction f);
@@ -192,6 +199,12 @@ These are the constructors and the member functions the library provides:
 
 Open the Arduino IDE choose "Sketch > Include Library" and search for "ESPTelnet".
 Or download the [ZIP archive](https://github.com/lennarthennigs/ESPTelnet/zipball/master), and choose "Sketch > Include Library > Add .ZIP Library..." and select the downloaded file.
+
+The "ESPTelnet" library is also available on the PlatformIO registry and can be included by adding the following line to the leb_deps option of the platformio.ini file:
+
+``` json
+   lennarthennigs/ESP Telnet@^2.2.2
+```
 
 ## License
 
