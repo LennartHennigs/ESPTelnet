@@ -38,6 +38,9 @@ bool isConnected() {
 bool connectToWiFi(const char* ssid, const char* password, int max_tries = 20, int pause = 500) {
   int i = 0;
   WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+  delay(100);
+  
   #if defined(ARDUINO_ARCH_ESP8266)
     WiFi.forceSleepWake();
     delay(200);
@@ -46,7 +49,8 @@ bool connectToWiFi(const char* ssid, const char* password, int max_tries = 20, i
   do {
     delay(pause);
     Serial.print(".");
-  } while (!isConnected() || i++ < max_tries);
+    i++;
+  } while (!isConnected() && i < max_tries);
   WiFi.setAutoReconnect(true);
   WiFi.persistent(true);
   return isConnected();

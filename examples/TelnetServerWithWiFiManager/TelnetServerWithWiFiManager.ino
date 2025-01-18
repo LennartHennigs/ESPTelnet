@@ -46,6 +46,8 @@ bool isConnected() {
 void useWiFiManager() {
   // wifiManager.resetSettings();  // this will delete all credentials
   wifiManager.setDebugOutput(false);
+  // wifiManager.resetSettings(); // wipe settings
+
   wifiManager.setConfigPortalTimeout(PORTAL_TIMEOUT);
   wifiManager.setAPCallback([] (WiFiManager *myWiFiManager) {
     Serial.println("- No known wifi found");
@@ -54,7 +56,7 @@ void useWiFiManager() {
     Serial.println(WiFi.softAPIP());
   });
   // enable autoconnect
-  if (!(AP_PASSWORD == "" ? 
+  if (!(String(AP_PASSWORD) == "" ? 
     wifiManager.autoConnect(AP_NAME) : 
     wifiManager.autoConnect(AP_NAME, AP_PASSWORD))
    ) {
@@ -118,6 +120,7 @@ void onTelnetDisconnect(String ip) {
   Serial.print("- Telnet: ");
   Serial.print(ip);
   Serial.println(" disconnected");
+  Serial.println();
 }
 
 void onTelnetReconnect(String ip) {
@@ -165,3 +168,4 @@ void loop() {
 #else
 #error "This example needs an ESP8266"
 #endif
+//* ------------------------------------------------- */

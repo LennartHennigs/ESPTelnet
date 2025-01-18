@@ -8,7 +8,7 @@ void ESPTelnet::handleInput() {
   char c = client.read();
   // collect string
   if (_lineMode) {
-    if (c != '\n') {
+    if (c != _newlineCharacter) {
       if (c >= 32 && c < 127) {
         input += c;
       }
@@ -32,7 +32,11 @@ void ESPTelnet::handleInput() {
 
 void ESPTelnet::println() {
   if (client && isConnected()) {
-    client.println();
+    if (!client.println()) {
+      onFailedWrite();
+    } else {
+      onSuccessfullyWrite();
+    }
   }
 }
 
@@ -57,10 +61,10 @@ size_t ESPTelnet::printf(const char* format, ...) {
     va_start(arg, format);
     vsnprintf(temp, len + 1, format, arg);
     va_end(arg);
-    len = client.write((uint8_t*)temp, len);
+    len = write((uint8_t*)temp, len);
     free(temp);
   } else {
-    len = client.write((uint8_t*)loc_buf, len);
+    len = write((uint8_t*)loc_buf, len);
   }
 
   return len;
@@ -75,6 +79,18 @@ bool ESPTelnet::isLineModeSet() {
 
 void ESPTelnet::setLineMode(bool value /* = true */) {
   _lineMode = value;
+}
+
+/////////////////////////////////////////////////////////////////
+
+char ESPTelnet::getNewlineCharacter() {
+  return _newlineCharacter;
+}
+
+/////////////////////////////////////////////////////////////////
+
+void ESPTelnet::setNewlineCharacter(char value /* = '\n' */) {
+  _newlineCharacter = value;
 }
 
 /////////////////////////////////////////////////////////////////
