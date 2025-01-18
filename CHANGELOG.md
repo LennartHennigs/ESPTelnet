@@ -2,6 +2,8 @@
 
 ## Unreleased (but available on Github)
 
+- fixed a bug in [TelnetStreamExample.ino](https://github.com/LennartHennigs/ESPTelnet/blob/main/examples/TelnetStreamExample/TelnetStreamExample.ino)
+
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
 ## [2.2.2] – 2024-10-03
