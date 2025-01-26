@@ -2,11 +2,13 @@
 
 ## Unreleased (but available on Github)
 
+**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
+
+## [2.2.3] – 2025-01-26
+
 - removed `yield()` from [ESPTelnetBase.cpp](https://github.com/LennartHennigs/ESPTelnet/blob/main/src/ESPTelnetBase.cpp) `loop()` as it creates problems with context switching, see #73
 - fixed errors in TelnetStreamExample.ino
  
-
-**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
 ## [2.2.2] – 2024-10-03
 

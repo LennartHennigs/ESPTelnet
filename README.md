@@ -3,7 +3,7 @@
 ESP8266/ESP32 library that allows you to setup a telnet server.
 
 * Author: Lennart Hennigs [https://www.lennarthennigs.de](https://www.lennarthennigs.de)
-* Copyright (C) 2018-2024 Lennart Hennigs.
+* Copyright (C) 2018-2025 Lennart Hennigs.
 * Released under the MIT license.
 
 ## Description
