@@ -2,7 +2,9 @@
 
 ## Unreleased (but available on Github)
 
-- updated TelnetStreamExample.ino
+- removed `yield()` from [ESPTelnetBase.cpp](https://github.com/LennartHennigs/ESPTelnet/blob/main/src/ESPTelnetBase.cpp) `loop()` as it creates problems with context switching, see #73
+- fixed errors in TelnetStreamExample.ino
+ 
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 

@@ -2,7 +2,7 @@
 /*
     Library that returns ANSI escape sequences as Strings
 
-    inspiried by Bruce Robertson's ANSITerm
+    inspired by Bruce Robertson's ANSITerm
     - https://forum.arduino.cc/t/ansiterm-a-ansi-terminal-library/37536/1
     - https://github.com/rklancer/ansiterm
 
