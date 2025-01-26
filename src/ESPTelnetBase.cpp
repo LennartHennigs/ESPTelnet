@@ -29,7 +29,9 @@ void ESPTelnetBase::loop() {
   processClientConnection();
   performKeepAliveCheck();
   handleClientInput();
-  yield();
+  // see https://github.com/LennartHennigs/ESPTelnet/issues/73
+  // I removed the yield() call, as it causes context switches
+  // yield(); 
 }
 
 /////////////////////////////////////////////////////////////////
