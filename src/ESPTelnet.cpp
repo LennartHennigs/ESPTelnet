@@ -47,10 +47,13 @@ size_t ESPTelnet::printf(const char* format, ...) {
   
   va_list arg;
   va_start(arg, format);
+  vprintf(format, arg);
+  va_end(arg);
+}
+
+size_t ESPTelnet::vprintf(const char* format, va_list arg) {
   char loc_buf[64];
   int len = vsnprintf(loc_buf, sizeof(loc_buf), format, arg);
-  va_end(arg);
-
   if (len < 0) return 0;
 
   if (len >= (int)sizeof(loc_buf)) {
@@ -58,9 +61,7 @@ size_t ESPTelnet::printf(const char* format, ...) {
     if (temp == nullptr) {
       return 0;
     }
-    va_start(arg, format);
     vsnprintf(temp, len + 1, format, arg);
-    va_end(arg);
     len = write((uint8_t*)temp, len);
     free(temp);
   } else {
