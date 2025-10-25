@@ -13,8 +13,39 @@ ESPTelnetBase::ESPTelnetBase() {
 bool ESPTelnetBase::begin(uint16_t port /* = 23 */, bool checkConnection /* = true */) {
   ip = "";
   if (checkConnection) {
-    // connected to WiFi or is ESP in AP mode?
-    if (WiFi.status() != WL_CONNECTED && !_isIPSet(WiFi.softAPIP())) return false;
+    bool isConnected = false;
+    
+    // Check WiFi connection (supported on both ESP32 and ESP8266)
+    if (WiFi.status() == WL_CONNECTED || _isIPSet(WiFi.softAPIP())) {
+      isConnected = true;
+    }
+    
+#if defined(ARDUINO_ARCH_ESP32)
+    // Check Ethernet connection for ESP32 (ETH.h support)
+    // ETH.h defines ETH object when Ethernet is available
+    #ifdef ETH_H
+    if (!isConnected && ETH.linkUp()) {
+      isConnected = true;
+    }
+    #endif
+    
+    // Alternative check using event bits (for advanced ESP32 setups)
+    #ifdef ETH_CONNECTED_BIT
+    if (!isConnected && (WiFiGenericClass::getStatusBits() & ETH_CONNECTED_BIT)) {
+      isConnected = true;
+    }
+    #endif
+#elif defined(ARDUINO_ARCH_ESP8266)
+    // ESP8266 doesn't have native Ethernet support
+    // But users might use SPI-based Ethernet libraries like EthernetENC, W5500, etc.
+    // These typically create a custom client that works with existing WiFi infrastructure
+    // For now, we rely on WiFi checks only for ESP8266
+    // Users with SPI Ethernet modules should disable connection check: begin(port, false)
+#endif
+    
+    if (!isConnected) {
+      return false;
+    }
   }
   server_port = port;
   server = TCPServer(port);

@@ -18,6 +18,10 @@
 #include <Arduino.h>
 #if defined(ARDUINO_ARCH_ESP32)
 #include <WiFi.h>
+// Include ETH.h for Ethernet support on ESP32 when available
+#if __has_include(<ETH.h>)
+#include <ETH.h>
+#endif
 #elif defined(ARDUINO_ARCH_ESP8266)
 #include <ESP8266WiFi.h>
 #endif
