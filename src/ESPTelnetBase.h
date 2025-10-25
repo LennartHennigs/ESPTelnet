@@ -39,7 +39,7 @@ class ESPTelnetBase {
   ESPTelnetBase();
 
   bool begin(uint16_t port = 23, bool checkConnection = true);
-  void stop();
+  void stop(bool disconnectClient = true);
   void loop();
 
   bool isConnected();

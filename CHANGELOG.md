@@ -1,8 +1,12 @@
 # Changelog
 
+**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
+
 ## Unreleased (but available on Github)
 
-**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
+- fixed issue [#61](https://github.com/LennartHennigs/ESPTelnet/issues/61): `stop()` function now properly disconnects existing clients by default
+- added optional parameter to `stop(bool disconnectClient = true)` to control client disconnection behavior
+- enhanced PlatformIO support with comprehensive board configurations including Arduino Nano ESP32, Wemos, and M5Stack Core devices
 
 ## [2.2.3] – 2025-01-26
 

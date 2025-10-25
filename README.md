@@ -21,6 +21,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 ### Starting / Stopping
 
 * Use the `begin()` and `stop()` to start or stop the telnet server.
+* The `stop()` function accepts an optional parameter `stop(bool disconnectClient = true)` to control whether existing clients should be disconnected when stopping the server. 
 * It needs an active WiFi connection, or the ESP needs to be in softAP mode.
 * You can set a custom port (other than 23) via the `begin()` function.
 * If you don't want the client to check for a WiFi connection (i.e. you use an Ethernet adapter) you can bypass the wifi connection check with the second parameter `begin(23, false)`.
@@ -125,7 +126,7 @@ These are the constructors and the member functions the library provides:
 
     bool begin(uint16_t port = 23, bool checkConnection = true);
     void loop();
-    void stop();
+    void stop(bool disconnectClient = true);
 
     void print(const String &str);
     void println(const String &str);
@@ -171,7 +172,7 @@ These are the constructors and the member functions the library provides:
 
     bool begin(uint16_t port = 23, bool checkConnection = true);
     void loop();
-    void stop();
+    void stop(bool disconnectClient = true);
 
     int available();
     int read();
@@ -205,6 +206,30 @@ The "ESPTelnet" library is also available on the PlatformIO registry and can be 
 ``` json
    lennarthennigs/ESP Telnet@^2.2.2
 ```
+
+### PlatformIO Board Support
+
+The library includes a comprehensive `platformio.ini` configuration file with support for various ESP8266 and ESP32 boards including:
+
+**ESP8266 Boards:**
+- Wemos D1 Mini (Lite)
+- NodeMCU v2
+- ESP-12E
+
+**ESP32 Boards:**
+- Generic ESP32 Dev Board
+- M5Stack Core ESP32
+- M5Stack Fire
+- M5Stick-C
+- Arduino Nano ESP32
+- ESP32-S2 and ESP32-C3 variants
+
+You can build for any supported board using:
+```bash
+pio run -e <environment_name>
+```
+
+For example: `pio run -e m5stack-core-esp32` or `pio run -e arduino_nano_esp32`
 
 ## License
 

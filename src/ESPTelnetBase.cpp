@@ -210,7 +210,10 @@ bool ESPTelnetBase::_isIPSet(IPAddress ip) {
 
 /////////////////////////////////////////////////////////////////
 
-void ESPTelnetBase::stop() {
+void ESPTelnetBase::stop(bool disconnectClient) {
+  if (disconnectClient && connected) {
+    this->disconnectClient();
+  }
   server.stop();
 }
 
