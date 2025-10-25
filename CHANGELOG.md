@@ -4,6 +4,7 @@
 
 ## Unreleased (but available on Github)
 
+- fixed issue [#68](https://github.com/LennartHennigs/ESPTelnet/issues/68): ESP32 `flush()` now properly waits for data transmission completion with timeout, matching ESP8266 behavior
 - fixed issue [#61](https://github.com/LennartHennigs/ESPTelnet/issues/61): `stop()` function now properly disconnects existing clients by default
 - added optional parameter to `stop(bool disconnectClient = true)` to control client disconnection behavior
 - enhanced PlatformIO support with comprehensive board configurations including Arduino Nano ESP32, Wemos, and M5Stack Core devices

@@ -135,6 +135,34 @@ void ESPTelnetBase::flush() {
   } else {
     onSuccessfullyWrite();
   }
+#elif defined(ARDUINO_ARCH_ESP32)
+  // ESP32 implementation with timeout to ensure data transmission
+  client.flush();
+  unsigned long startTime = millis();
+  size_t previousAvailable = 0;
+  size_t stableCount = 0;
+  
+  // Wait for data to be transmitted by monitoring available write buffer
+  while (millis() - startTime < static_cast<unsigned long>(this->getKeepAliveInterval())) {
+    size_t currentAvailable = client.availableForWrite();
+    
+    // Check if buffer has been stable (indicating transmission complete)
+    if (currentAvailable == previousAvailable && currentAvailable > 0) {
+      stableCount++;
+      if (stableCount >= 10) { // Buffer stable for 10ms
+        onSuccessfullyWrite();
+        return;
+      }
+    } else {
+      stableCount = 0;
+    }
+    
+    previousAvailable = currentAvailable;
+    delay(1);
+  }
+  
+  // Timeout occurred - data may not have been fully transmitted
+  onFailedWrite();
 #else
   client.flush();
 #endif
