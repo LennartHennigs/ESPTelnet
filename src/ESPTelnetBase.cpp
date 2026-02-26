@@ -168,7 +168,6 @@ void ESPTelnetBase::flush() {
   }
 #elif defined(ARDUINO_ARCH_ESP32)
   // ESP32 implementation with timeout to ensure data transmission
-  client.flush();
   unsigned long startTime = millis();
   size_t previousAvailable = 0;
   size_t stableCount = 0;
