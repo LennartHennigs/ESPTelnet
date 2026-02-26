@@ -9,6 +9,21 @@
 - fixed issue [#61](https://github.com/LennartHennigs/ESPTelnet/issues/61): `stop()` function now properly disconnects existing clients by default
 - added optional parameter to `stop(bool disconnectClient = true)` to control client disconnection behavior
 - enhanced PlatformIO support with comprehensive board configurations including Arduino Nano ESP32, Wemos, and M5Stack Core devices
+- fixed WiFi loop condition in `AnsiExample` and `DebugMacroExample` (`||` → `&&`): loop now exits immediately once WiFi connects instead of always waiting for `max_tries` iterations
+- fixed `ESPTelnetStream::read()` and `peek()` to return `-1` when not connected, matching the Arduino `Stream` contract (was incorrectly returning `0`, which is ambiguous with a received null byte)
+- fixed `last_status_check` member initialization to `0` to prevent a spurious keep-alive check on first boot
+- fixed `DEBUG_TEL_VAR` macro which hardcoded `telnet` instead of honouring the `DEBUG_TELNET` define
+- fixed `EscapeCodes::cls()` to emit `\033[2J` (clear entire screen) instead of `\033[1J` (clear to beginning of screen)
+- fixed `EscapeCodes::reset()` to emit the conventional `\033[0m` instead of `\033[m`
+- added `ASCII_SPACE`, `ASCII_DEL`, `MAX_INPUT_LENGTH`, and `STREAM_NO_DATA` constants to `ESPTelnetBase.h`
+- added input buffer length guard in `ESPTelnet::handleInput()` (capped at `MAX_INPUT_LENGTH` = 512 characters)
+- added `EscapeCodes::setCursorBlink(bool blink)` method (`\033[?12h` / `\033[?12l`)
+- renamed `EscapeCodes::showCursor(bool blink)` parameter to `showCursor(bool show)` to reflect what it actually controls
+- changed `EscapeCodes` text-wrapping methods (`bold`, `italic`, `underline`, `blink`, `inverse`) to accept `const String&` to avoid unnecessary copies
+- changed callback member initialization from `NULL` to `nullptr`
+- changed `getClient()` to return `const TCPClient&` to prevent callers from modifying internal client state
+- changed `isLineModeSet()` and `getNewlineCharacter()` to `const` methods
+- removed stale commented-out `<<` operator from `ESPTelnetStream.h`
 
 ## [2.2.3] – 2025-01-26
 

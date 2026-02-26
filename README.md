@@ -3,7 +3,7 @@
 ESP8266/ESP32 library that allows you to setup a telnet server.
 
 * Author: Lennart Hennigs [https://www.lennarthennigs.de](https://www.lennarthennigs.de)
-* Copyright (C) 2018-2025 Lennart Hennigs.
+* Copyright (C) 2018-2026 Lennart Hennigs.
 * Released under the MIT license.
 
 ## Description
@@ -28,8 +28,8 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * The telnet server only allows you to connect a single client to it.
 * You can use `getIP()` to get the connected client's IP address.
 * You can manually disconnect the client via `disconnectClient()`.
-* The server detects whether a client has disconnected. It checks periodically (default: every 1000ms). 🆕
-* You can define the interval to check via `setKeepAliveInterval(int ms)`. 🆕
+* The server detects whether a client has disconnected. It checks periodically (default: every 1000ms).
+* You can define the interval to check via `setKeepAliveInterval(int ms)`.
 
 ### Callback Handlers
 
@@ -48,7 +48,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 
 * Via `print()`, `printf()` and `println()` you can output text on the telnet server.
 * To receive and parse input from the telnet client you can add a handler via `onInputReceived()`.
-* By default, the library waits for a newline character from the client, and sends data to the callback handler one line at a time. This behaviour can be deactivated by calling `setlineMode(false)`.
+* By default, the library waits for a newline character from the client, and sends data to the callback handler one line at a time. This behaviour can be deactivated by calling `setLineMode(false)`.
 * A default newline character `'\n'` is used to determine the end of a line. This can be overridden by by calling `setNewlineCharacter('\r')` where `'\r'` can be swapped with any character.
 
 ### Using stream functions
@@ -57,7 +57,7 @@ If you find this library helpful please consider giving it a ⭐️ at [GitHub](
 * This does not provide `print()` or `println()` functions, see [TelnetStreamExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/TelnetStreamExample/TelnetStreamExample.ino) for more details.
 * You'll also find the class definition below.
 
-### Using ANSI Escape Sequences 🆕
+### Using ANSI Escape Sequences
 
 * Please see [EscapeCodes.h](https://github.com/LennartHennigs/ESPTelnet/blob/master/src/EscapeCodes.h) for a list of constants and functions and take a look at the [AnsiExample](https://github.com/LennartHennigs/ESPTelnet/blob/master/examples/AnsiExample/AnsiExample.ino).
 * The functions of this class return Strings with ANSI escape sequences. Send these to the telnet client:
@@ -156,6 +156,12 @@ These are the constructors and the member functions the library provides:
     char getNewlineCharacter();
     void setNewlineCharacter(char value = '\n');
 
+    void flush();
+    size_t write(uint8_t);
+    size_t write(const uint8_t* data, size_t size);
+
+    const TCPClient& getClient() const;
+
     void onConnect(CallbackFunction f);
     void onConnectionAttempt(CallbackFunction f);
     void onReconnect(CallbackFunction f);
@@ -204,7 +210,7 @@ Or download the [ZIP archive](https://github.com/lennarthennigs/ESPTelnet/zipbal
 The "ESPTelnet" library is also available on the PlatformIO registry and can be included by adding the following line to the leb_deps option of the platformio.ini file:
 
 ``` json
-   lennarthennigs/ESP Telnet@^2.2.2
+   lennarthennigs/ESP Telnet@^2.2.3
 ```
 
 ### PlatformIO Board Support
@@ -235,7 +241,7 @@ For example: `pio run -e m5stack-core-esp32` or `pio run -e arduino_nano_esp32`
 
 MIT License
 
-Copyright (c) 2018-2024 Lennart Hennigs
+Copyright (c) 2018-2026 Lennart Hennigs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
