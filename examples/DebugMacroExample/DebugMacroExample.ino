@@ -56,7 +56,7 @@ bool connectToWiFi(const char* ssid, const char* password, int max_tries = 20, i
   do {
     delay(pause);
     Serial.print(".");
-  } while (!isConnected() || i++ < max_tries);
+  } while (!isConnected() && i++ < max_tries);
     Serial.println();  
   WiFi.setAutoReconnect(true);
   WiFi.persistent(true);

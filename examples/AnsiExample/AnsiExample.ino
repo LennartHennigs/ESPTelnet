@@ -49,7 +49,7 @@ bool connectToWiFi(const char* ssid, const char* password, int max_tries = 20, i
   do {
     delay(pause);
     Serial.print(".");
-  } while (!isConnected() || i++ < max_tries);
+  } while (!isConnected() && i++ < max_tries);
   WiFi.setAutoReconnect(true);
   WiFi.persistent(true);
   return isConnected();
