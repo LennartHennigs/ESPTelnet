@@ -240,7 +240,7 @@ void ESPTelnetBase::connectClient(WiFiClient c, bool triggerEvent) {
   ip = client.remoteIP().toString();
   client.setNoDelay(true);
   client.setTimeout(this->getKeepAliveInterval());
-  if (triggerEvent && on_connect != NULL) on_connect(ip);
+  if (triggerEvent && on_connect != nullptr) on_connect(ip);
   emptyClientStream();
   connected = true;
 }
@@ -250,7 +250,7 @@ void ESPTelnetBase::connectClient(WiFiClient c, bool triggerEvent) {
 void ESPTelnetBase::disconnectClient(bool triggerEvent) {
   emptyClientStream();
   client.stop();
-  if (triggerEvent && on_disconnect != NULL) on_disconnect(ip);
+  if (triggerEvent && on_disconnect != nullptr) on_disconnect(ip);
   ip = "";
   connected = false;
 }
@@ -361,6 +361,6 @@ void ESPTelnetBase::onInputReceived(CallbackFunction f) {
 
 /////////////////////////////////////////////////////////////////
 
-  TCPClient& ESPTelnetBase::getClient() {
+  const TCPClient& ESPTelnetBase::getClient() const {
     return client;
   }
