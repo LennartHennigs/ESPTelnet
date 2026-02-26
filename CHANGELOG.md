@@ -4,6 +4,8 @@
 
 ## Unreleased (but available on Github)
 
+- fixed issue [#79](https://github.com/LennartHennigs/ESPTelnet/issues/79): removed deprecated `client.flush()` call from ESP32 branch of `ESPTelnetBase::flush()`; the polling loop on `availableForWrite()` is the actual flush mechanism
+- fixed issue [#80](https://github.com/LennartHennigs/ESPTelnet/issues/80): reworked `TelnetStreamExample` to use the Stream API for command detection; `ESPTelnetStream` delivers input one character at a time, so `onInputReceived` is not suitable for string matching
 - fixed issue [#68](https://github.com/LennartHennigs/ESPTelnet/issues/68): ESP32 `flush()` now properly waits for data transmission completion with timeout, matching ESP8266 behavior
 - enhanced issue [#63](https://github.com/LennartHennigs/ESPTelnet/issues/63): added ESP32 Ethernet support for LAN8720 and similar wired connections via `ETH.linkUp()` check
 - fixed issue [#61](https://github.com/LennartHennigs/ESPTelnet/issues/61): `stop()` function now properly disconnects existing clients by default

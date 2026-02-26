@@ -70,29 +70,16 @@ void onTelnetConnectionAttempt(String ip) {
 
 /* ------------------------------------------------- */
 
-void onTelnetInput(String str) {
-  // checks for a certain command
-  if (str == "ping") {
-    telnet.println("> pong"); 
-    Serial.println("- Telnet: pong");
-  // disconnect the client
-  } else if (str == "bye") {
-    telnet.println("> disconnecting you...");
-    telnet.disconnectClient();
-  } else {
-    telnet.println(str);
-  }
-}
+String inputBuffer = "";
 
 /* ------------------------------------------------- */
 
-void setupTelnet() {  
+void setupTelnet() {
   // passing on functions for various telnet events
   telnet.onConnect(onTelnetConnect);
   telnet.onConnectionAttempt(onTelnetConnectionAttempt);
   telnet.onReconnect(onTelnetReconnect);
   telnet.onDisconnect(onTelnetDisconnect);
-  telnet.onInputReceived(onTelnetInput);
 
   Serial.print("- Telnet: ");
   if (telnet.begin(port)) {
@@ -149,11 +136,31 @@ void setup() {
 
 void loop() {
   telnet.loop();
-  if(Serial.available() > 0) {
+
+  // Serial → Telnet
+  if (Serial.available() > 0) {
     telnet.write(Serial.read());
   }
-  if (telnet.available() > 0) {    
-    Serial.print(char(telnet.read()));
+
+  // Telnet → Serial + command detection
+  while (telnet.available() > 0) {
+    char c = telnet.read();
+    Serial.print(c);
+    if (c == '\n' || c == '\r') {
+      inputBuffer.trim();
+      if (inputBuffer == "ping") {
+        telnet.println("> pong");
+        Serial.println("- Telnet: pong");
+      } else if (inputBuffer == "bye") {
+        telnet.println("> disconnecting you...");
+        telnet.disconnectClient();
+      } else if (inputBuffer.length() > 0) {
+        telnet.println(inputBuffer);
+      }
+      inputBuffer = "";
+    } else {
+      inputBuffer += c;
+    }
   }
 }
 
