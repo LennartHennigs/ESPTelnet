@@ -62,10 +62,10 @@ class ESPTelnet : public ESPTelnetBase {
   void println();
   size_t printf(const char *format, ...);
 
-  bool isLineModeSet();
+  bool isLineModeSet() const;
   void setLineMode(bool value = true);
 
-  char getNewlineCharacter();
+  char getNewlineCharacter() const;
   void setNewlineCharacter(char value = '\n');
 
   protected:

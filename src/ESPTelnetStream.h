@@ -28,9 +28,6 @@ class ESPTelnetStream : public ESPTelnetBase, public Stream {
 
 /////////////////////////////////////////////////////////////////
 
-// << operator
-//  template<class T> inline ESPTelnetStream &operator <<(ESPTelnetStream &obj, T arg) { obj.print(arg); return obj; }
-
 /////////////////////////////////////////////////////////////////
 
 #endif

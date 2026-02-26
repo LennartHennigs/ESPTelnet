@@ -9,8 +9,8 @@ void ESPTelnet::handleInput() {
   // collect string
   if (_lineMode) {
     if (c != _newlineCharacter) {
-      if (c >= 32 && c < 127) {
-        input += c;
+      if (c >= ASCII_SPACE && c < ASCII_DEL) {
+        if (input.length() < MAX_INPUT_LENGTH) input += c;
       }
       // EOL -> send input
     } else {
@@ -71,7 +71,7 @@ size_t ESPTelnet::printf(const char* format, ...) {
 }
 /////////////////////////////////////////////////////////////////
 
-bool ESPTelnet::isLineModeSet() {
+bool ESPTelnet::isLineModeSet() const {
   return _lineMode;
 }
 
@@ -83,7 +83,7 @@ void ESPTelnet::setLineMode(bool value /* = true */) {
 
 /////////////////////////////////////////////////////////////////
 
-char ESPTelnet::getNewlineCharacter() {
+char ESPTelnet::getNewlineCharacter() const {
   return _newlineCharacter;
 }
 
