@@ -10,8 +10,12 @@
 #define ASCII_BACKSPACE 8
 #define ASCII_LF 10
 #define ASCII_CR 13
+#define ASCII_SPACE 32
+#define ASCII_DEL 127
 #define KEEP_ALIVE_INTERVAL_MS 1000
 #define MAX_ERRORS_ON_WRITE 3
+#define MAX_INPUT_LENGTH 512
+#define STREAM_NO_DATA -1
 
 /////////////////////////////////////////////////////////////////
 
@@ -59,7 +63,7 @@ class ESPTelnetBase {
   String getIP() const;
   String getLastAttemptIP() const;
 
-  TCPClient& getClient();
+  const TCPClient& getClient() const;
 
   void onConnect(CallbackFunction f);
   void onConnectionAttempt(CallbackFunction f);
@@ -77,14 +81,14 @@ class ESPTelnetBase {
 
   uint16_t server_port = 23;
   int keep_alive_interval = KEEP_ALIVE_INTERVAL_MS;
-  long last_status_check;
+  long last_status_check = 0;
   unsigned int failedWrites = 0;
 
-  CallbackFunction on_connect = NULL;
-  CallbackFunction on_reconnect = NULL;
-  CallbackFunction on_disconnect = NULL;
-  CallbackFunction on_connection_attempt = NULL;
-  CallbackFunction on_input = NULL;
+  CallbackFunction on_connect = nullptr;
+  CallbackFunction on_reconnect = nullptr;
+  CallbackFunction on_disconnect = nullptr;
+  CallbackFunction on_connection_attempt = nullptr;
+  CallbackFunction on_input = nullptr;
 
   virtual void onFailedWrite();
   virtual void onSuccessfullyWrite();

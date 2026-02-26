@@ -25,7 +25,7 @@ int ESPTelnetStream::read() {
   if (client && isConnected()) {
     return client.read();
   } else {
-    return 0;
+    return STREAM_NO_DATA;
   }
 }
 
@@ -35,7 +35,7 @@ int ESPTelnetStream::peek() {
   if (client && isConnected()) {
     return client.peek();
   } else {
-    return 0;
+    return STREAM_NO_DATA;
   }
 }
 
