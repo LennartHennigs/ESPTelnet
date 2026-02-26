@@ -47,7 +47,7 @@
   #if DEBUG_USE_TELNET
     #define DEBUG_TEL_INFO      DEBUG_TELNET.print(DEBUG_PREFIX); DEBUG_TELNET.println("Compiled " __DATE__ ", " __TIME__)
     #define DEBUG_TEL_MSG(x)    DEBUG_TELNET.print(DEBUG_PREFIX); DEBUG_TELNET.println(x)
-    #define DEBUG_TEL_VAR(...)  DEBUG_TELNET.print(DEBUG_PREFIX); DEBUG_TELNET.print(F(#__VA_ARGS__  " = ")); telnet.println(String(__VA_ARGS__))
+    #define DEBUG_TEL_VAR(...)  DEBUG_TELNET.print(DEBUG_PREFIX); DEBUG_TELNET.print(F(#__VA_ARGS__  " = ")); DEBUG_TELNET.println(String(__VA_ARGS__))
     #define DEBUG_TEL_WHERE     DEBUG_TELNET.print(DEBUG_PREFIX); DEBUG_TELNET.print(F(__FILE__ " - ")); DEBUG_TELNET.print(__PRETTY_FUNCTION__); DEBUG_TELNET.print(": "); DEBUG_TELNET.println(String(__LINE__))
   #else
     #define DEBUG_TEL_INFO
