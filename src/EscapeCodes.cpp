@@ -5,7 +5,7 @@
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::cls() {
-  return prefix() + "1J";
+  return prefix() + "2J";
 }
 
 /////////////////////////////////////////////////////////////////
@@ -70,44 +70,50 @@ String EscapeCodes::clearEoLine() {
 
 /////////////////////////////////////////////////////////////////
 
-String EscapeCodes::bold(String str) {
+String EscapeCodes::bold(const String& str) {
   return setAttribute(1) + str + setAttribute(22);
 }
 
 /////////////////////////////////////////////////////////////////
 
-String EscapeCodes::blink(String str) {
+String EscapeCodes::blink(const String& str) {
   return setAttribute(5) + str + setAttribute(25);
 }
 
 /////////////////////////////////////////////////////////////////
 
-String EscapeCodes::italic(String str) {
+String EscapeCodes::italic(const String& str) {
   return setAttribute(3) + str + setAttribute(23);
 }
 
 /////////////////////////////////////////////////////////////////
 
-String EscapeCodes::underline(String str) {
+String EscapeCodes::underline(const String& str) {
   return setAttribute(4) + str + setAttribute(24);
 }
 
 /////////////////////////////////////////////////////////////////
 
-String EscapeCodes::inverse(String str) {
+String EscapeCodes::inverse(const String& str) {
   return setAttribute(7) + str + setAttribute(27);
 }
 
 /////////////////////////////////////////////////////////////////
 
-String EscapeCodes::showCursor(bool blink) {
-  return prefix() + "?25" + (blink ? 'h' : 'l');
+String EscapeCodes::showCursor(bool show) {
+  return prefix() + "?25" + (show ? 'h' : 'l');
+}
+
+/////////////////////////////////////////////////////////////////
+
+String EscapeCodes::setCursorBlink(bool blink) {
+  return prefix() + "?12" + (blink ? 'h' : 'l');
 }
 
 /////////////////////////////////////////////////////////////////
 
 String EscapeCodes::reset() {
-  return prefix() + String('m');
+  return prefix() + "0m";
 }
 
 /////////////////////////////////////////////////////////////////

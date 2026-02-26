@@ -57,13 +57,14 @@ class EscapeCodes {
   static String setBG(int color);
   static String setFG(int color);
 
-  static String bold(String str);
-  static String italic(String str);
-  static String underline(String str);
-  static String blink(String str);
-  static String inverse(String str);
+  static String bold(const String& str);
+  static String italic(const String& str);
+  static String underline(const String& str);
+  static String blink(const String& str);
+  static String inverse(const String& str);
 
-  static String showCursor(bool blink);
+  static String showCursor(bool show);
+  static String setCursorBlink(bool blink);
   static String reset();
 
  protected:
