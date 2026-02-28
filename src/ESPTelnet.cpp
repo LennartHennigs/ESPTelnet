@@ -2,6 +2,10 @@
 
 #include "ESPTelnet.h"
 
+#ifndef ESPTELNET_VPRINTF_BUFFER_SIZE
+#define ESPTELNET_VPRINTF_BUFFER_SIZE 64
+#endif
+
 /////////////////////////////////////////////////////////////////
 
 void ESPTelnet::handleInput() {
@@ -47,10 +51,14 @@ size_t ESPTelnet::printf(const char* format, ...) {
   
   va_list arg;
   va_start(arg, format);
-  char loc_buf[64];
-  int len = vsnprintf(loc_buf, sizeof(loc_buf), format, arg);
+  size_t len = vprintf(format, arg);
   va_end(arg);
+  return len;
+}
 
+size_t ESPTelnet::vprintf(const char* format, va_list arg) {
+  char loc_buf[ESPTELNET_VPRINTF_BUFFER_SIZE];
+  int len = vsnprintf(loc_buf, sizeof(loc_buf), format, arg);
   if (len < 0) return 0;
 
   if (len >= (int)sizeof(loc_buf)) {
@@ -58,9 +66,7 @@ size_t ESPTelnet::printf(const char* format, ...) {
     if (temp == nullptr) {
       return 0;
     }
-    va_start(arg, format);
     vsnprintf(temp, len + 1, format, arg);
-    va_end(arg);
     len = write((uint8_t*)temp, len);
     free(temp);
   } else {
