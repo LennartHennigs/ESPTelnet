@@ -2,7 +2,7 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
-## Unreleased (but available on Github)
+## [2.3.0] – 2026-05-09
 
 - fixed issue [#79](https://github.com/LennartHennigs/ESPTelnet/issues/79): removed deprecated `client.flush()` call from ESP32 branch of `ESPTelnetBase::flush()`; the polling loop on `availableForWrite()` is the actual flush mechanism
 - fixed issue [#80](https://github.com/LennartHennigs/ESPTelnet/issues/80): reworked `TelnetStreamExample` to use the Stream API for command detection; `ESPTelnetStream` delivers input one character at a time, so `onInputReceived` is not suitable for string matching
